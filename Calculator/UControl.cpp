@@ -28,6 +28,10 @@ std::string TCtrl::doClcCmd(const int& j, const std::string& str)
 // выполнить команду редактора
 std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 {
+	if (state == TCtrlState::cOpDone)
+	{
+		proc.setOperation(TProc<TPNumber>::None);
+	}
 	state = TCtrlState::cEditing;
 	switch (j)
 	{
@@ -125,11 +129,11 @@ std::string TCtrl::doOperation(const int& j)
 		{
 			proc.setRop(proc.getLop());
 		}
-		else if (state == TCtrlState::FunDone) 
+		else if (proc.getOperation() == TProc<TPNumber>::TOptn::None)
 		{
-			proc.setRop(proc.getLop());
+			return ed.get();
 		}
-		else if (state != TCtrlState::cOpDone) 
+		else if (state == TCtrlState::cEditing) 
 		{
 			proc.setRop(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
 		}

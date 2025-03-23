@@ -65,4 +65,7 @@ public:
 
 	// получить точность
 	int getACC() const { return acc; }
+
+	// получить результат послденей операции
+	std::string getNum() const { return num.getStringN(); }
 };

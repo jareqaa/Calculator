@@ -897,6 +897,21 @@ namespace Calculator
 private: System::Void numericUpDown2_ValueChanged(System::Object^ sender, System::EventArgs^ e) 
 {
 	ctrl->setACC(static_cast<int>(numericUpDown2->Value));
+	if (ctrl->getState() == TCtrl::cOpDone)
+	{
+		try
+		{
+			std::string number = ctrl->getNum();
+			double n = Convertor::dval(number, ctrl->getCC());
+			number = Convertor::dbl_to_str(n, ctrl->getCC(), ctrl->getACC());
+			textBox1->Text = number == "0" ? "" : gcnew String(number.c_str());
+		}
+		catch (const std::exception& err)
+		{
+			ctrl->setCalcToStart(-1);
+			MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
+		}
+	}
 }
 };
 }
