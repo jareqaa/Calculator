@@ -82,6 +82,14 @@ std::string Convertor::dbl_to_str(const double& n, const int& p, const int& c)
 	std::string intResult = int_to_P(static_cast<long long int>(abs(n)), p);
 	std::string dblResult = c == 0 ? "" : "." + dbl_to_P(abs(n - static_cast<int>(n)), p, c);
 
+	for (int i = dblResult.size() - 1; i >= 0; i--)
+	{
+		if (dblResult[i] == '0' || dblResult[i] == '.')
+			dblResult.erase(i);
+		else
+			break;
+	}
+
 	return sign == '\0' ? intResult + dblResult : sign + intResult + dblResult;
 }
 

@@ -718,7 +718,7 @@ namespace Calculator
 	private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e)
 	{
 		// изменение отображаемого числа
-		if (ctrl->getState() == TCtrl::cEditing || ctrl->getState() == TCtrl::cOpDone || ctrl->getState() == TCtrl::cStart)
+		if (ctrl->getState() == TCtrl::cEditing || ctrl->getState() == TCtrl::cOpDone || ctrl->getState() == TCtrl::cStart || ctrl->getState() == TCtrl::FunDone)
 		{
 			trackBar1->Value = static_cast<int>(numericUpDown1->Value);
 			for (int i = 0; i < 16; i++)
@@ -759,7 +759,7 @@ namespace Calculator
 	private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e)
 	{
 		// изменение отображаемого числа
-		if (ctrl->getState() == TCtrl::cEditing || ctrl->getState() == TCtrl::cOpDone || ctrl->getState() == TCtrl::cStart)
+		if (ctrl->getState() == TCtrl::cEditing || ctrl->getState() == TCtrl::cOpDone || ctrl->getState() == TCtrl::cStart || ctrl->getState() == TCtrl::FunDone)
 		{
 			numericUpDown1->Value = trackBar1->Value;
 			for (int i = 0; i < 16; i++)
@@ -897,14 +897,14 @@ namespace Calculator
 private: System::Void numericUpDown2_ValueChanged(System::Object^ sender, System::EventArgs^ e) 
 {
 	ctrl->setACC(static_cast<int>(numericUpDown2->Value));
-	if (ctrl->getState() == TCtrl::cOpDone)
+	if (ctrl->getState() == TCtrl::cOpDone || ctrl->getState() == TCtrl::FunDone)
 	{
 		try
 		{
 			std::string number = ctrl->getNum();
 			double n = Convertor::dval(number, ctrl->getCC());
 			number = Convertor::dbl_to_str(n, ctrl->getCC(), ctrl->getACC());
-			textBox1->Text = number == "0" ? "" : gcnew String(number.c_str());
+			textBox1->Text = gcnew String(number.c_str());
 		}
 		catch (const std::exception& err)
 		{

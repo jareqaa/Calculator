@@ -129,6 +129,10 @@ std::string TCtrl::doOperation(const int& j)
 		{
 			proc.setRop(proc.getLop());
 		}
+		else if (proc.getOperation() == TProc<TPNumber>::TOptn::None && state == TCtrlState::FunDone)
+		{
+			return num.getStringN();
+		}
 		else if (proc.getOperation() == TProc<TPNumber>::TOptn::None)
 		{
 			return ed.get();
