@@ -32,6 +32,9 @@ public:
 	// читать состояние памяти
 	std::string getState() const { return state; }
 
+	// изменить состояние памяти
+	void setState(const fstate& st) { state = st; }
+
 	// читать число
 	T getNumber() const { return f_number; }
 };

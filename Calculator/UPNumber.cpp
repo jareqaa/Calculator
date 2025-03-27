@@ -69,6 +69,7 @@ TPNumber TPNumber::operator-(const TPNumber& other) const
 		throw TException("Ошибка! Неверный операнд...\n");
 	}
 
+	auto g = n - other.n;
 	return TPNumber(n - other.n, cc, acc);
 }
 

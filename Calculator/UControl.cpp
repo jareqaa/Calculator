@@ -63,24 +63,48 @@ std::string TCtrl::doMemCmd(const int& j)
 {
 	switch (j)
 	{
+		// mc (очистка памяти)
 	case 24:
 		mem.clear();
 		state = TCtrlState::cEditing;
+		mem.setState(TMemory<TPNumber>::fstate::Off);
 		break;
 
+		// mr (вставка из памяти)
 	case 23:
-		mem.getNumber();
 		state = TCtrlState::cEditing;
-		break;
-
-	case 22:
+		mem.setState(TMemory<TPNumber>::fstate::On);
+		return mem.getNumber().getStringN();
 		
+		// ms (сохранить в пямять)
+	case 22:
+		if (state == cEditing)
+			mem.set(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
+		else if (state == cOpDone)
+			mem.set(proc.getLop());
+		else if (state == FunDone)
+			mem.set(proc.getRop());
+		else if (state == cOpChange)
+			mem.set(proc.getLop());
+		mem.setState(TMemory<TPNumber>::fstate::On);
+		return mem.get().getStringN();
+		 
+		// m+ (добавить в память)
 	case 21:
+		if (state == cEditing)
+			mem.add(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
+		else if (state == cOpDone)
+			mem.add(proc.getLop());
+		else if (state == FunDone)
+			mem.add(proc.getRop());
+		else if (state == cOpChange)
+			mem.add(proc.getLop());
+		mem.setState(TMemory<TPNumber>::fstate::On);
+		break;
 
 	default:
-		break;
+		throw TException("Ошибка! Неверная команда...\n");
 	}
-	return mem.get().getStringN();
 }
 
 // установить начальное состояние калькулятора
