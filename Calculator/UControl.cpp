@@ -72,8 +72,13 @@ std::string TCtrl::doMemCmd(const int& j)
 
 		// mr (вставка из памяти)
 	case 23:
+		if (state == TCtrlState::cOpDone)
+		{
+			proc.setOperation(TProc<TPNumber>::None);
+		}
 		state = TCtrlState::cEditing;
 		mem.setState(TMemory<TPNumber>::fstate::On);
+		ed.set(mem.getNumber().getStringN());
 		return mem.getNumber().getStringN();
 		
 		// ms (сохранить в пямять)
