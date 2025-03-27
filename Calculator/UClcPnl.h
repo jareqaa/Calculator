@@ -894,6 +894,8 @@ namespace Calculator
 			e->Handled = true;
 		}
 	}
+
+		   // изменение точности
 private: System::Void numericUpDown2_ValueChanged(System::Object^ sender, System::EventArgs^ e) 
 {
 	ctrl->setACC(static_cast<int>(numericUpDown2->Value));

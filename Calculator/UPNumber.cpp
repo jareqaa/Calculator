@@ -46,7 +46,6 @@ TPNumber TPNumber::operator+(const TPNumber& other) const
 	{
 		throw TException("Ошибка! Неверный операнд...\n");
 	}
-
 	return TPNumber(n + other.n, cc, acc);
 }
 

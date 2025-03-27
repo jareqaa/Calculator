@@ -32,12 +32,11 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 	{
 		proc.setOperation(TProc<TPNumber>::None);
 	}
-	state = TCtrlState::cEditing;
 	switch (j)
 	{
 	case 0:  ed.addZero(); break;	// 0
-	case 16: ed.addSign(); break;	// -
-	case 17: ed.addDot(); break;	// .
+	case 16: if (state == TCtrlState::cOpDone) ed.set(num.getStringN()); ed.addSign(); break;	// -
+	case 17: if (ed.get().empty()) ed.addZero(); ed.addDot(); break;	// .
 	case 18: ed.Bs(); break;		// backSpace
 	case 19:						// Clear
 	case 20:						// clear + start
@@ -55,6 +54,7 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 		break;
 	}
 
+	state = TCtrlState::cEditing;
 	return ed.get();
 }
 
@@ -163,6 +163,7 @@ std::string TCtrl::doOperation(const int& j)
 		proc.setLop(num);
 	}
 	setState(TCtrlState::cValDone);
+	auto tmp = ed.get();
 	ed.clear();
 	proc.setOperation(operation);
 	setState(TCtrlState::cOpChange);
@@ -178,7 +179,7 @@ std::string TCtrl::doOperation(const int& j)
 	default: operationSymbol = ""; break;
 	}
 
-	return proc.getLop().getStringN() + operationSymbol;
+	return tmp + operationSymbol;
 }
 
 // выполнить функцию
