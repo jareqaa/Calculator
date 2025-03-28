@@ -144,10 +144,9 @@ namespace Calculator
 			// button1
 			// 
 			this->button1->Enabled = false;
-			this->button1->Location = System::Drawing::Point(16, 476);
-			this->button1->Margin = System::Windows::Forms::Padding(4);
+			this->button1->Location = System::Drawing::Point(12, 387);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(61, 57);
+			this->button1->Size = System::Drawing::Size(46, 46);
 			this->button1->TabIndex = 0;
 			this->button1->TabStop = false;
 			this->button1->Tag = L"10";
@@ -158,10 +157,9 @@ namespace Calculator
 			// button2
 			// 
 			this->button2->Enabled = false;
-			this->button2->Location = System::Drawing::Point(85, 476);
-			this->button2->Margin = System::Windows::Forms::Padding(4);
+			this->button2->Location = System::Drawing::Point(64, 387);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(61, 57);
+			this->button2->Size = System::Drawing::Size(46, 46);
 			this->button2->TabIndex = 1;
 			this->button2->TabStop = false;
 			this->button2->Tag = L"11";
@@ -172,10 +170,9 @@ namespace Calculator
 			// button3
 			// 
 			this->button3->Enabled = false;
-			this->button3->Location = System::Drawing::Point(155, 476);
-			this->button3->Margin = System::Windows::Forms::Padding(4);
+			this->button3->Location = System::Drawing::Point(116, 387);
 			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(61, 57);
+			this->button3->Size = System::Drawing::Size(46, 46);
 			this->button3->TabIndex = 2;
 			this->button3->TabStop = false;
 			this->button3->Tag = L"12";
@@ -186,10 +183,9 @@ namespace Calculator
 			// button4
 			// 
 			this->button4->Enabled = false;
-			this->button4->Location = System::Drawing::Point(224, 476);
-			this->button4->Margin = System::Windows::Forms::Padding(4);
+			this->button4->Location = System::Drawing::Point(168, 387);
 			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(61, 57);
+			this->button4->Size = System::Drawing::Size(46, 46);
 			this->button4->TabIndex = 3;
 			this->button4->TabStop = false;
 			this->button4->Tag = L"13";
@@ -200,10 +196,9 @@ namespace Calculator
 			// button5
 			// 
 			this->button5->Enabled = false;
-			this->button5->Location = System::Drawing::Point(293, 476);
-			this->button5->Margin = System::Windows::Forms::Padding(4);
+			this->button5->Location = System::Drawing::Point(220, 387);
 			this->button5->Name = L"button5";
-			this->button5->Size = System::Drawing::Size(61, 57);
+			this->button5->Size = System::Drawing::Size(46, 46);
 			this->button5->TabIndex = 4;
 			this->button5->TabStop = false;
 			this->button5->Tag = L"14";
@@ -214,10 +209,9 @@ namespace Calculator
 			// button6
 			// 
 			this->button6->Enabled = false;
-			this->button6->Location = System::Drawing::Point(363, 476);
-			this->button6->Margin = System::Windows::Forms::Padding(4);
+			this->button6->Location = System::Drawing::Point(272, 387);
 			this->button6->Name = L"button6";
-			this->button6->Size = System::Drawing::Size(61, 57);
+			this->button6->Size = System::Drawing::Size(46, 46);
 			this->button6->TabIndex = 5;
 			this->button6->TabStop = false;
 			this->button6->Tag = L"15";
@@ -227,10 +221,9 @@ namespace Calculator
 			// 
 			// button7
 			// 
-			this->button7->Location = System::Drawing::Point(363, 412);
-			this->button7->Margin = System::Windows::Forms::Padding(4);
+			this->button7->Location = System::Drawing::Point(272, 335);
 			this->button7->Name = L"button7";
-			this->button7->Size = System::Drawing::Size(61, 57);
+			this->button7->Size = System::Drawing::Size(46, 46);
 			this->button7->TabIndex = 11;
 			this->button7->TabStop = false;
 			this->button7->Tag = L"25";
@@ -240,10 +233,9 @@ namespace Calculator
 			// 
 			// button8
 			// 
-			this->button8->Location = System::Drawing::Point(293, 412);
-			this->button8->Margin = System::Windows::Forms::Padding(4);
+			this->button8->Location = System::Drawing::Point(220, 335);
 			this->button8->Name = L"button8";
-			this->button8->Size = System::Drawing::Size(61, 57);
+			this->button8->Size = System::Drawing::Size(46, 46);
 			this->button8->TabIndex = 10;
 			this->button8->TabStop = false;
 			this->button8->Tag = L"26";
@@ -253,10 +245,9 @@ namespace Calculator
 			// 
 			// button9
 			// 
-			this->button9->Location = System::Drawing::Point(224, 412);
-			this->button9->Margin = System::Windows::Forms::Padding(4);
+			this->button9->Location = System::Drawing::Point(168, 335);
 			this->button9->Name = L"button9";
-			this->button9->Size = System::Drawing::Size(61, 57);
+			this->button9->Size = System::Drawing::Size(46, 46);
 			this->button9->TabIndex = 9;
 			this->button9->TabStop = false;
 			this->button9->Tag = L"17";
@@ -266,10 +257,9 @@ namespace Calculator
 			// 
 			// button10
 			// 
-			this->button10->Location = System::Drawing::Point(155, 412);
-			this->button10->Margin = System::Windows::Forms::Padding(4);
+			this->button10->Location = System::Drawing::Point(116, 335);
 			this->button10->Name = L"button10";
-			this->button10->Size = System::Drawing::Size(61, 57);
+			this->button10->Size = System::Drawing::Size(46, 46);
 			this->button10->TabIndex = 8;
 			this->button10->TabStop = false;
 			this->button10->Tag = L"16";
@@ -279,10 +269,9 @@ namespace Calculator
 			// 
 			// button11
 			// 
-			this->button11->Location = System::Drawing::Point(85, 412);
-			this->button11->Margin = System::Windows::Forms::Padding(4);
+			this->button11->Location = System::Drawing::Point(64, 335);
 			this->button11->Name = L"button11";
-			this->button11->Size = System::Drawing::Size(61, 57);
+			this->button11->Size = System::Drawing::Size(46, 46);
 			this->button11->TabIndex = 7;
 			this->button11->TabStop = false;
 			this->button11->Tag = L"0";
@@ -292,10 +281,10 @@ namespace Calculator
 			// 
 			// button12
 			// 
-			this->button12->Location = System::Drawing::Point(16, 412);
-			this->button12->Margin = System::Windows::Forms::Padding(4);
+			this->button12->Enabled = false;
+			this->button12->Location = System::Drawing::Point(12, 335);
 			this->button12->Name = L"button12";
-			this->button12->Size = System::Drawing::Size(61, 57);
+			this->button12->Size = System::Drawing::Size(46, 46);
 			this->button12->TabIndex = 6;
 			this->button12->TabStop = false;
 			this->button12->Tag = L"21";
@@ -305,10 +294,9 @@ namespace Calculator
 			// 
 			// button14
 			// 
-			this->button14->Location = System::Drawing::Point(293, 348);
-			this->button14->Margin = System::Windows::Forms::Padding(4);
+			this->button14->Location = System::Drawing::Point(220, 283);
 			this->button14->Name = L"button14";
-			this->button14->Size = System::Drawing::Size(61, 57);
+			this->button14->Size = System::Drawing::Size(46, 46);
 			this->button14->TabIndex = 16;
 			this->button14->TabStop = false;
 			this->button14->Tag = L"27";
@@ -318,10 +306,9 @@ namespace Calculator
 			// 
 			// button15
 			// 
-			this->button15->Location = System::Drawing::Point(224, 348);
-			this->button15->Margin = System::Windows::Forms::Padding(4);
+			this->button15->Location = System::Drawing::Point(168, 283);
 			this->button15->Name = L"button15";
-			this->button15->Size = System::Drawing::Size(61, 57);
+			this->button15->Size = System::Drawing::Size(46, 46);
 			this->button15->TabIndex = 15;
 			this->button15->TabStop = false;
 			this->button15->Tag = L"3";
@@ -331,10 +318,9 @@ namespace Calculator
 			// 
 			// button16
 			// 
-			this->button16->Location = System::Drawing::Point(155, 348);
-			this->button16->Margin = System::Windows::Forms::Padding(4);
+			this->button16->Location = System::Drawing::Point(116, 283);
 			this->button16->Name = L"button16";
-			this->button16->Size = System::Drawing::Size(61, 57);
+			this->button16->Size = System::Drawing::Size(46, 46);
 			this->button16->TabIndex = 14;
 			this->button16->TabStop = false;
 			this->button16->Tag = L"2";
@@ -344,10 +330,9 @@ namespace Calculator
 			// 
 			// button17
 			// 
-			this->button17->Location = System::Drawing::Point(85, 348);
-			this->button17->Margin = System::Windows::Forms::Padding(4);
+			this->button17->Location = System::Drawing::Point(64, 283);
 			this->button17->Name = L"button17";
-			this->button17->Size = System::Drawing::Size(61, 57);
+			this->button17->Size = System::Drawing::Size(46, 46);
 			this->button17->TabIndex = 13;
 			this->button17->TabStop = false;
 			this->button17->Tag = L"1";
@@ -357,10 +342,9 @@ namespace Calculator
 			// 
 			// button18
 			// 
-			this->button18->Location = System::Drawing::Point(16, 348);
-			this->button18->Margin = System::Windows::Forms::Padding(4);
+			this->button18->Location = System::Drawing::Point(12, 283);
 			this->button18->Name = L"button18";
-			this->button18->Size = System::Drawing::Size(61, 57);
+			this->button18->Size = System::Drawing::Size(46, 46);
 			this->button18->TabIndex = 12;
 			this->button18->TabStop = false;
 			this->button18->Tag = L"22";
@@ -370,10 +354,9 @@ namespace Calculator
 			// 
 			// button19
 			// 
-			this->button19->Location = System::Drawing::Point(363, 284);
-			this->button19->Margin = System::Windows::Forms::Padding(4);
+			this->button19->Location = System::Drawing::Point(272, 231);
 			this->button19->Name = L"button19";
-			this->button19->Size = System::Drawing::Size(61, 57);
+			this->button19->Size = System::Drawing::Size(46, 46);
 			this->button19->TabIndex = 23;
 			this->button19->TabStop = false;
 			this->button19->Tag = L"31";
@@ -383,10 +366,9 @@ namespace Calculator
 			// 
 			// button20
 			// 
-			this->button20->Location = System::Drawing::Point(293, 284);
-			this->button20->Margin = System::Windows::Forms::Padding(4);
+			this->button20->Location = System::Drawing::Point(220, 231);
 			this->button20->Name = L"button20";
-			this->button20->Size = System::Drawing::Size(61, 57);
+			this->button20->Size = System::Drawing::Size(46, 46);
 			this->button20->TabIndex = 22;
 			this->button20->TabStop = false;
 			this->button20->Tag = L"28";
@@ -396,10 +378,9 @@ namespace Calculator
 			// 
 			// button21
 			// 
-			this->button21->Location = System::Drawing::Point(224, 284);
-			this->button21->Margin = System::Windows::Forms::Padding(4);
+			this->button21->Location = System::Drawing::Point(168, 231);
 			this->button21->Name = L"button21";
-			this->button21->Size = System::Drawing::Size(61, 57);
+			this->button21->Size = System::Drawing::Size(46, 46);
 			this->button21->TabIndex = 21;
 			this->button21->TabStop = false;
 			this->button21->Tag = L"6";
@@ -409,10 +390,9 @@ namespace Calculator
 			// 
 			// button22
 			// 
-			this->button22->Location = System::Drawing::Point(155, 284);
-			this->button22->Margin = System::Windows::Forms::Padding(4);
+			this->button22->Location = System::Drawing::Point(116, 231);
 			this->button22->Name = L"button22";
-			this->button22->Size = System::Drawing::Size(61, 57);
+			this->button22->Size = System::Drawing::Size(46, 46);
 			this->button22->TabIndex = 20;
 			this->button22->TabStop = false;
 			this->button22->Tag = L"5";
@@ -422,10 +402,9 @@ namespace Calculator
 			// 
 			// button23
 			// 
-			this->button23->Location = System::Drawing::Point(85, 284);
-			this->button23->Margin = System::Windows::Forms::Padding(4);
+			this->button23->Location = System::Drawing::Point(64, 231);
 			this->button23->Name = L"button23";
-			this->button23->Size = System::Drawing::Size(61, 57);
+			this->button23->Size = System::Drawing::Size(46, 46);
 			this->button23->TabIndex = 19;
 			this->button23->TabStop = false;
 			this->button23->Tag = L"4";
@@ -435,10 +414,10 @@ namespace Calculator
 			// 
 			// button24
 			// 
-			this->button24->Location = System::Drawing::Point(16, 284);
-			this->button24->Margin = System::Windows::Forms::Padding(4);
+			this->button24->Enabled = false;
+			this->button24->Location = System::Drawing::Point(12, 231);
 			this->button24->Name = L"button24";
-			this->button24->Size = System::Drawing::Size(61, 57);
+			this->button24->Size = System::Drawing::Size(46, 46);
 			this->button24->TabIndex = 18;
 			this->button24->TabStop = false;
 			this->button24->Tag = L"23";
@@ -448,10 +427,9 @@ namespace Calculator
 			// 
 			// button25
 			// 
-			this->button25->Location = System::Drawing::Point(363, 220);
-			this->button25->Margin = System::Windows::Forms::Padding(4);
+			this->button25->Location = System::Drawing::Point(272, 179);
 			this->button25->Name = L"button25";
-			this->button25->Size = System::Drawing::Size(61, 57);
+			this->button25->Size = System::Drawing::Size(46, 46);
 			this->button25->TabIndex = 29;
 			this->button25->TabStop = false;
 			this->button25->Tag = L"30";
@@ -461,10 +439,9 @@ namespace Calculator
 			// 
 			// button26
 			// 
-			this->button26->Location = System::Drawing::Point(293, 220);
-			this->button26->Margin = System::Windows::Forms::Padding(4);
+			this->button26->Location = System::Drawing::Point(220, 179);
 			this->button26->Name = L"button26";
-			this->button26->Size = System::Drawing::Size(61, 57);
+			this->button26->Size = System::Drawing::Size(46, 46);
 			this->button26->TabIndex = 28;
 			this->button26->TabStop = false;
 			this->button26->Tag = L"29";
@@ -474,10 +451,9 @@ namespace Calculator
 			// 
 			// button27
 			// 
-			this->button27->Location = System::Drawing::Point(224, 220);
-			this->button27->Margin = System::Windows::Forms::Padding(4);
+			this->button27->Location = System::Drawing::Point(168, 179);
 			this->button27->Name = L"button27";
-			this->button27->Size = System::Drawing::Size(61, 57);
+			this->button27->Size = System::Drawing::Size(46, 46);
 			this->button27->TabIndex = 27;
 			this->button27->TabStop = false;
 			this->button27->Tag = L"9";
@@ -487,10 +463,9 @@ namespace Calculator
 			// 
 			// button28
 			// 
-			this->button28->Location = System::Drawing::Point(155, 220);
-			this->button28->Margin = System::Windows::Forms::Padding(4);
+			this->button28->Location = System::Drawing::Point(116, 179);
 			this->button28->Name = L"button28";
-			this->button28->Size = System::Drawing::Size(61, 57);
+			this->button28->Size = System::Drawing::Size(46, 46);
 			this->button28->TabIndex = 26;
 			this->button28->TabStop = false;
 			this->button28->Tag = L"8";
@@ -500,10 +475,9 @@ namespace Calculator
 			// 
 			// button29
 			// 
-			this->button29->Location = System::Drawing::Point(85, 220);
-			this->button29->Margin = System::Windows::Forms::Padding(4);
+			this->button29->Location = System::Drawing::Point(64, 179);
 			this->button29->Name = L"button29";
-			this->button29->Size = System::Drawing::Size(61, 57);
+			this->button29->Size = System::Drawing::Size(46, 46);
 			this->button29->TabIndex = 25;
 			this->button29->TabStop = false;
 			this->button29->Tag = L"7";
@@ -513,10 +487,10 @@ namespace Calculator
 			// 
 			// button30
 			// 
-			this->button30->Location = System::Drawing::Point(16, 220);
-			this->button30->Margin = System::Windows::Forms::Padding(4);
+			this->button30->Enabled = false;
+			this->button30->Location = System::Drawing::Point(12, 179);
 			this->button30->Name = L"button30";
-			this->button30->Size = System::Drawing::Size(61, 57);
+			this->button30->Size = System::Drawing::Size(46, 46);
 			this->button30->TabIndex = 24;
 			this->button30->TabStop = false;
 			this->button30->Tag = L"24";
@@ -526,10 +500,9 @@ namespace Calculator
 			// 
 			// button33
 			// 
-			this->button33->Location = System::Drawing::Point(293, 156);
-			this->button33->Margin = System::Windows::Forms::Padding(4);
+			this->button33->Location = System::Drawing::Point(220, 127);
 			this->button33->Name = L"button33";
-			this->button33->Size = System::Drawing::Size(131, 57);
+			this->button33->Size = System::Drawing::Size(98, 46);
 			this->button33->TabIndex = 33;
 			this->button33->TabStop = false;
 			this->button33->Tag = L"20";
@@ -539,10 +512,9 @@ namespace Calculator
 			// 
 			// button34
 			// 
-			this->button34->Location = System::Drawing::Point(155, 156);
-			this->button34->Margin = System::Windows::Forms::Padding(4);
+			this->button34->Location = System::Drawing::Point(116, 127);
 			this->button34->Name = L"button34";
-			this->button34->Size = System::Drawing::Size(131, 57);
+			this->button34->Size = System::Drawing::Size(98, 46);
 			this->button34->TabIndex = 32;
 			this->button34->TabStop = false;
 			this->button34->Tag = L"19";
@@ -552,10 +524,9 @@ namespace Calculator
 			// 
 			// button35
 			// 
-			this->button35->Location = System::Drawing::Point(16, 156);
-			this->button35->Margin = System::Windows::Forms::Padding(4);
+			this->button35->Location = System::Drawing::Point(12, 127);
 			this->button35->Name = L"button35";
-			this->button35->Size = System::Drawing::Size(131, 57);
+			this->button35->Size = System::Drawing::Size(98, 46);
 			this->button35->TabIndex = 31;
 			this->button35->TabStop = false;
 			this->button35->Tag = L"18";
@@ -569,24 +540,24 @@ namespace Calculator
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->справкаToolStripMenuItem });
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(440, 28);
+			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
+			this->menuStrip1->Size = System::Drawing::Size(330, 24);
 			this->menuStrip1->TabIndex = 34;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
 			// справкаToolStripMenuItem
 			// 
 			this->справкаToolStripMenuItem->Name = L"справкаToolStripMenuItem";
-			this->справкаToolStripMenuItem->Size = System::Drawing::Size(81, 24);
+			this->справкаToolStripMenuItem->Size = System::Drawing::Size(65, 20);
 			this->справкаToolStripMenuItem->Text = L"Справка";
 			// 
 			// trackBar1
 			// 
-			this->trackBar1->Location = System::Drawing::Point(85, 540);
-			this->trackBar1->Margin = System::Windows::Forms::Padding(4);
+			this->trackBar1->Location = System::Drawing::Point(64, 439);
 			this->trackBar1->Maximum = 16;
 			this->trackBar1->Minimum = 2;
 			this->trackBar1->Name = L"trackBar1";
-			this->trackBar1->Size = System::Drawing::Size(339, 56);
+			this->trackBar1->Size = System::Drawing::Size(254, 45);
 			this->trackBar1->TabIndex = 35;
 			this->trackBar1->TabStop = false;
 			this->trackBar1->Tag = L"-1";
@@ -595,13 +566,12 @@ namespace Calculator
 			// 
 			// numericUpDown1
 			// 
-			this->numericUpDown1->Location = System::Drawing::Point(16, 540);
-			this->numericUpDown1->Margin = System::Windows::Forms::Padding(4);
+			this->numericUpDown1->Location = System::Drawing::Point(12, 439);
 			this->numericUpDown1->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 16, 0, 0, 0 });
 			this->numericUpDown1->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 2, 0, 0, 0 });
 			this->numericUpDown1->Name = L"numericUpDown1";
 			this->numericUpDown1->ReadOnly = true;
-			this->numericUpDown1->Size = System::Drawing::Size(61, 22);
+			this->numericUpDown1->Size = System::Drawing::Size(46, 20);
 			this->numericUpDown1->TabIndex = 36;
 			this->numericUpDown1->TabStop = false;
 			this->numericUpDown1->Tag = L"-1";
@@ -613,24 +583,22 @@ namespace Calculator
 			this->textBox1->Enabled = false;
 			this->textBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->textBox1->Location = System::Drawing::Point(16, 33);
-			this->textBox1->Margin = System::Windows::Forms::Padding(4);
+			this->textBox1->Location = System::Drawing::Point(12, 27);
 			this->textBox1->Multiline = true;
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->ReadOnly = true;
 			this->textBox1->RightToLeft = System::Windows::Forms::RightToLeft::No;
-			this->textBox1->Size = System::Drawing::Size(407, 115);
+			this->textBox1->Size = System::Drawing::Size(306, 94);
 			this->textBox1->TabIndex = 37;
 			this->textBox1->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
 			// numericUpDown2
 			// 
-			this->numericUpDown2->Location = System::Drawing::Point(363, 348);
-			this->numericUpDown2->Margin = System::Windows::Forms::Padding(4);
+			this->numericUpDown2->Location = System::Drawing::Point(272, 283);
 			this->numericUpDown2->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
 			this->numericUpDown2->Name = L"numericUpDown2";
 			this->numericUpDown2->ReadOnly = true;
-			this->numericUpDown2->Size = System::Drawing::Size(61, 22);
+			this->numericUpDown2->Size = System::Drawing::Size(46, 20);
 			this->numericUpDown2->TabIndex = 38;
 			this->numericUpDown2->TabStop = false;
 			this->numericUpDown2->Tag = L"-1";
@@ -639,18 +607,17 @@ namespace Calculator
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(363, 377);
-			this->label1->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label1->Location = System::Drawing::Point(272, 306);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(67, 16);
+			this->label1->Size = System::Drawing::Size(52, 13);
 			this->label1->TabIndex = 39;
 			this->label1->Text = L"точность";
 			// 
 			// UClcPnl
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(440, 594);
+			this->ClientSize = System::Drawing::Size(330, 483);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->numericUpDown2);
 			this->Controls->Add(this->textBox1);
@@ -690,7 +657,6 @@ namespace Calculator
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->menuStrip1);
 			this->MainMenuStrip = this->menuStrip1;
-			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"UClcPnl";
 			this->Tag = L"-1";
 			this->Text = L"Калькулятор";
@@ -835,7 +801,32 @@ namespace Calculator
 			MessageBox::Show("Вы не можете сейчас изменить систему счисления", "Error!", MessageBoxButtons::OK);
 		}
 	}
+	private: void updateMemBtns(System::Windows::Forms::Control^ parent, int tagValue)
+	{
+		// Проходим по всем элементам управления
+		for each(System::Windows::Forms::Control ^ control in parent->Controls)
+		{
+			// Проверяем, является ли элемент кнопкой
+			System::Windows::Forms::Button^ button = dynamic_cast<System::Windows::Forms::Button^>(control);
+			if (button != nullptr && button->Tag != nullptr)
+			{
+				// Пытаемся привести Tag к int
+				System::Object^ tagV = button->Tag;	// Получаем значение Tag
+				System::String^ tagString = dynamic_cast<System::String^>(tagV); // Преобразуем Tag в строку
+				int currentTagValue = Convert::ToInt16(tagString);
+				if (currentTagValue >= 21 && currentTagValue <= 24 && currentTagValue != 22)
+				{
+					if (tagValue == 24)
+						button->Enabled = false;  // Отключаем кнопку
+					else
+						button->Enabled = true;
+				}
+			}
 
+			// Рекурсивно проверяем дочерние элементы
+			updateMemBtns(control, tagValue);
+		}
+	}
 		   // обработка нажатия по кнопкам окна
 	private: System::Void button_Click(System::Object^ sender, System::EventArgs^ e)
 	{
@@ -847,6 +838,10 @@ namespace Calculator
 		try
 		{
 			textBox1->Text = gcnew String(ctrl->doClcCmd(tag, "").c_str());
+			if (tag >= 21 && tag <= 24)
+			{
+				updateMemBtns(this, tag);
+			}
 		}
 		catch (const std::exception& err)
 		{

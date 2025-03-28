@@ -39,10 +39,12 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 	case 16: ed.addSign(); break;	// -
 	case 17: ed.addDot(); break;	// .
 	case 18: ed.Bs(); break;		// backSpace
-	case 19:						// Clear
-	case 20:						// clear + start
+	case 19: ed.clear(); break;		// Clear
+	case 20:						// clear + reset (память остается неизмененной)
 		ed.clear(); state = TCtrlState::cStart; 
-		setCalcToStart(j); 
+		ed = TEditor();
+		proc = TProc<TPNumber>();
+		num = TPNumber();
 		break;	
 
 	case 100: ed.set(str); break;	// писать строку
@@ -110,6 +112,7 @@ std::string TCtrl::doMemCmd(const int& j)
 	default:
 		throw TException("Ошибка! Неверная команда...\n");
 	}
+	return "";
 }
 
 // установить начальное состояние калькулятора
@@ -232,6 +235,7 @@ std::string TCtrl::doFunc(const int& j)
 	if (state == TCtrlState::cOpDone) 
 	{
 		proc.setRop(num);
+		proc.resetOperation();
 	}
 	else if (state != TCtrlState::FunDone) 
 	{
