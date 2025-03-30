@@ -47,7 +47,7 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 		num = TPNumber();
 		break;	
 
-	case 100: ed.set(str); break;	// писать строку
+	case 100: ed.set(str); return "";	// писать строку
 
 	default:						// adddigit
 		if (j < 16 && j > 0)
