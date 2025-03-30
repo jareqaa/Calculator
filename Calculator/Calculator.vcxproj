@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AboutBox.cpp" />
     <ClCompile Include="Convertor.cpp" />
     <ClCompile Include="UClcPnl.cpp" />
     <ClCompile Include="UControl.cpp" />
@@ -120,6 +121,9 @@
     <ClCompile Include="UProc.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AboutBox.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Convertor.h" />
     <ClInclude Include="UClcPnl.h">
       <FileType>CppForm</FileType>
@@ -137,6 +141,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UClcPnl.resx">
       <DependentUpon>UClcPnl.h</DependentUpon>
     </EmbeddedResource>

@@ -3,6 +3,7 @@
 #include <vector>
 #include "Convertor.h"
 #include <msclr/marshal_cppstd.h>
+#include "AboutBox.h"
 
 namespace Calculator
 {
@@ -550,6 +551,7 @@ namespace Calculator
 			this->справкаToolStripMenuItem->Name = L"справкаToolStripMenuItem";
 			this->справкаToolStripMenuItem->Size = System::Drawing::Size(65, 20);
 			this->справкаToolStripMenuItem->Text = L"Справка";
+			this->справкаToolStripMenuItem->Click += gcnew System::EventHandler(this, &UClcPnl::справкаToolStripMenuItem_Click);
 			// 
 			// trackBar1
 			// 
@@ -963,6 +965,12 @@ namespace Calculator
 		int newPrecision = static_cast<int>(numericUpDown2->Value);
 		ctrl->setACC(newPrecision);
 		UpdateDisplay(ctrl->getCC(), newPrecision);
+	}
+		   // нажатие на кнопку справка
+	private: System::Void справкаToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
+	{
+		AboutBox^ aboutBox = gcnew AboutBox();
+		aboutBox->Show();	// открытие формы справки
 	}
 };
 }
