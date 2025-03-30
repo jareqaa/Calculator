@@ -32,15 +32,14 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 	{
 		proc.setOperation(TProc<TPNumber>::None);
 	}
-	state = TCtrlState::cEditing;
 	switch (j)
 	{
-	case 0:  ed.addZero(); break;	// 0
-	case 16: ed.addSign(); break;	// -
-	case 17: ed.addDot(); break;	// .
-	case 18: ed.Bs(); break;		// backSpace
-	case 19: ed.clear(); break;		// Clear
-	case 20:						// clear + reset (память остается неизмененной)
+	case 0:  ed.addZero(); break;																// 0
+	case 16: if (state == TCtrlState::cOpDone) ed.set(num.getStringN()); ed.addSign(); break;	// -
+	case 17: if (ed.get().empty()) ed.addZero(); ed.addDot(); break;							// .
+	case 18: ed.Bs(); break;																	// backSpace
+	case 19: ed.clear(); break;																	// Clear
+	case 20:																					// clear + reset (память остается неизмененной)
 		ed.clear(); state = TCtrlState::cStart; 
 		ed = TEditor();
 		proc = TProc<TPNumber>();
@@ -56,6 +55,8 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 		}
 		break;
 	}
+
+	state = TCtrlState::cEditing;
 
 	// выводить proc.lop + operation + proc.rop (в зависимости от состояния калькулятора)
 	if (proc.getOperation() == proc.None)
@@ -247,6 +248,7 @@ std::string TCtrl::doOperation(const int& j)
 		proc.setLop(num);
 	}
 	setState(TCtrlState::cValDone);
+	auto tmp = ed.get();
 	ed.clear();
 	proc.setOperation(operation);
 	setState(TCtrlState::cOpChange);
