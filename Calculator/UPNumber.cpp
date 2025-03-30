@@ -35,8 +35,8 @@ TPNumber::TPNumber(const std::string& a, const std::string& cc_, const std::stri
 			throw TException("Ошибка! Число не существует в заданной системе счисления...\n");
 		}
 	}
-
-	n = std::stod(a);		// получение числа
+	
+	n = Convertor::dval(a, cc);		// получение числа
 }
 
 // операция сложить
