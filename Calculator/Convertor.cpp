@@ -44,7 +44,7 @@ std::string Convertor::int_to_P(long long int n, const int& p)
 }
 
 //Преобразовать десятичную дробь в с.сч. с основанием р
-std::string Convertor::dbl_to_P(double n, const int& p, const int& c)
+std::string Convertor::dbl_to_P(const double& n, const int& p, const int& c)
 {
 	if (p < 2 || p > 16)
 		throw TException("Ошибка! Неверное основание системы счисления...\n");
@@ -55,13 +55,14 @@ std::string Convertor::dbl_to_P(double n, const int& p, const int& c)
 	if (n >= 1)
 		throw TException("Ошибка! Неверное входное число...\n");
 
+	double a = n;
 	std::string result = "";
 	for (int i = 0; i < c; i++)
 	{
-		n *= p;
-		int digit = static_cast<int>(n);
+		a *= p;
+		int digit = static_cast<int>(a);
 		result += int_to_Char(digit);
-		n -= digit;
+		a = round(abs(a - static_cast<int>(a)) * pow(10, c)) / pow(10, c);
 	}
 	return result;
 }
@@ -89,7 +90,6 @@ std::string Convertor::dbl_to_str(const double& n, const int& p, const int& c)
 		else
 			break;
 	}
-
 	return sign == '\0' ? intResult + dblResult : sign + intResult + dblResult;
 }
 

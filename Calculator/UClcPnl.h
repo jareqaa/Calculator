@@ -981,9 +981,11 @@ private: System::Void numericUpDown2_ValueChanged(System::Object^ sender, System
 				}
 			}
 			str.erase(pos + 1);
+			if (str[str.size() - 1] == '-')
+			{
+				str.erase(str.size() - 1);
+			}
 			std::string number = ctrl->getNum();
-			double n = Convertor::dval(number, ctrl->getCC());
-			number = Convertor::dbl_to_str(n, ctrl->getCC(), ctrl->getACC());
 			str += number;
 			textBox1->Text = gcnew String(str.c_str());
 		}
