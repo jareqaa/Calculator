@@ -29,7 +29,7 @@ std::string TEditor::addDot()
 {
 	if (Convertor::dotCounter(number) == 0)
 	{
-		number += '.';
+		number = number.empty() ? "0." : number + '.';
 		return number;
 	}
 	else

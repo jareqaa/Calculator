@@ -15,7 +15,7 @@ private:
 
 	T Rop;										//правый операнд
 
-	TOptn operation;						// состояние процессора
+	TOptn operation;							// состояние процессора
 
 public:
 	

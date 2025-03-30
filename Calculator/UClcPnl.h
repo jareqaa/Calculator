@@ -281,6 +281,7 @@ namespace Calculator
 			// 
 			// button12
 			// 
+			this->button12->Enabled = false;
 			this->button12->Location = System::Drawing::Point(12, 335);
 			this->button12->Name = L"button12";
 			this->button12->Size = System::Drawing::Size(46, 46);
@@ -413,6 +414,7 @@ namespace Calculator
 			// 
 			// button24
 			// 
+			this->button24->Enabled = false;
 			this->button24->Location = System::Drawing::Point(12, 231);
 			this->button24->Name = L"button24";
 			this->button24->Size = System::Drawing::Size(46, 46);
@@ -485,6 +487,7 @@ namespace Calculator
 			// 
 			// button30
 			// 
+			this->button30->Enabled = false;
 			this->button30->Location = System::Drawing::Point(12, 179);
 			this->button30->Name = L"button30";
 			this->button30->Size = System::Drawing::Size(46, 46);
@@ -533,9 +536,11 @@ namespace Calculator
 			// 
 			// menuStrip1
 			// 
+			this->menuStrip1->ImageScalingSize = System::Drawing::Size(20, 20);
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->справкаToolStripMenuItem });
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
+			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
 			this->menuStrip1->Size = System::Drawing::Size(330, 24);
 			this->menuStrip1->TabIndex = 34;
 			this->menuStrip1->Text = L"menuStrip1";
@@ -713,88 +718,128 @@ namespace Calculator
 			EnableButtonsByTag(control, tagValue);
 		}
 	}
+	private: std::string processNumbers(const std::string& input) 
+	{
+		std::string result;
+		std::string currentNumber;
+
+		for (char c : input) 
+		{
+			if (isdigit(c) || (c >= 'A' && c <= 'F'))
+			{
+				currentNumber += c;
+			}
+			else 
+			{
+				if (!currentNumber.empty())
+				{
+					double n = Convertor::dval(currentNumber, ctrl->getCC());
+					std::string number = Convertor::dbl_to_str(n, trackBar1->Value, ctrl->getACC());
+					result += number;
+					currentNumber.clear();
+				}
+				result += c;
+			}
+		}
+
+		// Обработка числа, если строка заканчивается цифрой
+		if (!currentNumber.empty()) 
+		{
+			double n = Convertor::dval(currentNumber, ctrl->getCC());
+			std::string number = Convertor::dbl_to_str(n, trackBar1->Value, ctrl->getACC());
+			result += number;
+			currentNumber.clear();
+		}
+
+		return result;
+	}
 
 		   // изменение системы счисления числа
 	private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e)
 	{
+		this->ActiveControl = nullptr;
 		// изменение отображаемого числа
-		if (ctrl->getState() == TCtrl::cEditing || ctrl->getState() == TCtrl::cOpDone || ctrl->getState() == TCtrl::cStart || ctrl->getState() == TCtrl::FunDone)
+		trackBar1->Value = static_cast<int>(numericUpDown1->Value);
+		for (int i = 0; i < 16; i++)
 		{
-			trackBar1->Value = static_cast<int>(numericUpDown1->Value);
-			for (int i = 0; i < 16; i++)
+			if (i < trackBar1->Value)
 			{
-				if (i < trackBar1->Value)
-				{
-					EnableButtonsByTag(this, i);
-				}
-				else
-				{
-					DisableButtonsByTag(this, i);
-				}
+				EnableButtonsByTag(this, i);
 			}
-			try
+			else
 			{
-				std::string number = msclr::interop::marshal_as<std::string>(textBox1->Text);
-				double n = Convertor::dval(number, ctrl->getCC());
-				number = Convertor::dbl_to_str(n, trackBar1->Value, ctrl->getACC());
-				ctrl->doClcCmd(100, number);
-				ctrl->setCC(trackBar1->Value);
-				textBox1->Text = number == "0" ? "" : gcnew String(number.c_str());
-			}
-			catch (const std::exception& err)
-			{
-				ctrl->setCalcToStart(-1);
-				MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
+				DisableButtonsByTag(this, i);
 			}
 		}
-		else
+		try
 		{
-			numericUpDown1->ValueChanged -= gcnew EventHandler(this, &UClcPnl::numericUpDown1_ValueChanged);
-			numericUpDown1->Value = trackBar1->Value;
-			numericUpDown1->ValueChanged += gcnew EventHandler(this, &UClcPnl::numericUpDown1_ValueChanged);
-			MessageBox::Show("Вы не можете сейчас изменить систему счисления", "Error!", MessageBoxButtons::OK);
+			std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
+			str = processNumbers(str);
+			ctrl->setCC(trackBar1->Value);
+			textBox1->Text = str == "0" ? "" : gcnew String(str.c_str());
+		}
+		catch (const std::exception& err)
+		{
+			ctrl->setCalcToStart(-1);
+			MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
 		}
 	}
 		   // изменение системы счисления числа
 	private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e)
 	{
+		this->ActiveControl = nullptr;
 		// изменение отображаемого числа
-		if (ctrl->getState() == TCtrl::cEditing || ctrl->getState() == TCtrl::cOpDone || ctrl->getState() == TCtrl::cStart || ctrl->getState() == TCtrl::FunDone)
+		numericUpDown1->Value = trackBar1->Value;
+		for (int i = 0; i < 16; i++)
 		{
-			numericUpDown1->Value = trackBar1->Value;
-			for (int i = 0; i < 16; i++)
+			if (i < trackBar1->Value)
 			{
-				if (i < trackBar1->Value)
-				{
-					EnableButtonsByTag(this, i);
-				}
-				else
-				{
-					DisableButtonsByTag(this, i);
-				}
+				EnableButtonsByTag(this, i);
 			}
-			try
+			else
 			{
-				std::string number = msclr::interop::marshal_as<std::string>(textBox1->Text);
-				double n = Convertor::dval(number, ctrl->getCC());
-				number = Convertor::dbl_to_str(n, trackBar1->Value, ctrl->getACC());
-				ctrl->doClcCmd(100, number);
-				ctrl->setCC(trackBar1->Value);
-				textBox1->Text = number == "0" ? "" : gcnew String(number.c_str());
-			}
-			catch (const std::exception& err)
-			{
-				ctrl->setCalcToStart(-1);
-				MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
+				DisableButtonsByTag(this, i);
 			}
 		}
-		else
+		try
 		{
-			trackBar1->Value = static_cast<int>(numericUpDown1->Value);
-			MessageBox::Show("Вы не можете сейчас изменить систему счисления", "Error!", MessageBoxButtons::OK);
+			std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
+			str = processNumbers(str);
+			ctrl->setCC(trackBar1->Value);
+			textBox1->Text = str == "0" ? "" : gcnew String(str.c_str());
+		}
+		catch (const std::exception& err)
+		{
+			ctrl->setCalcToStart(-1);
+			MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
 		}
 	}
+	private: void updateMemBtns(System::Windows::Forms::Control^ parent, int tagValue)
+	{
+		// Проходим по всем элементам управления
+		for each(System::Windows::Forms::Control ^ control in parent->Controls)
+		{
+			// Проверяем, является ли элемент кнопкой
+			System::Windows::Forms::Button^ button = dynamic_cast<System::Windows::Forms::Button^>(control);
+			if (button != nullptr && button->Tag != nullptr)
+			{
+				// Пытаемся привести Tag к int
+				System::Object^ tagV = button->Tag;	// Получаем значение Tag
+				System::String^ tagString = dynamic_cast<System::String^>(tagV); // Преобразуем Tag в строку
+				int currentTagValue = Convert::ToInt16(tagString);
+				if (currentTagValue >= 21 && currentTagValue <= 24 && currentTagValue != 22)
+				{
+					if (tagValue == 24)
+						button->Enabled = false;  // Отключаем кнопку
+					else
+						button->Enabled = true;
+				}
+			}
 
+			// Рекурсивно проверяем дочерние элементы
+			updateMemBtns(control, tagValue);
+		}
+	}
 		   // обработка нажатия по кнопкам окна
 	private: System::Void button_Click(System::Object^ sender, System::EventArgs^ e)
 	{
@@ -802,10 +847,18 @@ namespace Calculator
 		System::Object^ tagValue = button->Tag;	// Получаем значение Tag
 		System::String^ tagString = dynamic_cast<System::String^>(tagValue); // Преобразуем Tag в строку
 		int tag = Convert::ToInt16(tagString);
-
+		this->ActiveControl = nullptr;
 		try
 		{
-			textBox1->Text = gcnew String(ctrl->doClcCmd(tag, "").c_str());
+			std::string str = ctrl->doClcCmd(tag, "");
+			if (str != "N")
+			{
+				textBox1->Text = gcnew String(str.c_str());
+			}
+			if (tag >= 21 && tag <= 24)
+			{
+				updateMemBtns(this, tag);
+			}
 		}
 		catch (const std::exception& err)
 		{
@@ -849,8 +902,8 @@ namespace Calculator
 				}
 			}
 		}
-		// Обработка символов *, /, -, +
-		else if (e->KeyChar == '*' || e->KeyChar == '/' || e->KeyChar == '-' || e->KeyChar == '+') 
+		// Обработка символов *, /, -, +, =
+		else if (e->KeyChar == '*' || e->KeyChar == '/' || e->KeyChar == '-' || e->KeyChar == '+' || e->KeyChar == '=')
 		{
 			switch (e->KeyChar) 
 			{
@@ -858,6 +911,7 @@ namespace Calculator
 			case '/': textBox1->Text = gcnew String(ctrl->doClcCmd(29, "").c_str()); break;
 			case '-': textBox1->Text = gcnew String(ctrl->doClcCmd(27, "").c_str()); break;
 			case '+': textBox1->Text = gcnew String(ctrl->doClcCmd(26, "").c_str()); break;
+			case '=': textBox1->Text = gcnew String(ctrl->doClcCmd(25, "").c_str()); break;
 			}
 		}
 		// Обработка Enter
@@ -888,6 +942,18 @@ namespace Calculator
 			}
 			e->Handled = true;  // Предотвращаем стандартную обработку Backspace
 		}
+		else if (e->KeyChar == '.')
+		{	// .
+			try
+			{
+				textBox1->Text = gcnew String(ctrl->doClcCmd(17, "").c_str());
+			}
+			catch (const std::exception& err)
+			{
+				ctrl->setCalcToStart(-1);
+				MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
+			}
+		}
 		// Игнорируем другие символы
 		else 
 		{
@@ -898,15 +964,30 @@ namespace Calculator
 		   // изменение точности
 private: System::Void numericUpDown2_ValueChanged(System::Object^ sender, System::EventArgs^ e) 
 {
+	this->ActiveControl = nullptr;
 	ctrl->setACC(static_cast<int>(numericUpDown2->Value));
 	if (ctrl->getState() == TCtrl::cOpDone || ctrl->getState() == TCtrl::FunDone)
 	{
 		try
 		{
+			std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
+			int pos = -1;
+			for (int i = str.size() - 1; i >= 0; i--)
+			{
+				if ((str[i] < '0' || str[i] > '9') && (str[i] < 'A' || str[i] > 'F') && str[i] != '.')
+				{
+					pos = i;
+					break;
+				}
+			}
+			str.erase(pos + 1);
+			if (str[str.size() - 1] == '-')
+			{
+				str.erase(str.size() - 1);
+			}
 			std::string number = ctrl->getNum();
-			double n = Convertor::dval(number, ctrl->getCC());
-			number = Convertor::dbl_to_str(n, ctrl->getCC(), ctrl->getACC());
-			textBox1->Text = gcnew String(number.c_str());
+			str += number;
+			textBox1->Text = gcnew String(str.c_str());
 		}
 		catch (const std::exception& err)
 		{

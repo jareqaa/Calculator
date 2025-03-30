@@ -14,7 +14,7 @@ public:
     static std::string int_to_P(long long int n, const int& p);
 
     //Преобразовать десятичную дробь в с.сч. с основанием р
-    static std::string dbl_to_P(double n, const int& p, const int& c);
+    static std::string dbl_to_P(const double& n, const int& p, const int& c);
 
     //Преобразовать десятичное действительное число в с.сч. с осн. р
     static std::string dbl_to_str(const double& n, const int& p, const int& c);

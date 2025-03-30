@@ -34,14 +34,16 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 	}
 	switch (j)
 	{
-	case 0:  ed.addZero(); break;	// 0
+	case 0:  ed.addZero(); break;																// 0
 	case 16: if (state == TCtrlState::cOpDone) ed.set(num.getStringN()); ed.addSign(); break;	// -
-	case 17: if (ed.get().empty()) ed.addZero(); ed.addDot(); break;	// .
-	case 18: ed.Bs(); break;		// backSpace
-	case 19:						// Clear
-	case 20:						// clear + start
+	case 17: if (ed.get().empty()) ed.addZero(); ed.addDot(); break;							// .
+	case 18: ed.Bs(); break;																	// backSpace
+	case 19: ed.clear(); break;																	// Clear
+	case 20:																					// clear + reset (память остается неизмененной)
 		ed.clear(); state = TCtrlState::cStart; 
-		setCalcToStart(j); 
+		ed = TEditor();
+		proc = TProc<TPNumber>();
+		num = TPNumber();
 		break;	
 
 	case 100: ed.set(str); break;	// писать строку
@@ -55,7 +57,25 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 	}
 
 	state = TCtrlState::cEditing;
-	return ed.get();
+
+	// выводить proc.lop + operation + proc.rop (в зависимости от состояния калькулятора)
+	if (proc.getOperation() == proc.None)
+	{
+		return ed.get();
+	}
+	else
+	{
+		std::string operationSymbol;
+		switch (proc.getOperation())
+		{
+		case TProc<TPNumber>::TOptn::Add: operationSymbol = "+"; break;
+		case TProc<TPNumber>::TOptn::Sub: operationSymbol = "-"; break;
+		case TProc<TPNumber>::TOptn::Mul: operationSymbol = "*"; break;
+		case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
+		default: operationSymbol = ""; break;
+		}
+		return proc.getLop().getStringN() + " " + operationSymbol + " " + ed.get();
+	}
 }
 
 // выполнить команду памяти
@@ -63,24 +83,70 @@ std::string TCtrl::doMemCmd(const int& j)
 {
 	switch (j)
 	{
+		// mc (очистка памяти)
 	case 24:
 		mem.clear();
 		state = TCtrlState::cEditing;
+		mem.setState(TMemory<TPNumber>::fstate::Off);
 		break;
 
+		// mr (вставка из памяти)
 	case 23:
-		mem.getNumber();
+		if (state == TCtrlState::cOpDone)
+		{
+			proc.setOperation(TProc<TPNumber>::None);
+		}
 		state = TCtrlState::cEditing;
-		break;
-
-	case 22:
+		mem.setState(TMemory<TPNumber>::fstate::On);
+		ed.set(mem.getNumber().getStringN());
+		if (proc.getOperation() == proc.None)
+		{
+			return mem.get().getStringN();
+		}
+		else
+		{
+			std::string operationSymbol;
+			switch (proc.getOperation())
+			{
+			case TProc<TPNumber>::TOptn::Add: operationSymbol = "+"; break;
+			case TProc<TPNumber>::TOptn::Sub: operationSymbol = "-"; break;
+			case TProc<TPNumber>::TOptn::Mul: operationSymbol = "*"; break;
+			case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
+			default: operationSymbol = ""; break;
+			}
+			return proc.getLop().getStringN() + " " + operationSymbol + " " + mem.get().getStringN();
+		}
 		
+		// ms (сохранить в пямять)
+	case 22:
+		if (state == cEditing)
+			mem.set(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
+		else if (state == cOpDone)
+			mem.set(proc.getLop());
+		else if (state == FunDone)
+			mem.set(proc.getRop());
+		else if (state == cOpChange)
+			mem.set(proc.getLop());
+		mem.setState(TMemory<TPNumber>::fstate::On);
+		return "N";
+		 
+		// m+ (добавить в память)
 	case 21:
+		if (state == cEditing)
+			mem.add(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
+		else if (state == cOpDone)
+			mem.add(proc.getLop());
+		else if (state == FunDone)
+			mem.add(proc.getRop());
+		else if (state == cOpChange)
+			mem.add(proc.getLop());
+		mem.setState(TMemory<TPNumber>::fstate::On);
+		break;
 
 	default:
-		break;
+		throw TException("Ошибка! Неверная команда...\n");
 	}
-	return mem.get().getStringN();
+	return "";
 }
 
 // установить начальное состояние калькулятора
@@ -142,11 +208,30 @@ std::string TCtrl::doOperation(const int& j)
 			proc.setRop(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
 		}
 
+		auto tmp = proc.getLop().getStringN();
 		proc.doOperation();
 		ed.clear();
 		setState(TCtrlState::cOpDone);
 		num = proc.getLop();
-		return proc.getLop().getStringN();
+		// выводть как в ed, только lop предваритлеьно сохранять в tmp и выводить: tmp + operaiton + rop + '=' + lop
+		//return proc.getLop().getStringN();
+		if (proc.getOperation() == proc.None)
+		{
+			return ed.get();
+		}
+		else
+		{
+			std::string operationSymbol;
+			switch (proc.getOperation())
+			{
+			case TProc<TPNumber>::TOptn::Add: operationSymbol = "+"; break;
+			case TProc<TPNumber>::TOptn::Sub: operationSymbol = "-"; break;
+			case TProc<TPNumber>::TOptn::Mul: operationSymbol = "*"; break;
+			case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
+			default: operationSymbol = ""; break;
+			}
+			return tmp + " " + operationSymbol + " " + proc.getRop().getStringN() + " = " + proc.getLop().getStringN();
+		}
 	}
 
 	// Обработка операций "+", "-", "*", "/"
@@ -179,7 +264,7 @@ std::string TCtrl::doOperation(const int& j)
 	default: operationSymbol = ""; break;
 	}
 
-	return tmp + operationSymbol;
+	return proc.getLop().getStringN() + " " + operationSymbol;
 }
 
 // выполнить функцию
@@ -204,12 +289,14 @@ std::string TCtrl::doFunc(const int& j)
 	if (state == TCtrlState::cOpDone) 
 	{
 		proc.setRop(num);
+		proc.resetOperation();
 	}
 	else if (state != TCtrlState::FunDone) 
 	{
 		proc.setRop(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
 	}
 
+	auto tmp = proc.getRop().getStringN();
 	// Выполняем функцию
 	proc.doFunction(func);
 
@@ -219,7 +306,36 @@ std::string TCtrl::doFunc(const int& j)
 	num = proc.getRop();
 
 	// Возвращаем результат
-	return proc.getRop().getStringN();
+	//return proc.getRop().getStringN();
+	if (proc.getOperation() == proc.None)
+	{
+		switch (func)
+		{
+		case proc.Sqr:
+			return "sqr(" + tmp + ") = " + proc.getRop().getStringN();
+		case proc.Rev:
+			return "1/" + tmp + " = " + proc.getRop().getStringN();
+		}
+	}
+	else
+	{
+		std::string operationSymbol;
+		switch (proc.getOperation())
+		{
+		case TProc<TPNumber>::TOptn::Add: operationSymbol = "+"; break;
+		case TProc<TPNumber>::TOptn::Sub: operationSymbol = "-"; break;
+		case TProc<TPNumber>::TOptn::Mul: operationSymbol = "*"; break;
+		case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
+		default: operationSymbol = ""; break;
+		}
+		switch (func)
+		{
+		case proc.Sqr:
+			return proc.getLop().getStringN() + " " + operationSymbol + "sqr(" + tmp + ")";
+		case proc.Rev:
+			return proc.getLop().getStringN() + " " + operationSymbol + "1/" + tmp;
+		}
+	}
 }
 
 // вычислить выражение
