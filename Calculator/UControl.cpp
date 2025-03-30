@@ -1,4 +1,5 @@
 #include "UControl.h"
+#include "Convertor.h"
 
 // выполнить команду калькулятора
 std::string TCtrl::doClcCmd(const int& j, const std::string& str)
@@ -59,6 +60,7 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 	state = TCtrlState::cEditing;
 
 	// выводить proc.lop + operation + proc.rop (в зависимости от состояния калькулятора)
+	ed_n = Convertor::dval(ed.get(), cc);
 	if (proc.getOperation() == proc.None)
 	{
 		return ed.get();

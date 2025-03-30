@@ -718,41 +718,6 @@ namespace Calculator
 			EnableButtonsByTag(control, tagValue);
 		}
 	}
-	private: std::string processNumbers(const std::string& input) 
-	{
-		std::string result;
-		std::string currentNumber;
-
-		for (char c : input) 
-		{
-			if (isdigit(c) || (c >= 'A' && c <= 'F'))
-			{
-				currentNumber += c;
-			}
-			else 
-			{
-				if (!currentNumber.empty())
-				{
-					double n = Convertor::dval(currentNumber, ctrl->getCC());
-					std::string number = Convertor::dbl_to_str(n, trackBar1->Value, ctrl->getACC());
-					result += number;
-					currentNumber.clear();
-				}
-				result += c;
-			}
-		}
-
-		// Обработка числа, если строка заканчивается цифрой
-		if (!currentNumber.empty()) 
-		{
-			double n = Convertor::dval(currentNumber, ctrl->getCC());
-			std::string number = Convertor::dbl_to_str(n, trackBar1->Value, ctrl->getACC());
-			result += number;
-			currentNumber.clear();
-		}
-
-		return result;
-	}
 
 		   // изменение системы счисления числа
 	private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e)
@@ -773,10 +738,69 @@ namespace Calculator
 		}
 		try
 		{
-			std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
-			str = processNumbers(str);
-			ctrl->setCC(trackBar1->Value);
-			textBox1->Text = str == "0" ? "" : gcnew String(str.c_str());
+			if (ctrl->getState() == ctrl->cEditing)
+			{
+				std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
+				std::string number;
+				int pos = -1;
+
+				// Находим последний нецифровой символ (кроме точки и A-F)
+				for (int i = str.size() - 1; i >= 0; --i)
+				{
+					if ((str[i] < '0' || str[i] > '9') &&
+						(str[i] < 'A' || str[i] > 'F') &&
+						str[i] != '.') {
+						pos = i;
+						break;
+					}
+				}
+
+				// Извлекаем число
+				if (pos == -1)
+				{
+					str.clear();
+				}
+				else
+				{
+					str = str.substr(0, pos + 1);
+				}
+
+				// Конвертация числа
+				double n = ctrl->getEdN();
+				number = Convertor::dbl_to_str(n, trackBar1->Value, ctrl->getACC());
+
+				ctrl->setCC(trackBar1->Value);
+				textBox1->Text = gcnew String((str + number).c_str());
+			}
+			else if (ctrl->getState() == ctrl->cOpDone || ctrl->FunDone)
+			{
+				std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
+				int pos = -1;
+
+				// Находим последний нецифровой символ (кроме точки и A-F)
+				for (int i = str.size() - 1; i >= 0; --i)
+				{
+					if ((str[i] < '0' || str[i] > '9') &&
+						(str[i] < 'A' || str[i] > 'F') &&
+						str[i] != '.') {
+						pos = i;
+						break;
+					}
+				}
+
+				// Извлекаем число
+				if (pos == -1)
+				{
+					str.clear();
+				}
+				else
+				{
+					str = str.substr(0, pos + 1);
+				}
+				ctrl->setCC(trackBar1->Value);
+				std::string number = ctrl->getNum();
+				textBox1->Text = gcnew String((str + number).c_str());
+			}
 		}
 		catch (const std::exception& err)
 		{
@@ -803,10 +827,69 @@ namespace Calculator
 		}
 		try
 		{
-			std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
-			str = processNumbers(str);
-			ctrl->setCC(trackBar1->Value);
-			textBox1->Text = str == "0" ? "" : gcnew String(str.c_str());
+			if (ctrl->getState() == ctrl->cEditing)
+			{
+				std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
+				std::string number;
+				int pos = -1;
+
+				// Находим последний нецифровой символ (кроме точки и A-F)
+				for (int i = str.size() - 1; i >= 0; --i)
+				{
+					if ((str[i] < '0' || str[i] > '9') &&
+						(str[i] < 'A' || str[i] > 'F') &&
+						str[i] != '.') {
+						pos = i;
+						break;
+					}
+				}
+
+				// Извлекаем число
+				if (pos == -1)
+				{
+					str.clear();
+				}
+				else
+				{
+					str = str.substr(0, pos + 1);
+				}
+
+				// Конвертация числа
+				double n = ctrl->getEdN();
+				number = Convertor::dbl_to_str(n, trackBar1->Value, ctrl->getACC());
+
+				ctrl->setCC(trackBar1->Value);
+				textBox1->Text = gcnew String((str + number).c_str());
+			}
+			else if (ctrl->getState() == ctrl->cOpDone || ctrl->FunDone)
+			{
+				std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
+				int pos = -1;
+
+				// Находим последний нецифровой символ (кроме точки и A-F)
+				for (int i = str.size() - 1; i >= 0; --i)
+				{
+					if ((str[i] < '0' || str[i] > '9') &&
+						(str[i] < 'A' || str[i] > 'F') &&
+						str[i] != '.') {
+						pos = i;
+						break;
+					}
+				}
+
+				// Извлекаем число
+				if (pos == -1)
+				{
+					str.clear();
+				}
+				else
+				{
+					str = str.substr(0, pos + 1);
+				}
+				ctrl->setCC(trackBar1->Value);
+				std::string number = ctrl->getNum();
+				textBox1->Text = gcnew String((str + number).c_str());
+			}
 		}
 		catch (const std::exception& err)
 		{
@@ -966,9 +1049,43 @@ private: System::Void numericUpDown2_ValueChanged(System::Object^ sender, System
 {
 	this->ActiveControl = nullptr;
 	ctrl->setACC(static_cast<int>(numericUpDown2->Value));
-	if (ctrl->getState() == TCtrl::cOpDone || ctrl->getState() == TCtrl::FunDone)
+	try
 	{
-		try
+		if (ctrl->getState() == ctrl->cEditing)
+		{
+			std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
+			std::string number;
+			int pos = -1;
+
+			// Находим последний нецифровой символ (кроме точки и A-F)
+			for (int i = str.size() - 1; i >= 0; --i)
+			{
+				if ((str[i] < '0' || str[i] > '9') &&
+					(str[i] < 'A' || str[i] > 'F') &&
+					str[i] != '.') {
+					pos = i;
+					break;
+				}
+			}
+
+			// Извлекаем число
+			if (pos == -1)
+			{
+				str.clear();
+			}
+			else
+			{
+				str = str.substr(0, pos + 1);
+			}
+
+			// Конвертация числа
+			double n = ctrl->getEdN();
+			number = Convertor::dbl_to_str(n, trackBar1->Value, ctrl->getACC());
+
+			ctrl->setCC(trackBar1->Value);
+			textBox1->Text = gcnew String((str + number).c_str());
+		}
+		else if (ctrl->getState() == TCtrl::cOpDone || ctrl->getState() == TCtrl::FunDone)
 		{
 			std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
 			int pos = -1;
@@ -989,11 +1106,11 @@ private: System::Void numericUpDown2_ValueChanged(System::Object^ sender, System
 			str += number;
 			textBox1->Text = gcnew String(str.c_str());
 		}
-		catch (const std::exception& err)
-		{
-			ctrl->setCalcToStart(-1);
-			MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
-		}
+	}
+	catch (const std::exception& err)
+	{
+		ctrl->setCalcToStart(-1);
+		MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
 	}
 }
 };

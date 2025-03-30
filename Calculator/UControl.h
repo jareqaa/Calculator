@@ -19,13 +19,15 @@ private:
 
 	TPNumber num;			// число (результат выполнения последней команды)
 
+	double ed_n;
+
 	int cc;					// система счисления
 
 	int acc;				// точность
 
 public:
 	// конструктор по умолчанию
-	TCtrl() : state(TCtrlState::cStart), ed(TEditor()), proc(TProc<TPNumber>()), mem(TMemory<TPNumber>()), num(TPNumber()), cc(10), acc(0) {}
+	TCtrl() : state(TCtrlState::cStart), ed(TEditor()), proc(TProc<TPNumber>()), mem(TMemory<TPNumber>()), num(TPNumber()), cc(10), acc(0), ed_n(0) {}
 
 	// выполнить команду калькулятора
 	std::string doClcCmd(const int& j, const std::string& str = "");
@@ -68,4 +70,7 @@ public:
 
 	// получить результат послденей операции
 	std::string getNum() const { return num.getStringN(); }
+
+	// получить ed_n
+	double getEdN() const { return ed_n; }
 };
