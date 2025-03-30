@@ -59,7 +59,6 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 
 	state = TCtrlState::cEditing;
 
-	// выводить proc.lop + operation + proc.rop (в зависимости от состояния калькулятора)
 	ed_n = Convertor::dval(ed.get(), cc);
 	if (proc.getOperation() == proc.None)
 	{
@@ -101,6 +100,8 @@ std::string TCtrl::doMemCmd(const int& j)
 		state = TCtrlState::cEditing;
 		mem.setState(TMemory<TPNumber>::fstate::On);
 		ed.set(mem.getNumber().getStringN());
+		ed_n = Convertor::dval(ed.get(), cc);
+
 		if (proc.getOperation() == proc.None)
 		{
 			return mem.get().getStringN();
@@ -215,8 +216,6 @@ std::string TCtrl::doOperation(const int& j)
 		ed.clear();
 		setState(TCtrlState::cOpDone);
 		num = proc.getLop();
-		// выводть как в ed, только lop предваритлеьно сохранять в tmp и выводить: tmp + operaiton + rop + '=' + lop
-		//return proc.getLop().getStringN();
 		if (proc.getOperation() == proc.None)
 		{
 			return ed.get();

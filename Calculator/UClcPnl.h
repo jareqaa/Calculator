@@ -671,264 +671,173 @@ namespace Calculator
 
 		}
 #pragma endregion
+		// отключить кнопки по тегу
 	private: void DisableButtonsByTag(System::Windows::Forms::Control^ parent, int tagValue)
 	{
-		// Проходим по всем элементам управления
+		// проходим по всем элементам управления
 		for each (System::Windows::Forms::Control ^ control in parent->Controls)
 		{
-			// Проверяем, является ли элемент кнопкой
+			// проверяем, является ли элемент кнопкой
 			System::Windows::Forms::Button^ button = dynamic_cast<System::Windows::Forms::Button^>(control);
 			if (button != nullptr && button->Tag != nullptr)
 			{
-				// Пытаемся привести Tag к int
-				System::Object^ tagV = button->Tag;	// Получаем значение Tag
-				System::String^ tagString = dynamic_cast<System::String^>(tagV); // Преобразуем Tag в строку
+				System::Object^ tagV = button->Tag;	// получаем значение Tag
+				System::String^ tagString = dynamic_cast<System::String^>(tagV); // преобразуем Tag в строку
 				int currentTagValue = Convert::ToInt16(tagString);
 				if (currentTagValue == tagValue)
 				{
-					button->Enabled = false;  // Отключаем кнопку
+					button->Enabled = false;  // отключаем кнопку
 				}
 			}
 
-			// Рекурсивно проверяем дочерние элементы
+			// рекурсивно проверяем дочерние элементы
 			DisableButtonsByTag(control, tagValue);
 		}
 	}
 
+		   // включить кнопки по тегу
 	private: void EnableButtonsByTag(System::Windows::Forms::Control^ parent, int tagValue)
 	{
-		// Проходим по всем элементам управления
+		// проходим по всем элементам управления
 		for each (System::Windows::Forms::Control ^ control in parent->Controls)
 		{
-			// Проверяем, является ли элемент кнопкой
+			// проверяем, является ли элемент кнопкой
 			System::Windows::Forms::Button^ button = dynamic_cast<System::Windows::Forms::Button^>(control);
 			if (button != nullptr && button->Tag != nullptr)
 			{
-				// Пытаемся привести Tag к int
-				System::Object^ tagV = button->Tag;	// Получаем значение Tag
-				System::String^ tagString = dynamic_cast<System::String^>(tagV); // Преобразуем Tag в строку
+				// пытаемся привести Tag к int
+				System::Object^ tagV = button->Tag;	// получаем значение Tag
+				System::String^ tagString = dynamic_cast<System::String^>(tagV); // преобразуем Tag в строку
 				int currentTagValue = Convert::ToInt16(tagString);
 				if (currentTagValue == tagValue)
 				{
-					button->Enabled = true;  // Отключаем кнопку
+					button->Enabled = true;  // включаем кнопку
 				}
 			}
 
-			// Рекурсивно проверяем дочерние элементы
+			// рекурсивно проверяем дочерние элементы
 			EnableButtonsByTag(control, tagValue);
 		}
 	}
-
-		   // изменение системы счисления числа
-	private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e)
-	{
-		this->ActiveControl = nullptr;
-		// изменение отображаемого числа
-		trackBar1->Value = static_cast<int>(numericUpDown1->Value);
-		for (int i = 0; i < 16; i++)
+		   // получение строки до последнего числа
+	private: std::string ExtractNonNumericPrefix(const std::string& str) 
 		{
-			if (i < trackBar1->Value)
+			int pos = -1;
+			for (int i = str.size() - 1; i >= 0; --i) 
+			{
+				if ((str[i] < '0' || str[i] > '9') && (str[i] < 'A' || str[i] > 'F') && str[i] != '.') 
+				{
+					pos = i;
+					break;
+				}
+			}
+
+			if (pos == -1) return "";
+
+			std::string prefix = str.substr(0, pos + 1);
+			if (!prefix.empty() && prefix.back() == '-') 
+			{
+				prefix.pop_back();
+			}
+			return prefix;
+		}
+
+		// обновление состояния кнопок
+	private: void UpdateButtonStates(int currentBase) 
+	{
+		for (int i = 0; i < 16; i++) 
+		{
+			if (i < currentBase) 
 			{
 				EnableButtonsByTag(this, i);
 			}
-			else
+			else 
 			{
 				DisableButtonsByTag(this, i);
 			}
 		}
-		try
-		{
-			if (ctrl->getState() == ctrl->cEditing)
-			{
-				std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
-				std::string number;
-				int pos = -1;
-
-				// Находим последний нецифровой символ (кроме точки и A-F)
-				for (int i = str.size() - 1; i >= 0; --i)
-				{
-					if ((str[i] < '0' || str[i] > '9') &&
-						(str[i] < 'A' || str[i] > 'F') &&
-						str[i] != '.') {
-						pos = i;
-						break;
-					}
-				}
-
-				// Извлекаем число
-				if (pos == -1)
-				{
-					str.clear();
-				}
-				else
-				{
-					str = str.substr(0, pos + 1);
-				}
-
-				// Конвертация числа
-				double n = ctrl->getEdN();
-				number = Convertor::dbl_to_str(n, trackBar1->Value, ctrl->getACC());
-
-				ctrl->setCC(trackBar1->Value);
-				textBox1->Text = gcnew String((str + number).c_str());
-			}
-			else if (ctrl->getState() == ctrl->cOpDone || ctrl->FunDone)
-			{
-				std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
-				int pos = -1;
-
-				// Находим последний нецифровой символ (кроме точки и A-F)
-				for (int i = str.size() - 1; i >= 0; --i)
-				{
-					if ((str[i] < '0' || str[i] > '9') &&
-						(str[i] < 'A' || str[i] > 'F') &&
-						str[i] != '.') {
-						pos = i;
-						break;
-					}
-				}
-
-				// Извлекаем число
-				if (pos == -1)
-				{
-					str.clear();
-				}
-				else
-				{
-					str = str.substr(0, pos + 1);
-				}
-				ctrl->setCC(trackBar1->Value);
-				std::string number = ctrl->getNum();
-				textBox1->Text = gcnew String((str + number).c_str());
-			}
-		}
-		catch (const std::exception& err)
-		{
-			ctrl->setCalcToStart(-1);
-			MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
-		}
 	}
-		   // изменение системы счисления числа
-	private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e)
+
+		// обновление отоброжаемого числа
+	private: void UpdateDisplay(int base, int precision) 
 	{
+			try 
+			{
+				std::string prefix = ExtractNonNumericPrefix(msclr::interop::marshal_as<std::string>(textBox1->Text));
+
+				if (ctrl->getState() == ctrl->cEditing) 
+				{
+					double n = ctrl->getEdN();
+					std::string number = Convertor::dbl_to_str(n, base, precision);
+					textBox1->Text = gcnew String((prefix + number).c_str());
+				}
+				else if (ctrl->getState() == ctrl->cOpDone || ctrl->getState() == ctrl->FunDone) 
+				{
+					std::string number = ctrl->getNum();
+					textBox1->Text = gcnew String((prefix + number).c_str());
+				}
+			}
+			catch (const std::exception& err) 
+			{
+				ctrl->setCalcToStart(-1);
+				MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
+			}
+		}
+
+		// изменение системы счисления
+	private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e) 
+	{
+		int newBase = static_cast<int>(numericUpDown1->Value);
+		trackBar1->Value = newBase;
 		this->ActiveControl = nullptr;
-		// изменение отображаемого числа
-		numericUpDown1->Value = trackBar1->Value;
-		for (int i = 0; i < 16; i++)
-		{
-			if (i < trackBar1->Value)
-			{
-				EnableButtonsByTag(this, i);
-			}
-			else
-			{
-				DisableButtonsByTag(this, i);
-			}
-		}
-		try
-		{
-			if (ctrl->getState() == ctrl->cEditing)
-			{
-				std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
-				std::string number;
-				int pos = -1;
-
-				// Находим последний нецифровой символ (кроме точки и A-F)
-				for (int i = str.size() - 1; i >= 0; --i)
-				{
-					if ((str[i] < '0' || str[i] > '9') &&
-						(str[i] < 'A' || str[i] > 'F') &&
-						str[i] != '.') {
-						pos = i;
-						break;
-					}
-				}
-
-				// Извлекаем число
-				if (pos == -1)
-				{
-					str.clear();
-				}
-				else
-				{
-					str = str.substr(0, pos + 1);
-				}
-
-				// Конвертация числа
-				double n = ctrl->getEdN();
-				number = Convertor::dbl_to_str(n, trackBar1->Value, ctrl->getACC());
-
-				ctrl->setCC(trackBar1->Value);
-				textBox1->Text = gcnew String((str + number).c_str());
-			}
-			else if (ctrl->getState() == ctrl->cOpDone || ctrl->FunDone)
-			{
-				std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
-				int pos = -1;
-
-				// Находим последний нецифровой символ (кроме точки и A-F)
-				for (int i = str.size() - 1; i >= 0; --i)
-				{
-					if ((str[i] < '0' || str[i] > '9') &&
-						(str[i] < 'A' || str[i] > 'F') &&
-						str[i] != '.') {
-						pos = i;
-						break;
-					}
-				}
-
-				// Извлекаем число
-				if (pos == -1)
-				{
-					str.clear();
-				}
-				else
-				{
-					str = str.substr(0, pos + 1);
-				}
-				ctrl->setCC(trackBar1->Value);
-				std::string number = ctrl->getNum();
-				textBox1->Text = gcnew String((str + number).c_str());
-			}
-		}
-		catch (const std::exception& err)
-		{
-			ctrl->setCalcToStart(-1);
-			MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
-		}
+		UpdateButtonStates(newBase);
+		ctrl->setCC(newBase);
+		UpdateDisplay(newBase, ctrl->getACC());
 	}
+
+		   // изменение системы счисления
+	private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e) 
+	{
+		int newBase = trackBar1->Value;
+		numericUpDown1->Value = newBase;
+		this->ActiveControl = nullptr;
+		UpdateButtonStates(newBase);
+		ctrl->setCC(newBase);
+		UpdateDisplay(newBase, ctrl->getACC());
+	}
+		   // отключение/включение кнопок работы с памятью
 	private: void updateMemBtns(System::Windows::Forms::Control^ parent, int tagValue)
 	{
-		// Проходим по всем элементам управления
+		// проходим по всем элементам управления
 		for each(System::Windows::Forms::Control ^ control in parent->Controls)
 		{
-			// Проверяем, является ли элемент кнопкой
+			// проверяем, является ли элемент кнопкой
 			System::Windows::Forms::Button^ button = dynamic_cast<System::Windows::Forms::Button^>(control);
 			if (button != nullptr && button->Tag != nullptr)
 			{
-				// Пытаемся привести Tag к int
-				System::Object^ tagV = button->Tag;	// Получаем значение Tag
-				System::String^ tagString = dynamic_cast<System::String^>(tagV); // Преобразуем Tag в строку
+				// пытаемся привести Tag к int
+				System::Object^ tagV = button->Tag;	// получаем значение Tag
+				System::String^ tagString = dynamic_cast<System::String^>(tagV); // преобразуем Tag в строку
 				int currentTagValue = Convert::ToInt16(tagString);
 				if (currentTagValue >= 21 && currentTagValue <= 24 && currentTagValue != 22)
 				{
 					if (tagValue == 24)
-						button->Enabled = false;  // Отключаем кнопку
+						button->Enabled = false;  // отключаем кнопку
 					else
 						button->Enabled = true;
 				}
 			}
 
-			// Рекурсивно проверяем дочерние элементы
+			// рекурсивно проверяем дочерние элементы
 			updateMemBtns(control, tagValue);
 		}
 	}
 		   // обработка нажатия по кнопкам окна
 	private: System::Void button_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		System::Windows::Forms::Button^ button = dynamic_cast<System::Windows::Forms::Button^>(sender); // Приводим sender к типу Button
-		System::Object^ tagValue = button->Tag;	// Получаем значение Tag
-		System::String^ tagString = dynamic_cast<System::String^>(tagValue); // Преобразуем Tag в строку
+		System::Windows::Forms::Button^ button = dynamic_cast<System::Windows::Forms::Button^>(sender); // приводим sender к типу Button
+		System::Object^ tagValue = button->Tag;	// получаем значение Tag
+		System::String^ tagString = dynamic_cast<System::String^>(tagValue); // преобразуем Tag в строку
 		int tag = Convert::ToInt16(tagString);
 		this->ActiveControl = nullptr;
 		try
@@ -953,7 +862,7 @@ namespace Calculator
 		   // обработка нажатий кнопок на клавиатуре
 	private: System::Void UClcPnl_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e)
 	{
-		// Обработка цифр(0 - 9)
+		// обработка цифр(0 - 9)
 		if (e->KeyChar >= '0' && e->KeyChar <= '9') 
 		{
 			if (Convertor::char_To_num(e->KeyChar) < ctrl->getCC())
@@ -969,7 +878,7 @@ namespace Calculator
 				}
 			}
 		}
-		// Обработка символов A, B, C, D, E, F
+		// обработка символов A, B, C, D, E, F
 		else if (e->KeyChar >= 'A' && e->KeyChar <= 'F') 
 		{
 			if (Convertor::char_To_num(e->KeyChar) < ctrl->getCC())
@@ -985,7 +894,7 @@ namespace Calculator
 				}
 			}
 		}
-		// Обработка символов *, /, -, +, =
+		// обработка символов *, /, -, +, =
 		else if (e->KeyChar == '*' || e->KeyChar == '/' || e->KeyChar == '-' || e->KeyChar == '+' || e->KeyChar == '=')
 		{
 			switch (e->KeyChar) 
@@ -997,9 +906,9 @@ namespace Calculator
 			case '=': textBox1->Text = gcnew String(ctrl->doClcCmd(25, "").c_str()); break;
 			}
 		}
-		// Обработка Enter
+		// обработка Enter
 		else if (e->KeyChar == '\r') 
-		{  // Enter
+		{
 			try
 			{
 				textBox1->Text = gcnew String(ctrl->doClcCmd(25, "").c_str());
@@ -1009,11 +918,11 @@ namespace Calculator
 				ctrl->setCalcToStart(-1);
 				MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
 			}
-			e->Handled = true;  // Предотвращаем добавление символа '\r'
+			e->Handled = true;
 		}
-		// Обработка Backspace
+		// обработка Backspace
 		else if (e->KeyChar == '\b') 
-		{  // Backspace
+		{
 			try
 			{
 				textBox1->Text = gcnew String(ctrl->doClcCmd(18, "").c_str());
@@ -1023,10 +932,11 @@ namespace Calculator
 				ctrl->setCalcToStart(-1);
 				MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
 			}
-			e->Handled = true;  // Предотвращаем стандартную обработку Backspace
+			e->Handled = true;
 		}
+		// обработка .
 		else if (e->KeyChar == '.')
-		{	// .
+		{
 			try
 			{
 				textBox1->Text = gcnew String(ctrl->doClcCmd(17, "").c_str());
@@ -1037,7 +947,7 @@ namespace Calculator
 				MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
 			}
 		}
-		// Игнорируем другие символы
+		// игнорируем другие символы
 		else 
 		{
 			e->Handled = true;
@@ -1045,73 +955,12 @@ namespace Calculator
 	}
 
 		   // изменение точности
-private: System::Void numericUpDown2_ValueChanged(System::Object^ sender, System::EventArgs^ e) 
-{
-	this->ActiveControl = nullptr;
-	ctrl->setACC(static_cast<int>(numericUpDown2->Value));
-	try
+	private: System::Void numericUpDown2_ValueChanged(System::Object^ sender, System::EventArgs^ e) 
 	{
-		if (ctrl->getState() == ctrl->cEditing)
-		{
-			std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
-			std::string number;
-			int pos = -1;
-
-			// Находим последний нецифровой символ (кроме точки и A-F)
-			for (int i = str.size() - 1; i >= 0; --i)
-			{
-				if ((str[i] < '0' || str[i] > '9') &&
-					(str[i] < 'A' || str[i] > 'F') &&
-					str[i] != '.') {
-					pos = i;
-					break;
-				}
-			}
-
-			// Извлекаем число
-			if (pos == -1)
-			{
-				str.clear();
-			}
-			else
-			{
-				str = str.substr(0, pos + 1);
-			}
-
-			// Конвертация числа
-			double n = ctrl->getEdN();
-			number = Convertor::dbl_to_str(n, trackBar1->Value, ctrl->getACC());
-
-			ctrl->setCC(trackBar1->Value);
-			textBox1->Text = gcnew String((str + number).c_str());
-		}
-		else if (ctrl->getState() == TCtrl::cOpDone || ctrl->getState() == TCtrl::FunDone)
-		{
-			std::string str = msclr::interop::marshal_as<std::string>(textBox1->Text);
-			int pos = -1;
-			for (int i = str.size() - 1; i >= 0; i--)
-			{
-				if ((str[i] < '0' || str[i] > '9') && (str[i] < 'A' || str[i] > 'F') && str[i] != '.')
-				{
-					pos = i;
-					break;
-				}
-			}
-			str.erase(pos + 1);
-			if (str[str.size() - 1] == '-')
-			{
-				str.erase(str.size() - 1);
-			}
-			std::string number = ctrl->getNum();
-			str += number;
-			textBox1->Text = gcnew String(str.c_str());
-		}
+		this->ActiveControl = nullptr;
+		int newPrecision = static_cast<int>(numericUpDown2->Value);
+		ctrl->setACC(newPrecision);
+		UpdateDisplay(ctrl->getCC(), newPrecision);
 	}
-	catch (const std::exception& err)
-	{
-		ctrl->setCalcToStart(-1);
-		MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
-	}
-}
 };
 }
