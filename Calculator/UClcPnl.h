@@ -721,26 +721,26 @@ namespace Calculator
 	}
 		   // получение строки до последнего числа
 	private: std::string ExtractNonNumericPrefix(const std::string& str) 
+	{
+		int pos = -1;
+		for (int i = str.size() - 1; i >= 0; --i) 
 		{
-			int pos = -1;
-			for (int i = str.size() - 1; i >= 0; --i) 
+			if ((str[i] < '0' || str[i] > '9') && (str[i] < 'A' || str[i] > 'F') && str[i] != '.') 
 			{
-				if ((str[i] < '0' || str[i] > '9') && (str[i] < 'A' || str[i] > 'F') && str[i] != '.') 
-				{
-					pos = i;
-					break;
-				}
+				pos = i;
+				break;
 			}
-
-			if (pos == -1) return "";
-
-			std::string prefix = str.substr(0, pos + 1);
-			if (!prefix.empty() && prefix.back() == '-') 
-			{
-				prefix.pop_back();
-			}
-			return prefix;
 		}
+
+		if (pos == -1) return "";
+
+		std::string prefix = str.substr(0, pos + 1);
+		if (!prefix.empty() && prefix.back() == '-') 
+		{
+			prefix.pop_back();
+		}
+		return prefix;
+	}
 
 		// обновление состояния кнопок
 	private: void UpdateButtonStates(int currentBase) 
@@ -761,28 +761,30 @@ namespace Calculator
 		// обновление отоброжаемого числа
 	private: void UpdateDisplay(int base, int precision) 
 	{
-			try 
-			{
-				std::string prefix = ExtractNonNumericPrefix(msclr::interop::marshal_as<std::string>(textBox1->Text));
+		try 
+		{
+			std::string prefix = ExtractNonNumericPrefix(msclr::interop::marshal_as<std::string>(textBox1->Text));
 
-				if (ctrl->getState() == ctrl->cEditing) 
-				{
-					double n = ctrl->getEdN();
-					std::string number = Convertor::dbl_to_str(n, base, precision);
-					textBox1->Text = gcnew String((prefix + number).c_str());
-				}
-				else if (ctrl->getState() == ctrl->cOpDone || ctrl->getState() == ctrl->FunDone) 
-				{
-					std::string number = ctrl->getNum();
-					textBox1->Text = gcnew String((prefix + number).c_str());
-				}
-			}
-			catch (const std::exception& err) 
+			if (ctrl->getState() == ctrl->cEditing) 
 			{
-				ctrl->setCalcToStart(-1);
-				MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
+				double n = ctrl->getEdN();
+				std::string number = Convertor::dbl_to_str(n, base, precision);
+				textBox1->Text = gcnew String((prefix + number).c_str());
+				ctrl->doClcCmd(100, number);
+			}
+			else if (ctrl->getState() == ctrl->cOpDone || ctrl->getState() == ctrl->FunDone) 
+			{
+				std::string number = ctrl->getNum();
+				textBox1->Text = gcnew String((prefix + number).c_str());
+				ctrl->doClcCmd(100, number);
 			}
 		}
+		catch (const std::exception& err) 
+		{
+			ctrl->setCalcToStart(-1);
+			MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
+		}
+	}
 
 		// изменение системы счисления
 	private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e) 
