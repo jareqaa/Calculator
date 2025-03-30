@@ -57,7 +57,24 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 		break;
 	}
 
-	return ed.get();
+	// выводить proc.lop + operation + proc.rop (в зависимости от состояния калькулятора)
+	if (proc.getOperation() == proc.None)
+	{
+		return ed.get();
+	}
+	else
+	{
+		std::string operationSymbol;
+		switch (proc.getOperation())
+		{
+		case TProc<TPNumber>::TOptn::Add: operationSymbol = "+"; break;
+		case TProc<TPNumber>::TOptn::Sub: operationSymbol = "-"; break;
+		case TProc<TPNumber>::TOptn::Mul: operationSymbol = "*"; break;
+		case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
+		default: operationSymbol = ""; break;
+		}
+		return proc.getLop().getStringN() + operationSymbol + ed.get();
+	}
 }
 
 // выполнить команду памяти
@@ -81,7 +98,23 @@ std::string TCtrl::doMemCmd(const int& j)
 		state = TCtrlState::cEditing;
 		mem.setState(TMemory<TPNumber>::fstate::On);
 		ed.set(mem.getNumber().getStringN());
-		return mem.getNumber().getStringN();
+		if (proc.getOperation() == proc.None)
+		{
+			return mem.get().getStringN();
+		}
+		else
+		{
+			std::string operationSymbol;
+			switch (proc.getOperation())
+			{
+			case TProc<TPNumber>::TOptn::Add: operationSymbol = "+"; break;
+			case TProc<TPNumber>::TOptn::Sub: operationSymbol = "-"; break;
+			case TProc<TPNumber>::TOptn::Mul: operationSymbol = "*"; break;
+			case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
+			default: operationSymbol = ""; break;
+			}
+			return proc.getLop().getStringN() + operationSymbol + mem.get().getStringN();
+		}
 		
 		// ms (сохранить в пямять)
 	case 22:
@@ -94,7 +127,7 @@ std::string TCtrl::doMemCmd(const int& j)
 		else if (state == cOpChange)
 			mem.set(proc.getLop());
 		mem.setState(TMemory<TPNumber>::fstate::On);
-		return mem.get().getStringN();
+		return "N";
 		 
 		// m+ (добавить в память)
 	case 21:
@@ -174,11 +207,30 @@ std::string TCtrl::doOperation(const int& j)
 			proc.setRop(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
 		}
 
+		auto tmp = proc.getLop().getStringN();
 		proc.doOperation();
 		ed.clear();
 		setState(TCtrlState::cOpDone);
 		num = proc.getLop();
-		return proc.getLop().getStringN();
+		// выводть как в ed, только lop предваритлеьно сохранять в tmp и выводить: tmp + operaiton + rop + '=' + lop
+		//return proc.getLop().getStringN();
+		if (proc.getOperation() == proc.None)
+		{
+			return ed.get();
+		}
+		else
+		{
+			std::string operationSymbol;
+			switch (proc.getOperation())
+			{
+			case TProc<TPNumber>::TOptn::Add: operationSymbol = "+"; break;
+			case TProc<TPNumber>::TOptn::Sub: operationSymbol = "-"; break;
+			case TProc<TPNumber>::TOptn::Mul: operationSymbol = "*"; break;
+			case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
+			default: operationSymbol = ""; break;
+			}
+			return tmp + operationSymbol + proc.getRop().getStringN() + '=' + proc.getLop().getStringN();
+		}
 	}
 
 	// Обработка операций "+", "-", "*", "/"
@@ -242,6 +294,7 @@ std::string TCtrl::doFunc(const int& j)
 		proc.setRop(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
 	}
 
+	auto tmp = proc.getRop().getStringN();
 	// Выполняем функцию
 	proc.doFunction(func);
 
@@ -251,7 +304,36 @@ std::string TCtrl::doFunc(const int& j)
 	num = proc.getRop();
 
 	// Возвращаем результат
-	return proc.getRop().getStringN();
+	//return proc.getRop().getStringN();
+	if (proc.getOperation() == proc.None)
+	{
+		switch (func)
+		{
+		case proc.Sqr:
+			return "sqr(" + tmp + ")=" + proc.getRop().getStringN();
+		case proc.Rev:
+			return "1/" + tmp + "=" + proc.getRop().getStringN();
+		}
+	}
+	else
+	{
+		std::string operationSymbol;
+		switch (proc.getOperation())
+		{
+		case TProc<TPNumber>::TOptn::Add: operationSymbol = "+"; break;
+		case TProc<TPNumber>::TOptn::Sub: operationSymbol = "-"; break;
+		case TProc<TPNumber>::TOptn::Mul: operationSymbol = "*"; break;
+		case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
+		default: operationSymbol = ""; break;
+		}
+		switch (func)
+		{
+		case proc.Sqr:
+			return proc.getLop().getStringN() + operationSymbol + "sqr(" + tmp + ")";
+		case proc.Rev:
+			return proc.getLop().getStringN() + operationSymbol + "1/" + tmp;
+		}
+	}
 }
 
 // вычислить выражение

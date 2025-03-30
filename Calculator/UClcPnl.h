@@ -837,7 +837,11 @@ namespace Calculator
 		this->ActiveControl = nullptr;
 		try
 		{
-			textBox1->Text = gcnew String(ctrl->doClcCmd(tag, "").c_str());
+			std::string str = ctrl->doClcCmd(tag, "");
+			if (str != "N")
+			{
+				textBox1->Text = gcnew String(str.c_str());
+			}
 			if (tag >= 21 && tag <= 24)
 			{
 				updateMemBtns(this, tag);
