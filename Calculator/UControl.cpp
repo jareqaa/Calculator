@@ -73,7 +73,7 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 		case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
 		default: operationSymbol = ""; break;
 		}
-		return proc.getLop().getStringN() + operationSymbol + ed.get();
+		return proc.getLop().getStringN() + " " + operationSymbol + " " + ed.get();
 	}
 }
 
@@ -113,7 +113,7 @@ std::string TCtrl::doMemCmd(const int& j)
 			case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
 			default: operationSymbol = ""; break;
 			}
-			return proc.getLop().getStringN() + operationSymbol + mem.get().getStringN();
+			return proc.getLop().getStringN() + " " + operationSymbol + " " + mem.get().getStringN();
 		}
 		
 		// ms (сохранить в пямять)
@@ -229,7 +229,7 @@ std::string TCtrl::doOperation(const int& j)
 			case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
 			default: operationSymbol = ""; break;
 			}
-			return tmp + operationSymbol + proc.getRop().getStringN() + '=' + proc.getLop().getStringN();
+			return tmp + " " + operationSymbol + " " + proc.getRop().getStringN() + " = " + proc.getLop().getStringN();
 		}
 	}
 
@@ -262,7 +262,7 @@ std::string TCtrl::doOperation(const int& j)
 	default: operationSymbol = ""; break;
 	}
 
-	return proc.getLop().getStringN() + operationSymbol;
+	return proc.getLop().getStringN() + " " + operationSymbol;
 }
 
 // выполнить функцию
@@ -310,9 +310,9 @@ std::string TCtrl::doFunc(const int& j)
 		switch (func)
 		{
 		case proc.Sqr:
-			return "sqr(" + tmp + ")=" + proc.getRop().getStringN();
+			return "sqr(" + tmp + ") = " + proc.getRop().getStringN();
 		case proc.Rev:
-			return "1/" + tmp + "=" + proc.getRop().getStringN();
+			return "1/" + tmp + " = " + proc.getRop().getStringN();
 		}
 	}
 	else
@@ -329,9 +329,9 @@ std::string TCtrl::doFunc(const int& j)
 		switch (func)
 		{
 		case proc.Sqr:
-			return proc.getLop().getStringN() + operationSymbol + "sqr(" + tmp + ")";
+			return proc.getLop().getStringN() + " " + operationSymbol + "sqr(" + tmp + ")";
 		case proc.Rev:
-			return proc.getLop().getStringN() + operationSymbol + "1/" + tmp;
+			return proc.getLop().getStringN() + " " + operationSymbol + "1/" + tmp;
 		}
 	}
 }
