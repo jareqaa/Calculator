@@ -144,7 +144,7 @@ std::string TCtrl::doMemCmd(const int& j)
 		else if (state == cOpChange)
 			mem.add(proc.getLop());
 		mem.setState(TMemory<TPNumber>::fstate::On);
-		break;
+		return "N";
 
 	default:
 		throw TException("Ошибка! Неверная команда...\n");
