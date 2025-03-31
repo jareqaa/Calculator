@@ -62,7 +62,7 @@ std::string Convertor::dbl_to_P(const double& n, const int& p, const int& c)
 		a *= p;
 		int digit = static_cast<int>(a);
 		result += int_to_Char(digit);
-		a = round(abs(a - static_cast<int>(a)) * pow(10, c)) / pow(10, c);
+		a -= digit;
 	}
 	return result;
 }
@@ -81,7 +81,7 @@ std::string Convertor::dbl_to_str(const double& n, const int& p, const int& c)
 		sign = '-';
 
 	std::string intResult = int_to_P(static_cast<long long int>(abs(n)), p);
-	std::string dblResult = c == 0 ? "" : "." + dbl_to_P(round(abs(n - static_cast<int>(n)) * pow(10, c)) / pow(10, c), p, c);
+	std::string dblResult = c == 0 ? "" : "." + dbl_to_P(abs(n - static_cast<int>(n)), p, c);
 
 	// убираем незначащие нули
 	for (int i = dblResult.size() - 1; i >= 0; i--)
