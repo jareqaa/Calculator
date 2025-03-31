@@ -20,6 +20,10 @@ std::string TEditor::addSign()
 // добавить p-ичную цифру
 std::string TEditor::addDigit(const int& digit)
 {
+	if (number.size() == 1 && number[0] == '0' || number.size() == 2 && number[1] == '0')
+	{
+		number.pop_back();
+	}
 	number += Convertor::int_to_Char(digit);
 	return number;
 }
