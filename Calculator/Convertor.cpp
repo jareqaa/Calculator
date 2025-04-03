@@ -55,14 +55,18 @@ std::string Convertor::dbl_to_P(const double& n, const int& p, const int& c)
 	if (n >= 1)
 		throw TException("Ошибка! Неверное входное число...\n");
 
-	double a = n;
-	std::string result = "";
-	for (int i = 0; i < c; i++)
-	{
-		a *= p;
-		int digit = static_cast<int>(a);
+	double intPart;
+	double fracPart = modf(n, &intPart);  // более точное разделение на целую и дробную часть
+
+	// Добавляем небольшую поправку для компенсации ошибок округления
+	fracPart += 1e-14;
+
+	std::string result;
+	for (int i = 0; i < c; i++) {
+		fracPart *= p;
+		int digit = static_cast<int>(fracPart);
 		result += int_to_Char(digit);
-		a -= digit;
+		fracPart -= digit;
 	}
 	return result;
 }
@@ -80,7 +84,9 @@ std::string Convertor::dbl_to_str(const double& n, const int& p, const int& c)
 	if (n < 0)
 		sign = '-';
 
-	std::string intResult = int_to_P(static_cast<long long int>(abs(n)), p);
+	double intPart;
+	modf(abs(n), &intPart);
+	std::string intResult = int_to_P(static_cast<long long int>(intPart), p);
 	std::string dblResult = c == 0 ? "" : "." + dbl_to_P(abs(n - static_cast<int>(n)), p, c);
 
 	// убираем незначащие нули
