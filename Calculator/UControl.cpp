@@ -123,7 +123,7 @@ std::string TCtrl::doMemCmd(const int& j)
 		// ms (сохранить в пямять)
 	case 22:
 		if (state == cEditing)
-			mem.set(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
+			mem.set(TPNumber(ed.get(), std::to_string(cc), std::to_string(10)));
 		else if (state == cOpDone)
 			mem.set(proc.getLop());
 		else if (state == FunDone)
@@ -136,7 +136,7 @@ std::string TCtrl::doMemCmd(const int& j)
 		// m+ (добавить в память)
 	case 21:
 		if (state == cEditing)
-			mem.add(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
+			mem.add(TPNumber(ed.get(), std::to_string(cc), std::to_string(10)));
 		else if (state == cOpDone)
 			mem.add(proc.getLop());
 		else if (state == FunDone)

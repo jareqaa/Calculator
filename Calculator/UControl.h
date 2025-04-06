@@ -63,7 +63,7 @@ public:
 	int getCC() const { return cc; }
 
 	// изменить точность
-	void setACC(const int& acc_) { acc = acc_; num.setACC(acc_); proc.setACC(acc_); mem.setACC(acc_); }
+	void setACC(const int& acc_) { acc = acc_; num.setACC(acc_); proc.setACC(acc_); }
 
 	// получить точность
 	int getACC() const { return acc; }

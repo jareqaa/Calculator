@@ -15,7 +15,7 @@ private:
 
 public:
 	// конструктор по умолчанию
-	TMemory() : f_number(T()), state(fstate::Off) {}
+	TMemory() : f_number(T()), state(fstate::Off) { f_number.setACC(10); }
 
 	// запись
 	void set(const T& e) { f_number = e; state = fstate::On; }
@@ -40,7 +40,4 @@ public:
 
 	// изменить систему счисления
 	void setCC(const int& cc_) { f_number.setCC(cc_); }
-
-	// изменить точность
-	void setACC(const int& acc_) { f_number.setACC(acc_); }
 };
