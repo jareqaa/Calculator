@@ -37,4 +37,10 @@ public:
 
 	// читать число
 	T getNumber() const { return f_number; }
+
+	// изменить систему счисления
+	void setCC(const int& cc_) { f_number.setCC(cc_); }
+
+	// изменить точность
+	void setACC(const int& acc_) { f_number.setACC(acc_); }
 };

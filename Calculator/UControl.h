@@ -57,13 +57,13 @@ public:
 	void setState(const TCtrlState& st) { state = st; }
 
 	// изменить систему счисления
-	void setCC(const int& cc_) { cc = cc_; num.setCC(cc_); proc.setCC(cc_); }
+	void setCC(const int& cc_) { cc = cc_; num.setCC(cc_); proc.setCC(cc_); mem.setCC(cc_); }
 
 	// получить систему счисления
 	int getCC() const { return cc; }
 
 	// изменить точность
-	void setACC(const int& acc_) { acc = acc_; num.setACC(acc_); proc.setACC(acc_); }
+	void setACC(const int& acc_) { acc = acc_; num.setACC(acc_); proc.setACC(acc_); mem.setACC(acc_); }
 
 	// получить точность
 	int getACC() const { return acc; }
