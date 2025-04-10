@@ -114,6 +114,7 @@
     <ClCompile Include="AboutBox.cpp" />
     <ClCompile Include="Convertor.cpp" />
     <ClCompile Include="UClcPnl.cpp" />
+    <ClCompile Include="UComp.cpp" />
     <ClCompile Include="UControl.cpp" />
     <ClCompile Include="UEditor.cpp" />
     <ClCompile Include="UMemory.cpp" />
@@ -125,6 +126,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Convertor.h" />
+    <ClInclude Include="UComp.h" />
     <ClInclude Include="UFrac.h" />
     <ClInclude Include="UANumber.h" />
     <ClInclude Include="UClcPnl.h">

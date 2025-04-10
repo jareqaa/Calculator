@@ -39,6 +39,9 @@
     <ClCompile Include="AboutBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UComp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UException.h">
@@ -70,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="UFrac.cpp">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UComp.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
