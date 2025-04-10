@@ -36,4 +36,7 @@ public:
 
 	// взять число в виде строки
 	virtual std::string getString() const = 0;
+
+	// получить копию
+	virtual std::unique_ptr<TANumber> clone() const = 0;
 };

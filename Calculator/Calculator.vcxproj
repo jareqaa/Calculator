@@ -116,7 +116,6 @@
     <ClCompile Include="UClcPnl.cpp" />
     <ClCompile Include="UComp.cpp" />
     <ClCompile Include="UControl.cpp" />
-    <ClCompile Include="UEditor.cpp" />
     <ClCompile Include="UMemory.cpp" />
     <ClCompile Include="UPNumber.cpp" />
     <ClCompile Include="UProc.cpp" />

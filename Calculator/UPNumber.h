@@ -45,6 +45,9 @@ public:
 	// число есть 0
 	bool isZero() const override;
 
+	// получить копию
+	std::unique_ptr<TANumber> clone() const override;
+
 	// взять число
 	double getN() const { return n; }
 

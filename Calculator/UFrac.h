@@ -43,6 +43,9 @@ public:
 	// операция возвести в квадрат
 	std::unique_ptr<TANumber> sqr() const override;
 
+	// получить копию
+	std::unique_ptr<TANumber> clone() const override;
+
 	// число есть 0
 	bool isZero() const override;
 

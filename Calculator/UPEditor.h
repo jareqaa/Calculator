@@ -1,40 +1,50 @@
 #pragma once
 #include <string>
 #include "Editor.h"
+#include "UException.h"
 
-class TPEditor : public Editor
+class TPEditor : public Editor 
 {
 public:
-	// конструктор по умолчанию
-	TPEditor() { number = ""; }
+    std::string addDigit(int digit) override 
+    {
+        if (number.size() == 1 && number[0] == '0' || number.size() == 2 && number[1] == '0')
+        {
+            number.pop_back();
+        }
+        number += Convertor::int_to_Char(digit);
+        return number;
+    }
 
-	// проверка является ли число нулем
-	bool isZero() const override { return 0 == stod(number) ? true : false; }
+    std::string addSeparator() override 
+    {
+        if (number.find('.') == std::string::npos) 
+        {
+            if (number.empty() || number == "-") 
+            {
+                number += "0.";
+            }
+            else 
+            {
+                number += ".";
+            }
+        }
+        return number;
+    }
 
-	// добавление минуса
-	std::string addSign() override;
-
-	// добавить p-ичную цифру
-	std::string addDigit(const int& digit) override;
-
-	// добавить разделитель
-	virtual std::string addSeparator();
-
-	// добавить ноль
-	std::string addZero() override;
-
-	// забой символа
-	std::string Bs() override;
-
-	// очистить
-	std::string clear() override;
-
-	// редактировать
-	std::string edit(const int& i);
-
-	// читать строку
-	std::string get() const override { return number; }
-
-	// писать строку
-	void set(const std::string& str) override { number = str; }
+    bool isZero() const override 
+    {
+        if (number.empty() || number == "0" || number == "0." || number == "-0.") 
+        {
+            return true;
+        }
+        try 
+        {
+            return std::stod(number) == 0.0;
+        }
+        catch (...) 
+        {
+            return false;
+        }
+    }
 };

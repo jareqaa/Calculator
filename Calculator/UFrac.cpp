@@ -139,3 +139,9 @@ std::string TFrac::getString() const
 {
 	return std::to_string(a) + "/" + std::to_string(b);
 }
+
+// получить копию
+std::unique_ptr<TANumber> TFrac::clone() const
+{
+	return std::make_unique<TFrac>(*this);
+}

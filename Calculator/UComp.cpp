@@ -284,3 +284,9 @@ TComp TComp::sqrt_(const int& n, const int& i) const
     double angle = (angleRad() + 2 * PI * i) / n;
     return TComp(mod * cos(angle), mod * sin(angle));
 }
+
+// получить копию
+std::unique_ptr<TANumber> TComp::clone() const
+{
+    return std::make_unique<TComp>(*this);
+}

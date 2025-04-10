@@ -15,7 +15,7 @@ private:
 
 	TProc<TPNumber> proc;	// процессор
 
-	TMemory<TPNumber> mem;	// память
+	TMemory mem;	// память
 
 	TPNumber num;			// число (результат выполнения последней команды)
 

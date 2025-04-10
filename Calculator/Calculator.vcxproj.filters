@@ -18,9 +18,6 @@
     <ClCompile Include="UPNumber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UEditor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Convertor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

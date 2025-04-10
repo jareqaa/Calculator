@@ -133,3 +133,9 @@ bool TPNumber::isZero() const
 {
 	return n == 0;
 }
+
+// получить копию
+std::unique_ptr<TANumber> TPNumber::clone() const
+{
+	return std::make_unique<TPNumber>(*this);
+}

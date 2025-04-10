@@ -1,43 +1,74 @@
 #pragma once
 #include <string>
+#include "UANumber.h"
+#include <memory>
 
-template<class T>
 class TMemory
 {
-public: enum fstate { On, Off };	// состояние памяти
+public:
+    enum State { On, Off };
 
 private:
-	// число в памяти
-	T f_number;
-
-	// состояние памяти
-	fstate state;
+    std::unique_ptr<TANumber> f_number;  // Храним число в unique_ptr
+    State state;
 
 public:
-	// конструктор по умолчанию
-	TMemory() : f_number(T()), state(fstate::Off) { f_number.setACC(10); }
+    // Конструктор принимает unique_ptr для явного управления памятью
+    explicit TMemory(std::unique_ptr<TANumber> num = nullptr) : f_number(num ? std::move(num) : nullptr), state(State::Off) {}
 
-	// запись
-	void set(const T& e) { f_number = e; state = fstate::On; }
+    // Запись числа в память
+    void write(std::unique_ptr<TANumber> num) 
+    {
+        f_number = std::move(num);
+        state = State::On;
+    }
 
-	// взять
-	T get() { state = fstate::On; return f_number; }
+    // Получение числа из памяти (с проверкой состояния)
+    std::unique_ptr<TANumber> read() const 
+    {
+        if (state == State::Off || !f_number) 
+        {
+            return nullptr;
+        }
+        return f_number->clone();  // Возвращаем копию числа
+    }
 
-	//добавить
-	void add(const T& e) { f_number = f_number + e; state = fstate::On; }
+    // Добавление числа к содержимому памяти
+    void add(const TANumber& num) 
+    {
+        if (state == State::Off || !f_number) 
+        {
+            throw TException("Memory is empty or disabled");
+        }
+        *f_number = *(*f_number + num);
+    }
 
-	// очистить
-	void clear() { f_number = T(); state = fstate::Off; }
+    // Очистка памяти
+    void clear() 
+    {
+        f_number.reset();
+        state = State::Off;
+    }
 
-	// читать состояние памяти
-	std::string getState() const { return state; }
+    // Получение состояния памяти в виде строки
+    std::string getState() const 
+    {
+        return state == State::On ? "On" : "Off";
+    }
 
-	// изменить состояние памяти
-	void setState(const fstate& st) { state = st; }
+    // Установка состояния памяти
+    void setState(State st) 
+    {
+        state = st;
+        if (state == State::Off) 
+        {
+            f_number.reset();
+        }
+    }
 
-	// читать число
-	T getNumber() const { return f_number; }
-
-	// изменить систему счисления
-	void setCC(const int& cc_) { f_number.setCC(cc_); }
+    // Проверка, есть ли число в памяти
+    bool isEmpty() const 
+    {
+        return !f_number;
+    }
 };

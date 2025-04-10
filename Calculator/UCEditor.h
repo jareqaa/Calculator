@@ -1,21 +1,55 @@
 #pragma once
-#include "UPEditor.h"
 #include "Convertor.h"
 #include "UException.h"
+#include "Editor.h"
 
-class TFEditor : public TPEditor
+class CEditor : public Editor 
 {
-	// добавить разделитель
-	std::string addSeparator()
-	{
-		if (Convertor::dotCounter(number) == 0)
-		{
-			number = number.empty() ? "0." : number + "+ i";
-			return number;
-		}
-		else
-		{
-			throw TException("Ошибка! Неверный ввод...\n");
-		}
-	}
+private:
+    bool isRealPart = true;
+
+public:
+    std::string addDigit(int digit) override 
+    {
+        if (number.size() == 1 && number[0] == '0' || number.size() == 2 && number[1] == '0')
+        {
+            number.pop_back();
+        }
+        number += Convertor::int_to_Char(digit);
+        return number;
+    }
+
+    std::string addSeparator() override 
+    {
+        if (number.find('i') == std::string::npos) 
+        {
+            if (number.empty() || number == "-") 
+            {
+                number += "0+i";
+            }
+            else 
+            {
+                number += "+i";
+            }
+            isRealPart = false;
+        }
+        return number;
+    }
+
+    std::string backspace() override 
+    {
+        Editor::backspace();
+        if (!number.empty() && number.back() == '+') 
+        {
+            isRealPart = true;
+        }
+        return number;
+    }
+
+    std::string clear() override 
+    {
+        Editor::clear();
+        isRealPart = true;
+        return number;
+    }
 };

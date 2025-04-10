@@ -47,6 +47,9 @@ public:
 	// взять дробь строка
 	std::string getString() const override;
 
+	// получить копию
+	std::unique_ptr<TANumber> clone() const override;
+
 	// модуль
 	double abs_() const;
 
