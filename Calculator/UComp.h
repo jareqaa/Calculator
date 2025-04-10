@@ -1,6 +1,7 @@
 #pragma once
 #include "UANumber.h"
 
+// класс комплексных чисел
 class TComp : public TANumber
 {
 	double re;	// действительная часть

@@ -1,6 +1,7 @@
 #pragma once
 #include "UANumber.h"
 
+// класс простых дробей
 class TFrac : public TANumber
 {
 	int a;	// числитель

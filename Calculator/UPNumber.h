@@ -1,6 +1,7 @@
 #pragma once
 #include "UANumber.h"
 
+// класс p-ичных чисел
 class TPNumber : public TANumber
 {
 	double n;	// само число
