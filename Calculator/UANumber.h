@@ -35,5 +35,5 @@ public:
 	virtual std::unique_ptr<TANumber> sqr() const = 0;
 
 	// взять число в виде строки
-	virtual std::string getStringN() const = 0;
+	virtual std::string getString() const = 0;
 };

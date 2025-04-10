@@ -18,7 +18,7 @@ TPNumber::TPNumber(const double& a, const int& cc_, const int& acc_) :
 	}
 
 	n = a;
-	number = getStringN();
+	number = getString();
 }
 
 // конструктор для строкового числа
@@ -37,7 +37,17 @@ TPNumber::TPNumber(const std::string& a, const std::string& cc_, const std::stri
 	}
 	
 	n = Convertor::dval(a, cc);		// получение числа
-	number = getStringN();
+	number = getString();
+}
+
+// оператор ==
+bool TPNumber::operator==(const TANumber& other) const
+{
+	const TPNumber* otherPtr = dynamic_cast<const TPNumber*>(&other);
+
+	if (!otherPtr) throw TException("Ошибка! Неверный тип...\n");
+
+	return n == otherPtr->n;
 }
 
 // операция сложить
@@ -101,7 +111,7 @@ std::unique_ptr<TANumber> TPNumber::operator/(const TANumber& other) const
 }
 
 // взять число в виде строки
-std::string TPNumber::getStringN() const
+std::string TPNumber::getString() const
 {
 	return Convertor::dbl_to_str(n, cc, acc);
 }

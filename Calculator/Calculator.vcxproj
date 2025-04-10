@@ -125,6 +125,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Convertor.h" />
+    <ClInclude Include="UFrac.h" />
     <ClInclude Include="UANumber.h" />
     <ClInclude Include="UClcPnl.h">
       <FileType>CppForm</FileType>
@@ -132,6 +133,7 @@
     <ClInclude Include="UControl.h" />
     <ClInclude Include="UEditor.h" />
     <ClInclude Include="UException.h" />
+    <ClInclude Include="UFrac.cpp" />
     <ClInclude Include="UPNumber.h" />
   </ItemGroup>
   <ItemGroup>

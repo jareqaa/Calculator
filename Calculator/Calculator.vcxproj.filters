@@ -65,5 +65,11 @@
     <ClInclude Include="UPNumber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UFrac.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UFrac.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
