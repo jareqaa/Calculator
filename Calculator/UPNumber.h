@@ -48,6 +48,9 @@ public:
 	// получить копию
 	std::unique_ptr<TANumber> clone() const override;
 
+	// оператор =
+	TANumber& operator=(const TANumber& other) override;
+
 	// взять число
 	double getN() const { return n; }
 

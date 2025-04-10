@@ -1,5 +1,17 @@
+#pragma once
 #include "UControl.h"
-#include "Convertor.h"
+#include "UPNumber.h"
+#include "UPEditor.h"
+#include "UComp.h"
+#include "UCEditor.h"
+// #include "UFrac.h"
+#include "UFEditor.h"
+
+// конструктор
+TCtrl::TCtrl(mode m) : md(m)
+{
+	setCalcToStart(0);
+}
 
 // выполнить команду калькулятора
 std::string TCtrl::doClcCmd(const int& j, const std::string& str)
@@ -31,51 +43,45 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 {
 	if (state == TCtrlState::cOpDone)
 	{
-		proc.setOperation(TProc<TPNumber>::None);
+		proc.setOperation(TProc::None);
 	}
 	switch (j)
 	{
-	case 0:  ed.addZero(); break;																// 0
-	case 16: if (state == TCtrlState::cOpDone) ed.set(num.getStringN()); ed.addSign(); break;	// -
-	case 17: if (ed.get().empty()) ed.addZero(); ed.addSeparator(); break;							// .
-	case 18: ed.Bs(); break;																	// backSpace
-	case 19: ed.clear(); break;																	// Clear
-	case 20:																					// clear + reset (память остается неизмененной)
-		ed.clear(); state = TCtrlState::cStart; 
-		ed = TPEditor();
-		proc = TProc<TPNumber>();
-		num = TPNumber();
-		break;	
+	case 0:  ed->addZero(); break;																// 0
+	case 16: if (state == TCtrlState::cOpDone) ed->set(num->getString()); ed->addSign(); break;	// -
+	case 17: if (ed->get().empty()) ed->addZero(); ed->addSeparator(); break;					// .
+	case 18: ed->Bs(); break;																	// backSpace
+	case 19: ed->clear(); break;																// Clear
+	case 20: setCalcToStart(0);																	// clear + reset (память остается неизмененной)
 
-	case 100: ed.set(str); return "";	// писать строку
+	case 100: ed->set(str); return "";	// писать строку
 
 	default:						// adddigit
 		if (j < 16 && j > 0)
 		{
-			ed.addDigit(j);
+			ed->addDigit(j);
 		}
 		break;
 	}
 
 	state = TCtrlState::cEditing;
-
-	ed_n = Convertor::dval(ed.get(), cc);
+	ed_n = Convertor::dval(ed->get(), cc);
 	if (proc.getOperation() == proc.None)
 	{
-		return ed.get();
+		return ed->get();
 	}
 	else
 	{
 		std::string operationSymbol;
 		switch (proc.getOperation())
 		{
-		case TProc<TPNumber>::TOptn::Add: operationSymbol = "+"; break;
-		case TProc<TPNumber>::TOptn::Sub: operationSymbol = "-"; break;
-		case TProc<TPNumber>::TOptn::Mul: operationSymbol = "*"; break;
-		case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
+		case TProc::TOptn::Add: operationSymbol = "+"; break;
+		case TProc::TOptn::Sub: operationSymbol = "-"; break;
+		case TProc::TOptn::Mul: operationSymbol = "*"; break;
+		case TProc::TOptn::Dvd: operationSymbol = "/"; break;
 		default: operationSymbol = ""; break;
 		}
-		return proc.getLop().getStringN() + " " + operationSymbol + " " + ed.get();
+		return proc.getLop()->getString() + " " + operationSymbol + " " + ed->get();
 	}
 }
 
@@ -88,62 +94,43 @@ std::string TCtrl::doMemCmd(const int& j)
 	case 24:
 		mem.clear();
 		state = TCtrlState::cEditing;
-		mem.setState(TMemory<TPNumber>::fstate::Off);
+		mem.setState(TMemory::fstate::Off);
 		break;
 
 		// mr (вставка из памяти)
 	case 23:
 		if (state == TCtrlState::cOpDone)
 		{
-			proc.setOperation(TProc<TPNumber>::None);
+			proc.setOperation(TProc::None);
 		}
 		state = TCtrlState::cEditing;
-		mem.setState(TMemory<TPNumber>::fstate::On);
-		ed.set(mem.getNumber().getStringN());
-		ed_n = Convertor::dval(ed.get(), cc);
+		mem.setState(TMemory::fstate::On);
+		ed->set(mem.get()->getString());
 
 		if (proc.getOperation() == proc.None)
 		{
-			return mem.get().getStringN();
+			return mem.get()->getString();
 		}
 		else
 		{
 			std::string operationSymbol;
 			switch (proc.getOperation())
 			{
-			case TProc<TPNumber>::TOptn::Add: operationSymbol = "+"; break;
-			case TProc<TPNumber>::TOptn::Sub: operationSymbol = "-"; break;
-			case TProc<TPNumber>::TOptn::Mul: operationSymbol = "*"; break;
-			case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
+			case TProc::TOptn::Add: operationSymbol = "+"; break;
+			case TProc::TOptn::Sub: operationSymbol = "-"; break;
+			case TProc::TOptn::Mul: operationSymbol = "*"; break;
+			case TProc::TOptn::Dvd: operationSymbol = "/"; break;
 			default: operationSymbol = ""; break;
 			}
-			return proc.getLop().getStringN() + " " + operationSymbol + " " + mem.get().getStringN();
+			return proc.getLop()->getString() + " " + operationSymbol + " " + mem.get()->getString();
 		}
 		
 		// ms (сохранить в пямять)
 	case 22:
-		if (state == cEditing)
-			mem.set(TPNumber(ed.get(), std::to_string(cc), std::to_string(10)));
-		else if (state == cOpDone)
-			mem.set(proc.getLop());
-		else if (state == FunDone)
-			mem.set(proc.getRop());
-		else if (state == cOpChange)
-			mem.set(proc.getLop());
-		mem.setState(TMemory<TPNumber>::fstate::On);
 		return "N";
 		 
 		// m+ (добавить в память)
 	case 21:
-		if (state == cEditing)
-			mem.add(TPNumber(ed.get(), std::to_string(cc), std::to_string(10)));
-		else if (state == cOpDone)
-			mem.add(proc.getLop());
-		else if (state == FunDone)
-			mem.add(proc.getRop());
-		else if (state == cOpChange)
-			mem.add(proc.getLop());
-		mem.setState(TMemory<TPNumber>::fstate::On);
 		return "N";
 
 	default:
@@ -163,11 +150,27 @@ std::string TCtrl::setCalcToStart(const int& j)
 	{
 		state = TCtrlState::cStart;
 	}
-	ed = TPEditor(); 
-	proc = TProc<TPNumber>();
-	mem = TMemory<TPNumber>();
-	num = TPNumber();
-	return ed.get();
+
+	switch (md)
+	{
+	case PNumbers:
+		ed = std::make_unique<TPEditor>();
+		num = std::make_unique<TPNumber>();
+		break;
+
+	case CNumbers:
+		ed = std::make_unique<CEditor>();
+		num = std::make_unique<TComp>();
+		break;
+
+	case FNumbers:
+		/*ed = std::make_unique<FEditor>();
+		num = std::make_unique<TFrac>();*/
+		break;
+	}
+	proc = TProc();
+	mem = TMemory();
+	return ed->get();
 }
 
 // выполнить операцию
@@ -180,77 +183,103 @@ std::string TCtrl::doOperation(const int& j)
 	}
 
 	// Определяем тип операции
-	TProc<TPNumber>::TOptn operation;
+	TProc::TOptn operation;
 	switch (j) 
 	{
-	case 25: operation = TProc<TPNumber>::TOptn::None; break;  // =
-	case 26: operation = TProc<TPNumber>::TOptn::Add; break;   // +
-	case 27: operation = TProc<TPNumber>::TOptn::Sub; break;   // -
-	case 28: operation = TProc<TPNumber>::TOptn::Mul; break;   // *
-	case 29: operation = TProc<TPNumber>::TOptn::Dvd; break;   // /
+	case 25: operation = TProc::TOptn::None; break;  // =
+	case 26: operation = TProc::TOptn::Add; break;   // +
+	case 27: operation = TProc::TOptn::Sub; break;   // -
+	case 28: operation = TProc::TOptn::Mul; break;   // *
+	case 29: operation = TProc::TOptn::Dvd; break;   // /
 	default: throw TException("Ошибка! Неверная операция...\n");
 	}
 
 	// Обработка операции "="
-	if (operation == TProc<TPNumber>::TOptn::None) 
+	if (operation == TProc::TOptn::None) 
 	{
 		if (state == TCtrlState::cOpChange) 
 		{
 			proc.setRop(proc.getLop());
 		}
-		else if (proc.getOperation() == TProc<TPNumber>::TOptn::None && state == TCtrlState::FunDone)
+		else if (proc.getOperation() == TProc::TOptn::None && state == TCtrlState::FunDone)
 		{
-			return num.getStringN();
+			return num->getString();
 		}
-		else if (proc.getOperation() == TProc<TPNumber>::TOptn::None)
+		else if (proc.getOperation() == TProc::TOptn::None)
 		{
-			return ed.get();
+			return ed->get();
 		}
 		else if (state == TCtrlState::cEditing) 
 		{
-			proc.setRop(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
+			switch (md)
+			{
+			case PNumbers:
+				proc.setRop(std::make_unique<TPNumber>(ed->get(), std::to_string(cc), std::to_string(acc)));
+				break;
+
+			case CNumbers:
+				proc.setRop(std::make_unique<TComp>(ed->get()));
+				break;
+
+			case FNumbers:
+				// proc.setRop(std::make_unique<TFrac>(ed->get()));
+				break;
+			}
 		}
 
-		auto tmp = proc.getLop().getStringN();
+		auto tmp = proc.getLop()->getString();
 		proc.doOperation();
-		ed.clear();
+		ed->clear();
 		setState(TCtrlState::cOpDone);
 		num = proc.getLop();
 		if (proc.getOperation() == proc.None)
 		{
-			return ed.get();
+			return ed->get();
 		}
 		else
 		{
 			std::string operationSymbol;
 			switch (proc.getOperation())
 			{
-			case TProc<TPNumber>::TOptn::Add: operationSymbol = "+"; break;
-			case TProc<TPNumber>::TOptn::Sub: operationSymbol = "-"; break;
-			case TProc<TPNumber>::TOptn::Mul: operationSymbol = "*"; break;
-			case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
+			case TProc::TOptn::Add: operationSymbol = "+"; break;
+			case TProc::TOptn::Sub: operationSymbol = "-"; break;
+			case TProc::TOptn::Mul: operationSymbol = "*"; break;
+			case TProc::TOptn::Dvd: operationSymbol = "/"; break;
 			default: operationSymbol = ""; break;
 			}
-			return tmp + " " + operationSymbol + " " + proc.getRop().getStringN() + " = " + proc.getLop().getStringN();
+			return tmp + " " + operationSymbol + " " + proc.getRop()->getString() + " = " + proc.getLop()->getString();
 		}
 	}
 
 	// Обработка операций "+", "-", "*", "/"
-	if (proc.getOperation() != TProc<TPNumber>::TOptn::None && state != TCtrlState::cOpDone)
+	if (proc.getOperation() != TProc::TOptn::None && state != TCtrlState::cOpDone)
 	{
 		doOperation(25);  // Выполняем предыдущую операцию
 	}
-	else if (!ed.get().empty()) 
+	else if (state == TCtrlState::cOpDone)
 	{
-		proc.setLop(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
+		proc.setLop(num->clone());
 	}
-	else 
+	else
 	{
-		proc.setLop(num);
+		switch (md)
+		{
+		case PNumbers:
+			proc.setLop(std::make_unique<TPNumber>(ed->get(), std::to_string(cc), std::to_string(acc)));
+			break;
+
+		case CNumbers:
+			proc.setLop(std::make_unique<TComp>(ed->get()));
+			break;
+
+		case FNumbers:
+			// proc.setLop(std::make_unique<TFrac>(ed->get()));
+			break;
+		}
 	}
 	setState(TCtrlState::cValDone);
 	auto tmp = ed.get();
-	ed.clear();
+	ed->clear();
 	proc.setOperation(operation);
 	setState(TCtrlState::cOpChange);
 
@@ -258,14 +287,14 @@ std::string TCtrl::doOperation(const int& j)
 	std::string operationSymbol;
 	switch (operation) 
 	{
-	case TProc<TPNumber>::TOptn::Add: operationSymbol = "+"; break;
-	case TProc<TPNumber>::TOptn::Sub: operationSymbol = "-"; break;
-	case TProc<TPNumber>::TOptn::Mul: operationSymbol = "*"; break;
-	case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
+	case TProc::TOptn::Add: operationSymbol = "+"; break;
+	case TProc::TOptn::Sub: operationSymbol = "-"; break;
+	case TProc::TOptn::Mul: operationSymbol = "*"; break;
+	case TProc::TOptn::Dvd: operationSymbol = "/"; break;
 	default: operationSymbol = ""; break;
 	}
 
-	return proc.getLop().getStringN() + " " + operationSymbol;
+	return proc.getLop()->getString() + " " + operationSymbol;
 }
 
 // выполнить функцию
@@ -278,32 +307,45 @@ std::string TCtrl::doFunc(const int& j)
 	}
 
 	// Определяем тип функции
-	TProc<TPNumber>::TFunc func;
+	TProc::TFunc func;
 	switch (j) 
 	{
-	case 30: func = TProc<TPNumber>::TFunc::Sqr; break;
-	case 31: func = TProc<TPNumber>::TFunc::Rev; break;
+	case 30: func = TProc::TFunc::Sqr; break;
+	case 31: func = TProc::TFunc::Rev; break;
 	default: throw TException("Ошибка! Неверная операция...\n");
 	}
 
 	// Устанавливаем операнд
 	if (state == TCtrlState::cOpDone) 
 	{
-		proc.setRop(num);
+		proc.setRop(num->clone());
 		proc.resetOperation();
 	}
 	else if (state != TCtrlState::FunDone) 
 	{
-		proc.setRop(TPNumber(ed.get(), std::to_string(cc), std::to_string(acc)));
+		switch (md)
+		{
+		case PNumbers:
+			proc.setRop(std::make_unique<TPNumber>(ed->get(), std::to_string(cc), std::to_string(acc)));
+			break;
+
+		case CNumbers:
+			proc.setRop(std::make_unique<TComp>(ed->get()));
+			break;
+
+		case FNumbers:
+			// proc.setRop(std::make_unique<TFrac>(ed->get()));
+			break;
+		}
 	}
 
-	auto tmp = proc.getRop().getStringN();
+	auto tmp = proc.getRop()->getString();
 	// Выполняем функцию
 	proc.doFunction(func);
 
 	// Обновляем состояние и результат
 	setState(TCtrlState::FunDone);
-	ed.clear();
+	ed->clear();
 	num = proc.getRop();
 
 	// Возвращаем результат
@@ -313,9 +355,9 @@ std::string TCtrl::doFunc(const int& j)
 		switch (func)
 		{
 		case proc.Sqr:
-			return "sqr(" + tmp + ") = " + proc.getRop().getStringN();
+			return "sqr(" + tmp + ") = " + proc.getRop()->getString();
 		case proc.Rev:
-			return "1/" + tmp + " = " + proc.getRop().getStringN();
+			return "1/" + tmp + " = " + proc.getRop()->getString();
 		}
 	}
 	else
@@ -323,18 +365,18 @@ std::string TCtrl::doFunc(const int& j)
 		std::string operationSymbol;
 		switch (proc.getOperation())
 		{
-		case TProc<TPNumber>::TOptn::Add: operationSymbol = "+"; break;
-		case TProc<TPNumber>::TOptn::Sub: operationSymbol = "-"; break;
-		case TProc<TPNumber>::TOptn::Mul: operationSymbol = "*"; break;
-		case TProc<TPNumber>::TOptn::Dvd: operationSymbol = "/"; break;
+		case TProc::TOptn::Add: operationSymbol = "+"; break;
+		case TProc::TOptn::Sub: operationSymbol = "-"; break;
+		case TProc::TOptn::Mul: operationSymbol = "*"; break;
+		case TProc::TOptn::Dvd: operationSymbol = "/"; break;
 		default: operationSymbol = ""; break;
 		}
 		switch (func)
 		{
 		case proc.Sqr:
-			return proc.getLop().getStringN() + " " + operationSymbol + "sqr(" + tmp + ")";
+			return proc.getLop()->getString() + " " + operationSymbol + "sqr(" + tmp + ")";
 		case proc.Rev:
-			return proc.getLop().getStringN() + " " + operationSymbol + "1/" + tmp;
+			return proc.getLop()->getString() + " " + operationSymbol + "1/" + tmp;
 		}
 	}
 }
@@ -342,5 +384,5 @@ std::string TCtrl::doFunc(const int& j)
 // вычислить выражение
 std::string TCtrl::calcExpression(const int& j)
 {
-	return proc.getLop().getStringN();
+	return proc.getLop()->getString();
 }

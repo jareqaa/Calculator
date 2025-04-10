@@ -1,109 +1,99 @@
 #pragma once
-#include "UPNumber.h"
+#include "UANumber.h"
+#include <memory>
 
-template<class T>
 class TProc
 {
 public:
-	enum TOptn { None, Add, Sub, Mul, Dvd };	// двухоперандные операции
-
-	enum TFunc { Rev, Sqr };					// однооперандные операции
+    enum TOptn { None, Add, Sub, Mul, Dvd };  // двухоперандные операции
+    enum TFunc { Rev, Sqr };                  // однооперандные операции
 
 private:
-
-	T Lop_Res;									// левый операнд и результат операции
-
-	T Rop;										//правый операнд
-
-	TOptn operation;							// состояние процессора
+    std::unique_ptr<TANumber> Lop_Res;        // левый операнд и результат
+    std::unique_ptr<TANumber> Rop;            // правый операнд
+    TOptn operation;                          // текущая операция
 
 public:
-	
-	// конструктор по умолчаниию
-	TProc() : Lop_Res(T()), Rop(T()), operation(TOptn::None) {}
+    // Конструктор по умолчанию
+    TProc() : operation(None) 
+    {
+        resetProc();
+    }
 
-	// сброс процессора
-	void resetProc() { Lop_Res = T(), Rop = T(), operation = TOptn::None; }
+    // Сброс процессора
+    void resetProc() 
+    {
+        Lop_Res = nullptr;  // Дефолтное значение
+        Rop = nullptr;      // Дефолтное значение
+        operation = None;
+    }
 
-	// сброс операции
-	void resetOperation() { operation = TOptn::None; }
+    // Сброс операции
+    void resetOperation() 
+    {
+        operation = None;
+    }
 
-	// выполнить операцию
-	void doOperation();
+    // Выполнить операцию
+    void doOperation() 
+    {
+        if (!Lop_Res || !Rop) return;
 
-	// вычислить функцию
-	void doFunction(const TFunc& func);
+        switch (operation) 
+        {
+        case Add: *Lop_Res = *(*Lop_Res + *Rop); break;
+        case Sub: *Lop_Res = *(*Lop_Res - *Rop); break;
+        case Mul: *Lop_Res = *(*Lop_Res * *Rop); break;
+        case Dvd: *Lop_Res = *(*Lop_Res / *Rop); break;
+        default: break;
+        }
+    }
 
-	// читать левый операнд
-	T getLop() const { return Lop_Res; }
+    // Вычислить функцию
+    void doFunction(const TFunc& func) 
+    {
+        if (!Rop) return;
 
-	// записать левый операнд
-	void setLop(const T& operand) { Lop_Res = operand; }
+        switch (func) 
+        {
+        case Rev: *Rop = *Rop->rev(); break;
+        case Sqr: *Rop = *Rop->sqr(); break;
+        default: break;
+        }
+    }
 
-	// читать правый операнд
-	T getRop() const { return Rop; }
+    // Чтение левого операнда (возвращает копию)
+    std::unique_ptr<TANumber> getLop() const 
+    {
+        return Lop_Res ? Lop_Res->clone() : nullptr;
+    }
 
-	// записать правый операнд
-	void setRop(const T& operand) { Rop = operand; }
+    // Запись левого операнда
+    void setLop(std::unique_ptr<TANumber> num) 
+    {
+        Lop_Res = std::move(num);
+    }
 
-	// изменить систему счисления
-	void setCC(const int& cc_) { Rop.setCC(cc_); Lop_Res.setCC(cc_); }
+    // Чтение правого операнда (возвращает копию)
+    std::unique_ptr<TANumber> getRop() const 
+    {
+        return Rop ? Rop->clone() : nullptr;
+    }
 
-	// изменить точность
-	void setACC(const int& cc_) { Rop.setACC(cc_); Lop_Res.setACC(cc_); }
+    // Запись правого операнда
+    void setRop(std::unique_ptr<TANumber> num) 
+    {
+        Rop = std::move(num);
+    }
 
-	// читать состояние
-	TOptn getOperation() const { return operation; }
+    // Чтение состояния
+    TOptn getOperation() const 
+    {
+        return operation;
+    }
 
-	// записать состояние
-	void setOperation(const TOptn& optn) { operation = optn; }
+    // Запись состояния
+    void setOperation(const TOptn& optn) {
+        operation = optn;
+    }
 };
-
-// выполнить операцию
-template<class T>
-void TProc<T>::doOperation()
-{
-	switch (operation)
-	{
-	case TOptn::None:
-		break;
-
-	case TOptn::Add:
-		Lop_Res = Lop_Res + Rop;
-		break;
-
-	case TOptn::Sub:
-		Lop_Res = Lop_Res - Rop;
-		break;
-
-	case TOptn:: Mul:
-		Lop_Res = Lop_Res * Rop;
-		break;
-
-	case TOptn::Dvd:
-		Lop_Res = Lop_Res / Rop;
-		break;
-
-	default:
-		break;
-	}
-}
-
-// вычислить функцию
-template<class T>
-void TProc<T>::doFunction(const TFunc& func)
-{
-	switch (func)
-	{
-	case TFunc::Rev:
-		Rop = TPNumber(1, Rop.getCC(), Rop.getACC()) / Rop;
-		break;
-
-	case TFunc::Sqr:
-		Rop = Rop * Rop;
-		break;
-
-	default:
-		break;
-	}
-}

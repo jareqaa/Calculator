@@ -2,31 +2,32 @@
 #include <string>
 #include "UANumber.h"
 #include <memory>
+#include "UException.h"
 
 class TMemory
 {
 public:
-    enum State { On, Off };
+    enum fstate { On, Off };
 
 private:
     std::unique_ptr<TANumber> f_number;  // Храним число в unique_ptr
-    State state;
+    fstate state;
 
 public:
     // Конструктор принимает unique_ptr для явного управления памятью
-    explicit TMemory(std::unique_ptr<TANumber> num = nullptr) : f_number(num ? std::move(num) : nullptr), state(State::Off) {}
+    explicit TMemory(std::unique_ptr<TANumber> num = nullptr) : f_number(num ? std::move(num) : nullptr), state(fstate::Off) {}
 
     // Запись числа в память
-    void write(std::unique_ptr<TANumber> num) 
+    void set(std::unique_ptr<TANumber> num)
     {
         f_number = std::move(num);
-        state = State::On;
+        state = fstate::On;
     }
 
     // Получение числа из памяти (с проверкой состояния)
-    std::unique_ptr<TANumber> read() const 
+    std::unique_ptr<TANumber> get() const 
     {
-        if (state == State::Off || !f_number) 
+        if (state == fstate::Off || !f_number)
         {
             return nullptr;
         }
@@ -36,7 +37,7 @@ public:
     // Добавление числа к содержимому памяти
     void add(const TANumber& num) 
     {
-        if (state == State::Off || !f_number) 
+        if (state == fstate::Off || !f_number)
         {
             throw TException("Memory is empty or disabled");
         }
@@ -47,20 +48,20 @@ public:
     void clear() 
     {
         f_number.reset();
-        state = State::Off;
+        state = fstate::Off;
     }
 
     // Получение состояния памяти в виде строки
     std::string getState() const 
     {
-        return state == State::On ? "On" : "Off";
+        return state == fstate::On ? "On" : "Off";
     }
 
     // Установка состояния памяти
-    void setState(State st) 
+    void setState(fstate st)
     {
         state = st;
-        if (state == State::Off) 
+        if (state == fstate::Off)
         {
             f_number.reset();
         }

@@ -290,3 +290,14 @@ std::unique_ptr<TANumber> TComp::clone() const
 {
     return std::make_unique<TComp>(*this);
 }
+
+// оператор =
+TANumber& TComp::operator=(const TANumber& other)
+{
+    const TComp* otherPtr = dynamic_cast<const TComp*>(&other);
+    if (!otherPtr) throw TException("Invalid type");
+
+    this->re = otherPtr->re;
+    this->im = otherPtr->im;
+    return *this;
+}

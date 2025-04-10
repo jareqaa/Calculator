@@ -12,6 +12,4 @@ public:
 
 	// получение сообщения об ошибке
 	const char* what() const noexcept override { return message.c_str(); }
-
-
 };

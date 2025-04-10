@@ -40,7 +40,7 @@ namespace Calculator
 				delete components;
 			}
 		}
-	private: TCtrl* ctrl = new TCtrl();
+	private: TCtrl* ctrl = new TCtrl(TCtrl::PNumbers);
 	private: System::Windows::Forms::Button^ button1;
 	protected:
 	private: System::Windows::Forms::Button^ button2;

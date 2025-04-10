@@ -1,33 +1,35 @@
 #pragma once
-#include "UPEditor.h"
-#include "UPNumber.h"
 #include "UMemory.cpp"
 #include "UProc.cpp"
+#include "Editor.h"
 
 class TCtrl
 {
 public: enum TCtrlState { cStart, cEditing, FunDone, cValDone, cExpDone, cOpChange, cOpDone, cError };	// состояния контроллера
+public: enum mode { PNumbers, FNumbers, CNumbers };	// режимы работы калькулятора
 
 private:
-	TCtrlState state;		// состояние контроллера
+	TCtrlState state;				// состояние контроллера
+	
+	std::unique_ptr<Editor> ed;		// редактор
 
-	TPEditor ed;				// редактор
+	TProc proc;						// процессор
 
-	TProc<TPNumber> proc;	// процессор
+	TMemory mem;					// память
 
-	TMemory mem;	// память
+	std::unique_ptr<TANumber> num;	// число (результат выполнения последней команды)
 
-	TPNumber num;			// число (результат выполнения последней команды)
+	int cc = 10;					// система счисления
 
-	double ed_n;			// число редактора
+	int acc = 0;					// точность
 
-	int cc;					// система счисления
+	double ed_n;
 
-	int acc;				// точность
+	mode md;						// режим работы
 
 public:
-	// конструктор по умолчанию
-	TCtrl() : state(TCtrlState::cStart), ed(TPEditor()), proc(TProc<TPNumber>()), mem(TMemory<TPNumber>()), num(TPNumber()), cc(10), acc(0), ed_n(0) {}
+	// конструктор
+	TCtrl(mode m);
 
 	// выполнить команду калькулятора
 	std::string doClcCmd(const int& j, const std::string& str = "");
@@ -57,20 +59,21 @@ public:
 	void setState(const TCtrlState& st) { state = st; }
 
 	// изменить систему счисления
-	void setCC(const int& cc_) { cc = cc_; num.setCC(cc_); proc.setCC(cc_); mem.setCC(cc_); }
+	void setCC(const int& cc_) { cc = cc_; }
 
 	// получить систему счисления
 	int getCC() const { return cc; }
 
 	// изменить точность
-	void setACC(const int& acc_) { acc = acc_; num.setACC(acc_); proc.setACC(acc_); }
+	void setACC(const int& acc_) { acc = acc_; }
 
 	// получить точность
 	int getACC() const { return acc; }
 
 	// получить результат послденей операции
-	std::string getNum() const { return num.getStringN(); }
+	std::string getNum() const { return num->getString(); }
 
-	// получить ed_n
 	double getEdN() const { return ed_n; }
+
+	std::string getEdNum() const { return ed->get(); }
 };

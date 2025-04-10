@@ -1,5 +1,7 @@
+#pragma once
 #include "UPNumber.h"
 #include "Convertor.h"
+#include "UException.h"
 
 // конструктор для вещественного числа
 TPNumber::TPNumber(const double& a, const int& cc_, const int& acc_) :
@@ -138,4 +140,16 @@ bool TPNumber::isZero() const
 std::unique_ptr<TANumber> TPNumber::clone() const
 {
 	return std::make_unique<TPNumber>(*this);
+}
+
+// оператор =
+TANumber& TPNumber::operator=(const TANumber& other)
+{
+	const TPNumber* otherPtr = dynamic_cast<const TPNumber*>(&other);
+	if (!otherPtr) throw TException("Invalid type");
+
+	this->n = otherPtr->n;
+	this->cc = otherPtr->cc;
+	this->acc = otherPtr->acc;
+	return *this;
 }

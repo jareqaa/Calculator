@@ -1,4 +1,5 @@
-﻿#include "UClcPnl.h"
+﻿#pragma once
+#include "UClcPnl.h"
 
 #include <Windows.h>
 

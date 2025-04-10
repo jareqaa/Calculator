@@ -1,7 +1,6 @@
 #pragma once
-#include <string>
-#include "UException.h"
 #include <memory>
+#include <string>
 
 class TANumber
 {
@@ -39,4 +38,7 @@ public:
 
 	// получить копию
 	virtual std::unique_ptr<TANumber> clone() const = 0;
+
+	// оператор =
+	virtual TANumber& operator=(const TANumber& other) = 0;
 };

@@ -46,6 +46,9 @@ public:
 	// получить копию
 	std::unique_ptr<TANumber> clone() const override;
 
+	// оператор =
+	TANumber& operator=(const TANumber& other) override;
+
 	// число есть 0
 	bool isZero() const override;
 

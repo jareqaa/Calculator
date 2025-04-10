@@ -30,7 +30,7 @@ public:
     }
 
     // Удаление последнего символа
-    virtual std::string backspace() 
+    virtual std::string Bs()
     {
         if (number.empty()) 
         {
@@ -39,7 +39,7 @@ public:
         number.pop_back();
         if (number.empty() || number == "-") 
         {
-            number = "0";
+            number = "";
         }
         return number;
     }
@@ -47,18 +47,18 @@ public:
     // Очистка редактора
     virtual std::string clear() 
     {
-        number = "0";
+        number.clear();
         return number;
     }
 
     // Установка значения
-    virtual void setNumber(const std::string& num) 
+    virtual void set(const std::string& num) 
     {
         number = num.empty() ? "0" : num;
     }
 
     // Получение значения
-    virtual std::string getNumber() const 
+    virtual std::string get() const 
     {
         return number.empty() ? "0" : number;
     }

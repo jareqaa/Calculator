@@ -145,3 +145,14 @@ std::unique_ptr<TANumber> TFrac::clone() const
 {
 	return std::make_unique<TFrac>(*this);
 }
+
+// оператор =
+TANumber& TFrac::operator=(const TANumber& other)
+{
+	const TFrac* otherPtr = dynamic_cast<const TFrac*>(&other);
+	if (!otherPtr) throw TException("Invalid type");
+
+	this->a = otherPtr->a;
+	this->b = otherPtr->b;
+	return *this;
+}

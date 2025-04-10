@@ -50,6 +50,9 @@ public:
 	// получить копию
 	std::unique_ptr<TANumber> clone() const override;
 
+	// оператор =
+	TANumber& operator=(const TANumber& other) override;
+
 	// модуль
 	double abs_() const;
 

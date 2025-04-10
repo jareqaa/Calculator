@@ -1,3 +1,4 @@
+#pragma once
 #include "Convertor.h"
 #include "UException.h"
 

@@ -36,9 +36,9 @@ public:
         return number;
     }
 
-    std::string backspace() override 
+    std::string Bs() override
     {
-        Editor::backspace();
+        Editor::Bs();
         if (!number.empty() && number.back() == '+') 
         {
             isRealPart = true;
