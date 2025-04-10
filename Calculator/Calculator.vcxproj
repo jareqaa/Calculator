@@ -125,6 +125,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Convertor.h" />
+    <ClInclude Include="UANumber.h" />
     <ClInclude Include="UClcPnl.h">
       <FileType>CppForm</FileType>
     </ClInclude>

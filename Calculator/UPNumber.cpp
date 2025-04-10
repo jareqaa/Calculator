@@ -1,5 +1,4 @@
 #include "UPNumber.h"
-#include <stdexcept>
 #include "Convertor.h"
 
 // конструктор для вещественного числа
@@ -19,6 +18,7 @@ TPNumber::TPNumber(const double& a, const int& cc_, const int& acc_) :
 	}
 
 	n = a;
+	number = getStringN();
 }
 
 // конструктор для строкового числа
@@ -37,59 +37,89 @@ TPNumber::TPNumber(const std::string& a, const std::string& cc_, const std::stri
 	}
 	
 	n = Convertor::dval(a, cc);		// получение числа
+	number = getStringN();
 }
 
 // операция сложить
-TPNumber TPNumber::operator+(const TPNumber& other) const
+std::unique_ptr<TANumber> TPNumber::operator+(const TANumber& other) const
 {
-	if (cc != other.cc || acc != other.acc)
+	const TPNumber* otherPtr = dynamic_cast<const TPNumber*>(&other);
+
+	if (!otherPtr) throw TException("Ошибка! Неверный тип...\n");
+
+	if (cc != otherPtr->cc || acc != otherPtr->acc)
 	{
 		throw TException("Ошибка! Неверный операнд...\n");
 	}
-	return TPNumber(n + other.n, cc, acc);
+
+	return std::make_unique<TPNumber>(n + otherPtr->n, cc, acc);
 }
 
 // операция умножить
-TPNumber TPNumber::operator*(const TPNumber& other) const
+std::unique_ptr<TANumber> TPNumber::operator*(const TANumber& other) const
 {
-	if (cc != other.cc || acc != other.acc)
+	const TPNumber* otherPtr = dynamic_cast<const TPNumber*>(&other);
+
+	if (!otherPtr) throw TException("Ошибка! Неверный тип...\n");
+
+	if (cc != otherPtr->cc || acc != otherPtr->acc)
 	{
 		throw TException("Ошибка! Неверный операнд...\n");
 	}
 
-	return TPNumber(n * other.n, cc, acc);
+	return std::make_unique<TPNumber>(n * otherPtr->n, cc, acc);
 }
 
 // операция вычесть
-TPNumber TPNumber::operator-(const TPNumber& other) const
+std::unique_ptr<TANumber> TPNumber::operator-(const TANumber& other) const
 {
-	if (cc != other.cc || acc != other.acc)
+	const TPNumber* otherPtr = dynamic_cast<const TPNumber*>(&other);
+
+	if (!otherPtr) throw TException("Ошибка! Неверный тип...\n");
+
+	if (cc != otherPtr->cc || acc != otherPtr->acc)
 	{
 		throw TException("Ошибка! Неверный операнд...\n");
 	}
 
-	auto g = n - other.n;
-	return TPNumber(n - other.n, cc, acc);
+	return std::make_unique<TPNumber>(n - otherPtr->n, cc, acc);
 }
 
 // операция делить
-TPNumber TPNumber::operator/(const TPNumber& other) const
+std::unique_ptr<TANumber> TPNumber::operator/(const TANumber& other) const
 {
-	if (cc != other.cc || acc != other.acc)
+	const TPNumber* otherPtr = dynamic_cast<const TPNumber*>(&other);
+
+	if (!otherPtr) throw TException("Ошибка! Неверный тип...\n");
+
+	if (cc != otherPtr->cc || acc != otherPtr->acc)
 	{
 		throw TException("Ошибка! Неверный операнд...\n");
 	}
 
-	if (other.n == 0)
-	{
-		throw TException("Ошибка! Деление на ноль...\n");
-	}
-
-	return TPNumber(n / other.n, cc, acc);
+	return std::make_unique<TPNumber>(n / otherPtr->n, cc, acc);
 }
 
 // взять число в виде строки
 std::string TPNumber::getStringN() const
 {
 	return Convertor::dbl_to_str(n, cc, acc);
+}
+
+// операция обратить
+std::unique_ptr<TANumber> TPNumber::rev() const
+{
+	return n != 0 ? std::make_unique<TPNumber>(1 / n, cc, acc) : throw TException("Ошибка! Деление на ноль...\n");
+}
+
+// операция возвести в квадрат
+std::unique_ptr<TANumber> TPNumber::sqr() const
+{
+	return std::make_unique<TPNumber>(n * n, cc, acc);
+}
+
+// число есть 0
+bool TPNumber::isZero() const
+{
+	return n == 0;
 }

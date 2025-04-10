@@ -1,8 +1,7 @@
 #pragma once
-#include <string>
-#include "UException.h"
+#include "UANumber.h"
 
-class TPNumber
+class TPNumber : public TANumber
 {
 	double n;	// само число
 	int cc;		// система счисления
@@ -10,7 +9,7 @@ class TPNumber
 
 public:
 	// конструктор по умолчанию
-	TPNumber() : n(0), cc(10), acc(0) {}
+	TPNumber() : n(0), cc(10), acc(0) { number = getStringN(); }
 
 	// конструктор для вещественного числа
 	TPNumber(const double&, const int& cc_, const int& acc_);
@@ -22,22 +21,25 @@ public:
 	TPNumber(const TPNumber& other) : n(other.n), cc(other.cc), acc(other.acc) {}
 
 	// операция сложить
-	TPNumber operator+(const TPNumber& other) const;
+	std::unique_ptr<TANumber> operator+(const TANumber& other) const override;
 
 	// операция умножить
-	TPNumber operator*(const TPNumber& other) const;
+	std::unique_ptr<TANumber> operator*(const TANumber& other) const override;
 
 	// операция вычесть
-	TPNumber operator-(const TPNumber& other) const;
+	std::unique_ptr<TANumber> operator-(const TANumber& other) const override;
 
 	// операция делить
-	TPNumber operator/(const TPNumber& other) const;
+	std::unique_ptr<TANumber> operator/(const TANumber& other) const override;
 
 	// операция обратить
-	TPNumber rev() const { return n != 0 ? TPNumber(1 / n, cc, acc) : throw TException("Ошибка! Деление на ноль...\n"); }
+	std::unique_ptr<TANumber> rev() const override;
 
 	// операция возвести в квадрат
-	TPNumber sqr() const { return TPNumber(n * n, cc, acc); }
+	std::unique_ptr<TANumber> sqr() const override;
+
+	// число есть 0
+	bool isZero() const override;
 
 	// взять число
 	double getN() const { return n; }
@@ -65,7 +67,7 @@ public:
 
 	// установить точность
 	void setACC(const int& acc_) { acc = acc_; }
-	
+
 	// установить точность (строка)
 	void setACC(const std::string& acc_) { acc = stoi(acc_); }
 };
