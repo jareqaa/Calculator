@@ -1,41 +1,40 @@
 #pragma once
 #include <string>
+#include "Editor.h"
 
-class TEditor
+class TPEditor : public Editor
 {
-	std::string number;	// строкове представление p-ичного числа
-
 public:
 	// конструктор по умолчанию
-	TEditor() : number("") {}
+	TPEditor() { number = ""; }
 
 	// проверка является ли число нулем
-	bool isZero() const { return 0 == stod(number) ? true : false; }
+	bool isZero() const override { return 0 == stod(number) ? true : false; }
 
 	// добавление минуса
-	std::string addSign();
+	std::string addSign() override;
 
 	// добавить p-ичную цифру
-	std::string addDigit(const int& digit);
+	std::string addDigit(const int& digit) override;
 
 	// добавить разделитель
-	std::string addDot();
+	virtual std::string addSeparator();
 
 	// добавить ноль
-	std::string addZero();
+	std::string addZero() override;
 
 	// забой символа
-	std::string Bs();
+	std::string Bs() override;
 
 	// очистить
-	std::string clear();
+	std::string clear() override;
 
 	// редактировать
 	std::string edit(const int& i);
 
 	// читать строку
-	std::string get() const { return number; }
+	std::string get() const override { return number; }
 
 	// писать строку
-	void set(const std::string& str) { number = str; }
+	void set(const std::string& str) override { number = str; }
 };

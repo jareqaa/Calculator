@@ -1,5 +1,5 @@
 #pragma once
-#include "UEditor.h"
+#include "UPEditor.h"
 #include "UPNumber.h"
 #include "UMemory.cpp"
 #include "UProc.cpp"
@@ -11,7 +11,7 @@ public: enum TCtrlState { cStart, cEditing, FunDone, cValDone, cExpDone, cOpChan
 private:
 	TCtrlState state;		// состояние контроллера
 
-	TEditor ed;				// редактор
+	TPEditor ed;				// редактор
 
 	TProc<TPNumber> proc;	// процессор
 
@@ -27,7 +27,7 @@ private:
 
 public:
 	// конструктор по умолчанию
-	TCtrl() : state(TCtrlState::cStart), ed(TEditor()), proc(TProc<TPNumber>()), mem(TMemory<TPNumber>()), num(TPNumber()), cc(10), acc(0), ed_n(0) {}
+	TCtrl() : state(TCtrlState::cStart), ed(TPEditor()), proc(TProc<TPNumber>()), mem(TMemory<TPNumber>()), num(TPNumber()), cc(10), acc(0), ed_n(0) {}
 
 	// выполнить команду калькулятора
 	std::string doClcCmd(const int& j, const std::string& str = "");

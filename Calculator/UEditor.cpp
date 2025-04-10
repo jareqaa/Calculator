@@ -1,9 +1,9 @@
-#include "UEditor.h"
+#include "UPEditor.h"
 #include "Convertor.h"
 #include "UException.h"
 
 // добавление минуса
-std::string TEditor::addSign()
+std::string TPEditor::addSign()
 {
 	if (number[0] == '-')
 	{
@@ -18,7 +18,7 @@ std::string TEditor::addSign()
 }
 
 // добавить p-ичную цифру
-std::string TEditor::addDigit(const int& digit)
+std::string TPEditor::addDigit(const int& digit)
 {
 	if (number.size() == 1 && number[0] == '0' || number.size() == 2 && number[1] == '0')
 	{
@@ -29,7 +29,7 @@ std::string TEditor::addDigit(const int& digit)
 }
 
 // добавить разделитель
-std::string TEditor::addDot()
+std::string TPEditor::addSeparator()
 {
 	if (Convertor::dotCounter(number) == 0)
 	{
@@ -43,14 +43,14 @@ std::string TEditor::addDot()
 }
 
 // добавить ноль
-std::string TEditor::addZero()
+std::string TPEditor::addZero()
 {
 	number += '0';
 	return number;
 }
 
 // забой символа
-std::string TEditor::Bs()
+std::string TPEditor::Bs()
 {
 	if (number.empty())
 	{
@@ -62,14 +62,14 @@ std::string TEditor::Bs()
 }
 
 // очистить
-std::string TEditor::clear()
+std::string TPEditor::clear()
 {
 	number.clear();
 	return number;
 }
 
 // редактировать
-std::string TEditor::edit(const int& i)
+std::string TPEditor::edit(const int& i)
 {
 	switch (i)
 	{

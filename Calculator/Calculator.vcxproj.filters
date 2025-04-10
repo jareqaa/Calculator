@@ -47,7 +47,7 @@
     <ClInclude Include="UException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UEditor.h">
+    <ClInclude Include="UPEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Convertor.h">
@@ -75,6 +75,15 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="UComp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UFEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UCEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
