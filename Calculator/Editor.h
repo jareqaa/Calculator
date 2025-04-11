@@ -10,73 +10,28 @@ protected:
 
 public:
     // Проверка на ноль
-    virtual bool isZero() const 
-    {
-        return number.empty() || number == "0" || number == "0." || number == "0/";
-    }
+    virtual bool isZero() const = 0;
 
     // Добавление/удаление знака
-    virtual std::string addSign() 
-    {
-        if (!number.empty() && number[0] == '-') 
-        {
-            number.erase(0, 1);
-        }
-        else 
-        {
-            number.insert(0, "-");
-        }
-        return number;
-    }
+    virtual std::string addSign() = 0;
 
     // Удаление последнего символа
-    virtual std::string Bs()
-    {
-        if (number.empty()) 
-        {
-            throw TException("Empty string");
-        }
-        number.pop_back();
-        if (number.empty() || number == "-") 
-        {
-            number = "";
-        }
-        return number;
-    }
+    virtual std::string Bs() = 0;
 
     // Очистка редактора
-    virtual std::string clear() 
-    {
-        number.clear();
-        return number;
-    }
+    virtual std::string clear() = 0;
 
     // Установка значения
-    virtual void set(const std::string& num) 
-    {
-        number = num.empty() ? "0" : num;
-    }
+    virtual void set(const std::string& num) = 0;
 
     // Получение значения
-    virtual std::string get() const 
-    {
-        return number.empty() ? "0" : number;
-    }
+    virtual std::string get() const = 0;
 
     // Добавление цифры (абстрактный метод)
     virtual std::string addDigit(int digit) = 0;
 
     // Добавление нуля
-    virtual std::string addZero() {
-        if (number.empty() || number == "0") 
-        {
-            number = "0";
-        }
-        else {
-            number += "0";
-        }
-        return number;
-    }
+    virtual std::string addZero() = 0;
 
     // Добавление разделителя (абстрактный метод)
     virtual std::string addSeparator() = 0;

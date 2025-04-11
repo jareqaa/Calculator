@@ -113,11 +113,14 @@
   <ItemGroup>
     <ClCompile Include="AboutBox.cpp" />
     <ClCompile Include="Convertor.cpp" />
+    <ClCompile Include="UCEditor.cpp" />
     <ClCompile Include="UClcPnl.cpp" />
     <ClCompile Include="UComp.cpp" />
     <ClCompile Include="UControl.cpp" />
+    <ClCompile Include="UFEditor.cpp" />
     <ClCompile Include="UFrac.cpp" />
     <ClCompile Include="UMemory.cpp" />
+    <ClCompile Include="UPEditor.cpp" />
     <ClCompile Include="UPNumber.cpp" />
     <ClCompile Include="UProc.cpp" />
   </ItemGroup>

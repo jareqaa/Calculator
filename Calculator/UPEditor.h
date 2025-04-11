@@ -6,45 +6,30 @@
 class TPEditor : public Editor 
 {
 public:
-    std::string addDigit(int digit) override 
-    {
-        if (number.size() == 1 && number[0] == '0' || number.size() == 2 && number[1] == '0')
-        {
-            number.pop_back();
-        }
-        number += Convertor::int_to_Char(digit);
-        return number;
-    }
+    // Проверка на ноль
+    bool isZero() const override;
 
-    std::string addSeparator() override 
-    {
-        if (number.find('.') == std::string::npos) 
-        {
-            if (number.empty() || number == "-") 
-            {
-                number += "0.";
-            }
-            else 
-            {
-                number += ".";
-            }
-        }
-        return number;
-    }
+    // Добавление/удаление знака
+    std::string addSign() override;
 
-    bool isZero() const override 
-    {
-        if (number.empty() || number == "0" || number == "0." || number == "-0.") 
-        {
-            return true;
-        }
-        try 
-        {
-            return std::stod(number) == 0.0;
-        }
-        catch (...) 
-        {
-            return false;
-        }
-    }
+    // Удаление последнего символа
+    virtual std::string Bs() override;
+
+    // Очистка редактора
+    virtual std::string clear() override;
+
+    // Установка значения
+    void set(const std::string& num) override;
+
+    // Получение значения
+    std::string get() const override;
+
+    // Добавление цифры
+    virtual std::string addDigit(int digit) override;
+     
+    // Добавление нуля
+    std::string addZero() override;
+
+    // Добавление разделителя
+    virtual std::string addSeparator() override;
 };

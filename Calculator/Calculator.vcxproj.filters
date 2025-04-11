@@ -42,6 +42,15 @@
     <ClCompile Include="UFrac.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UPEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UFEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UCEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UException.h">
