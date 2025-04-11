@@ -10,7 +10,7 @@
 // конструктор
 TCtrl::TCtrl(mode m) : md(m)
 {
-	setCalcToStart(0);
+	setCalcToStart(1);
 }
 
 // выполнить команду калькулятора
@@ -218,7 +218,8 @@ std::string TCtrl::setCalcToStart(const int& j)
 		break;
 	}
 	proc = TProc();
-	mem = TMemory();
+	if (j != 0)
+		mem = TMemory();
 	return ed->get();
 }
 
