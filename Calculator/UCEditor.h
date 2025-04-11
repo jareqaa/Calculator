@@ -9,6 +9,15 @@ private:
     bool isRealPart = true;
 
 public:
+    std::string addDot()
+    {
+        if (Convertor::dotCounter(number) >= 1)
+            throw TException("Ошибка! Неверный ввод");
+        else
+            number += '.';
+        return number;
+    }
+
     std::string addDigit(int digit) override 
     {
         if (number.size() == 1 && number[0] == '0' || number.size() == 2 && number[1] == '0')
