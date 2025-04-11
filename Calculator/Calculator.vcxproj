@@ -116,6 +116,7 @@
     <ClCompile Include="UClcPnl.cpp" />
     <ClCompile Include="UComp.cpp" />
     <ClCompile Include="UControl.cpp" />
+    <ClCompile Include="UFrac.cpp" />
     <ClCompile Include="UMemory.cpp" />
     <ClCompile Include="UPNumber.cpp" />
     <ClCompile Include="UProc.cpp" />
@@ -135,10 +136,11 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="UControl.h" />
+    <ClInclude Include="UMemory.h" />
     <ClInclude Include="UPEditor.h" />
     <ClInclude Include="UException.h" />
-    <ClInclude Include="UFrac.cpp" />
     <ClInclude Include="UPNumber.h" />
+    <ClInclude Include="UProc.h" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

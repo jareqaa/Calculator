@@ -1,6 +1,6 @@
 #pragma once
-#include "UMemory.cpp"
-#include "UProc.cpp"
+#include "UMemory.h"
+#include "UProc.h"
 #include "Editor.h"
 #include "UPNumber.h"
 

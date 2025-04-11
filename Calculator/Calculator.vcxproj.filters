@@ -39,6 +39,9 @@
     <ClCompile Include="UComp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UFrac.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UException.h">
@@ -68,9 +71,6 @@
     <ClInclude Include="UFrac.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UFrac.cpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="UComp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -81,6 +81,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UCEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UProc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UMemory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
