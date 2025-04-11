@@ -56,6 +56,9 @@ public:
 	// читать состояние калькулятора
 	TCtrlState getState() const { return state; }
 
+	// читать состояние процессора
+	TProc::TOptn getProcState() const { return proc.getOperation(); }
+
 	// писать состояние калькулятора
 	void setState(const TCtrlState& st) { state = st; }
 

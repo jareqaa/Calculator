@@ -810,7 +810,7 @@ namespace Calculator
 		{
 			std::string prefix = ExtractNonNumericPrefix(msclr::interop::marshal_as<std::string>(textBox1->Text));
 
-			if (ctrl->getState() == ctrl->cEditing) 
+			if (ctrl->getState() == ctrl->cEditing && ctrl->getProcState() == TProc::None)
 			{
 				double n = ctrl->getEdN();
 				std::string number = Convertor::dbl_to_str(n, base, precision);
@@ -837,23 +837,41 @@ namespace Calculator
 		// изменение системы счисления
 	private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e) 
 	{
-		int newBase = static_cast<int>(numericUpDown1->Value);
-		trackBar1->Value = newBase;
-		this->ActiveControl = nullptr;
-		UpdateButtonStates(newBase);
-		UpdateDisplay(newBase, ctrl->getCC(), ctrl->getACC());
-		ctrl->setCC(newBase);
+		if (ctrl->getState() == ctrl->cOpDone || ctrl->getState() == ctrl->FunDone || ctrl->getState() == ctrl->cEditing && ctrl->getProcState() == TProc::None)
+		{
+			int newBase = static_cast<int>(numericUpDown1->Value);
+			trackBar1->Value = newBase;
+			this->ActiveControl = nullptr;
+			UpdateButtonStates(newBase);
+			UpdateDisplay(newBase, ctrl->getCC(), ctrl->getACC());
+			ctrl->setCC(newBase);
+		}
+		else
+		{
+			numericUpDown1->ValueChanged -= gcnew EventHandler(this, &UClcPnl::numericUpDown1_ValueChanged);
+			numericUpDown1->Value = trackBar1->Value;
+			numericUpDown1->ValueChanged += gcnew EventHandler(this, &UClcPnl::numericUpDown1_ValueChanged);
+			MessageBox::Show("Вы не можете изменить сейчас систему счисления", "Ошибка", MessageBoxButtons::OK);
+		}
 	}
 
 		   // изменение системы счисления
 	private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e) 
 	{
-		int newBase = trackBar1->Value;
-		numericUpDown1->Value = newBase;
-		this->ActiveControl = nullptr;
-		UpdateButtonStates(newBase);
-		UpdateDisplay(newBase, ctrl->getCC(), ctrl->getACC());
-		ctrl->setCC(newBase);
+		if (ctrl->getState() == ctrl->cOpDone || ctrl->getState() == ctrl->FunDone || ctrl->getState() == ctrl->cEditing && ctrl->getProcState() == TProc::None)
+		{
+			int newBase = trackBar1->Value;
+			numericUpDown1->Value = newBase;
+			this->ActiveControl = nullptr;
+			UpdateButtonStates(newBase);
+			UpdateDisplay(newBase, ctrl->getCC(), ctrl->getACC());
+			ctrl->setCC(newBase);
+		}
+		else
+		{
+			trackBar1->Value = static_cast<int>(numericUpDown1->Value);
+			MessageBox::Show("Вы не можете изменить сейчас систему счисления", "Ошибка", MessageBoxButtons::OK);
+		}
 	}
 		   // отключение/включение кнопок работы с памятью
 	private: void updateMemBtns(System::Windows::Forms::Control^ parent, int tagValue)
