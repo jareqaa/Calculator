@@ -10,8 +10,8 @@ public:
     enum fstate { On, Off };
 
 private:
-    std::unique_ptr<TANumber> f_number;  // Храним число в unique_ptr
-    fstate state;
+    std::unique_ptr<TANumber> f_number;  // указатель на число TANumber
+    fstate state;                        // состояние памяти
 
 public:
     // Конструктор принимает unique_ptr для явного управления памятью

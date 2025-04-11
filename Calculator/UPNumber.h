@@ -21,6 +21,9 @@ public:
 	// конструктор копирования
 	TPNumber(const TPNumber& other) : n(other.n), cc(other.cc), acc(other.acc) { number = getString(); }
 
+	// оператор =
+	TANumber& operator=(const TANumber& other) override;
+
 	// оператор ==
 	bool operator==(const TANumber& other) const override;
 
@@ -47,9 +50,6 @@ public:
 
 	// получить копию
 	std::unique_ptr<TANumber> clone() const override;
-
-	// оператор =
-	TANumber& operator=(const TANumber& other) override;
 
 	// взять число
 	double getN() const { return n; }

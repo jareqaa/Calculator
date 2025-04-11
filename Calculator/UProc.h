@@ -9,8 +9,8 @@ public:
     enum TFunc { Rev, Sqr };                  // однооперандные операции
 
 private:
-    std::unique_ptr<TANumber> Lop_Res;        // левый операнд и результат
-    std::unique_ptr<TANumber> Rop;            // правый операнд
+    std::unique_ptr<TANumber> Lop_Res;        // указатель на левый операнд и результат
+    std::unique_ptr<TANumber> Rop;            // указатель на правый операнд
     TOptn operation;                          // текущая операция
 
 public:

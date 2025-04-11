@@ -2,15 +2,18 @@
 #include "UMemory.h"
 #include "UProc.h"
 #include "Editor.h"
-#include "UPNumber.h"
+#include "UANumber.h"
 
 class TCtrl
 {
 public: enum TCtrlState { cStart, cEditing, FunDone, cValDone, cExpDone, cOpChange, cOpDone, cError };	// состояния контроллера
-public: enum mode { PNumbers, FNumbers, CNumbers };	// режимы работы калькулятора
+
+public: enum mode { PNumbers, FNumbers, CNumbers };														// режимы работы калькулятора
 
 private:
 	TCtrlState state;				// состояние контроллера
+
+	mode md;						// режим работы
 	
 	std::unique_ptr<Editor> ed;		// редактор
 
@@ -24,9 +27,7 @@ private:
 
 	int acc = 0;					// точность
 
-	double ed_n;
-
-	mode md;						// режим работы
+	double ed_n;					// число в редакторе (во внутреннем представлении)
 
 public:
 	// конструктор
@@ -63,16 +64,7 @@ public:
 	void setState(const TCtrlState& st) { state = st; }
 
 	// изменить систему счисления
-	void setCC(const int& cc_) 
-	{ 
-		cc = cc_; 
-		if (md == PNumbers) 
-		{
-			TPNumber* pnum = dynamic_cast<TPNumber*>(num.get());
-
-			num = std::make_unique<TPNumber>(pnum->getN(), cc, acc);
-		} 
-	}
+	void setCC(const int& cc_);
 
 	// получить систему счисления
 	int getCC() const { return cc; }
@@ -86,7 +78,9 @@ public:
 	// получить результат послденей операции
 	std::string getNum() const { return num->getString(); }
 
+	// получить число из редактора во внутренем представлении
 	double getEdN() const { return ed_n; }
 
+	// получить строку из редактора
 	std::string getEdNum() const { return ed->get(); }
 };

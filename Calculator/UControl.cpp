@@ -436,3 +436,14 @@ std::string TCtrl::calcExpression(const int& j)
 {
 	return proc.getLop()->getString();
 }
+
+void TCtrl::setCC(const int& cc_)
+{
+	cc = cc_;
+	if (md == PNumbers)
+	{
+		TPNumber* pnum = dynamic_cast<TPNumber*>(num.get());
+
+		num = std::make_unique<TPNumber>(pnum->getN(), cc, acc);
+	}
+}
