@@ -65,7 +65,8 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 	}
 
 	state = TCtrlState::cEditing;
-	ed_n = Convertor::dval(ed->get(), cc);
+	if (md == PNumbers)
+		ed_n = Convertor::dval(ed->get(), cc);
 	if (proc.getOperation() == proc.None)
 	{
 		return ed->get();

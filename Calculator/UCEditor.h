@@ -25,11 +25,11 @@ public:
         {
             if (number.empty() || number == "-") 
             {
-                number += "0+i";
+                number += "0 + i*";
             }
             else 
             {
-                number += "+i";
+                number += " + i*";
             }
             isRealPart = false;
         }

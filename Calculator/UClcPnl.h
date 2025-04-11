@@ -81,6 +81,11 @@ namespace Calculator
 	private: System::Windows::Forms::TextBox^ textBox1;
 	private: System::Windows::Forms::NumericUpDown^ numericUpDown2;
 	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::ToolStripMenuItem^ режимToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ pичныеЧислаToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ простыеДробиToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ клмплексныеЧислаToolStripMenuItem;
+
 
 
 
@@ -131,6 +136,10 @@ namespace Calculator
 			this->button35 = (gcnew System::Windows::Forms::Button());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->справкаToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->режимToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->pичныеЧислаToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->простыеДробиToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->клмплексныеЧислаToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->trackBar1 = (gcnew System::Windows::Forms::TrackBar());
 			this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
@@ -538,7 +547,10 @@ namespace Calculator
 			// menuStrip1
 			// 
 			this->menuStrip1->ImageScalingSize = System::Drawing::Size(20, 20);
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->справкаToolStripMenuItem });
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				this->справкаToolStripMenuItem,
+					this->режимToolStripMenuItem
+			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
@@ -552,6 +564,37 @@ namespace Calculator
 			this->справкаToolStripMenuItem->Size = System::Drawing::Size(65, 20);
 			this->справкаToolStripMenuItem->Text = L"Справка";
 			this->справкаToolStripMenuItem->Click += gcnew System::EventHandler(this, &UClcPnl::справкаToolStripMenuItem_Click);
+			// 
+			// режимToolStripMenuItem
+			// 
+			this->режимToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
+				this->pичныеЧислаToolStripMenuItem,
+					this->простыеДробиToolStripMenuItem, this->клмплексныеЧислаToolStripMenuItem
+			});
+			this->режимToolStripMenuItem->Name = L"режимToolStripMenuItem";
+			this->режимToolStripMenuItem->Size = System::Drawing::Size(57, 20);
+			this->режимToolStripMenuItem->Text = L"Режим";
+			// 
+			// pичныеЧислаToolStripMenuItem
+			// 
+			this->pичныеЧислаToolStripMenuItem->Name = L"pичныеЧислаToolStripMenuItem";
+			this->pичныеЧислаToolStripMenuItem->Size = System::Drawing::Size(186, 22);
+			this->pичныеЧислаToolStripMenuItem->Text = L"p-ичные числа";
+			this->pичныеЧислаToolStripMenuItem->Click += gcnew System::EventHandler(this, &UClcPnl::pичныеЧислаToolStripMenuItem_Click);
+			// 
+			// простыеДробиToolStripMenuItem
+			// 
+			this->простыеДробиToolStripMenuItem->Name = L"простыеДробиToolStripMenuItem";
+			this->простыеДробиToolStripMenuItem->Size = System::Drawing::Size(186, 22);
+			this->простыеДробиToolStripMenuItem->Text = L"простые дроби";
+			this->простыеДробиToolStripMenuItem->Click += gcnew System::EventHandler(this, &UClcPnl::простыеДробиToolStripMenuItem_Click);
+			// 
+			// клмплексныеЧислаToolStripMenuItem
+			// 
+			this->клмплексныеЧислаToolStripMenuItem->Name = L"клмплексныеЧислаToolStripMenuItem";
+			this->клмплексныеЧислаToolStripMenuItem->Size = System::Drawing::Size(186, 22);
+			this->клмплексныеЧислаToolStripMenuItem->Text = L"комплексные числа";
+			this->клмплексныеЧислаToolStripMenuItem->Click += gcnew System::EventHandler(this, &UClcPnl::клмплексныеЧислаToolStripMenuItem_Click);
 			// 
 			// trackBar1
 			// 
@@ -974,5 +1017,32 @@ namespace Calculator
 		AboutBox^ aboutBox = gcnew AboutBox();
 		aboutBox->Show();	// открытие формы справки
 	}
+private: System::Void pичныеЧислаToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
+{
+	ctrl = new TCtrl(TCtrl::PNumbers);
+	textBox1->Text = "";
+	trackBar1->Enabled = true;
+	numericUpDown1->Enabled = true;
+	numericUpDown2->Enabled = true;
+}
+private: System::Void простыеДробиToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
+{
+	ctrl = new TCtrl(TCtrl::FNumbers);
+	textBox1->Text = "";
+	trackBar1->Enabled = false;
+	numericUpDown1->Enabled = false;
+	numericUpDown2->Enabled = false;
+	button9->Text = "/ (sep)";
+
+}
+private: System::Void клмплексныеЧислаToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
+{
+	ctrl = new TCtrl(TCtrl::CNumbers);
+	textBox1->Text = "";
+	trackBar1->Enabled = false;
+	numericUpDown1->Enabled = false;
+	numericUpDown2->Enabled = false;
+	button9->Text = "+ i* (sep)";
+}
 };
 }

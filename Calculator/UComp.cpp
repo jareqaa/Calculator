@@ -194,49 +194,65 @@ std::string TComp::getString() const
 {
     std::string result;
 
-    // Добавляем действительную часть
-    if (re != 0 || im == 0) 
+    // Форматируем части числа
+    std::string real_str = std::to_string(re);
+    std::string imag_str = std::to_string(abs(im));
+
+    // убираем незначащие нули
+    for (int i = real_str.size() - 1; i >= 0; i--)
     {
-        result += std::to_string(re);
+        if (real_str[i] == '0' || real_str[i] == '.')
+            real_str.erase(i);
+        else
+            break;
+    }
+
+    // убираем незначащие нули
+    for (int i = imag_str.size() - 1; i >= 0; i--)
+    {
+        if (imag_str[i] == '0' || imag_str[i] == '.')
+            imag_str.erase(i);
+        else
+            break;
+    }
+
+    // Добавляем действительную часть
+    if (re != 0) 
+    {
+        result += real_str;
     }
 
     // Добавляем мнимую часть
     if (im != 0) 
     {
-        if (im > 0 && !result.empty()) 
+        // Определяем знак
+        std::string sign;
+        if (im > 0)
         {
-            result += "+";
+            sign = result.empty() ? "" : " + ";
         }
-        if (im == -1) 
+        else 
         {
-            result += "-";
+            sign = result.empty() ? "-" : " - ";
         }
-        else if (im != 1) 
+
+        // Формируем мнимую часть
+        std::string imag_part;
+        if (std::abs(im) == 1) 
         {
-            result += std::to_string(im);
+            imag_part = "i";
         }
-        result += "i";
+        else {
+            imag_part = "i*" + imag_str;
+        }
+
+        result += sign + imag_part;
     }
 
     // Если обе части нулевые
     if (result.empty()) 
     {
         result = "0";
-    }
-
-    // Упрощаем запись (убираем лишние .0000)
-    size_t dot_pos = result.find('.');
-    if (dot_pos != std::string::npos) 
-    {
-        size_t last_non_zero = result.find_last_not_of('0');
-        if (last_non_zero == dot_pos) 
-        {
-            result.erase(dot_pos);
-        }
-        else if (last_non_zero != std::string::npos) 
-        {
-            result.erase(last_non_zero + 1);
-        }
     }
 
     return result;
