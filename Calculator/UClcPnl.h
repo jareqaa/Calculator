@@ -829,6 +829,7 @@ namespace Calculator
 		catch (const std::exception& err) 
 		{
 			ctrl->setCalcToStart(-1);
+			textBox1->Text = "";
 			MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
 		}
 	}
@@ -904,6 +905,7 @@ namespace Calculator
 		catch (const std::exception& err)
 		{
 			ctrl->setCalcToStart(-1);
+			textBox1->Text = "";
 			MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
 		}
 	}
@@ -923,6 +925,7 @@ namespace Calculator
 				catch (const std::exception& err)
 				{
 					ctrl->setCalcToStart(-1);
+					textBox1->Text = "";
 					MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
 				}
 			}
@@ -939,6 +942,7 @@ namespace Calculator
 				catch (const std::exception& err)
 				{
 					ctrl->setCalcToStart(-1);
+					textBox1->Text = "";
 					MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
 				}
 			}
@@ -965,6 +969,7 @@ namespace Calculator
 			catch (const std::exception& err)
 			{
 				ctrl->setCalcToStart(-1);
+				textBox1->Text = "";
 				MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
 			}
 			e->Handled = true;
@@ -979,6 +984,7 @@ namespace Calculator
 			catch (const std::exception& err)
 			{
 				ctrl->setCalcToStart(-1);
+				textBox1->Text = "";
 				MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
 			}
 			e->Handled = true;
@@ -993,6 +999,7 @@ namespace Calculator
 			catch (const std::exception& err)
 			{
 				ctrl->setCalcToStart(-1);
+				textBox1->Text = "";
 				MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
 			}
 		}
@@ -1024,6 +1031,8 @@ private: System::Void pичныеЧислаToolStripMenuItem_Click(System::Objec
 	trackBar1->Enabled = true;
 	numericUpDown1->Enabled = true;
 	numericUpDown2->Enabled = true;
+	button9->Text = ".";
+	updateMemBtns(this, 24);
 }
 private: System::Void простыеДробиToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
 {
@@ -1033,7 +1042,7 @@ private: System::Void простыеДробиToolStripMenuItem_Click(System::Ob
 	numericUpDown1->Enabled = false;
 	numericUpDown2->Enabled = false;
 	button9->Text = "/ (sep)";
-
+	updateMemBtns(this, 24);
 }
 private: System::Void клмплексныеЧислаToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
 {
@@ -1043,6 +1052,7 @@ private: System::Void клмплексныеЧислаToolStripMenuItem_Click(Sy
 	numericUpDown1->Enabled = false;
 	numericUpDown2->Enabled = false;
 	button9->Text = "+ i* (sep)";
+	updateMemBtns(this, 24);
 }
 };
 }

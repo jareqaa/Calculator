@@ -59,7 +59,7 @@ std::unique_ptr<TANumber> TPNumber::operator+(const TANumber& other) const
 
 	if (!otherPtr) throw TException("Ошибка! Неверный тип...\n");
 
-	if (cc != otherPtr->cc || acc != otherPtr->acc)
+	if (cc != otherPtr->cc)
 	{
 		throw TException("Ошибка! Неверный операнд...\n");
 	}
@@ -74,7 +74,7 @@ std::unique_ptr<TANumber> TPNumber::operator*(const TANumber& other) const
 
 	if (!otherPtr) throw TException("Ошибка! Неверный тип...\n");
 
-	if (cc != otherPtr->cc || acc != otherPtr->acc)
+	if (cc != otherPtr->cc)
 	{
 		throw TException("Ошибка! Неверный операнд...\n");
 	}
@@ -89,7 +89,7 @@ std::unique_ptr<TANumber> TPNumber::operator-(const TANumber& other) const
 
 	if (!otherPtr) throw TException("Ошибка! Неверный тип...\n");
 
-	if (cc != otherPtr->cc || acc != otherPtr->acc)
+	if (cc != otherPtr->cc)
 	{
 		throw TException("Ошибка! Неверный операнд...\n");
 	}
@@ -104,7 +104,7 @@ std::unique_ptr<TANumber> TPNumber::operator/(const TANumber& other) const
 
 	if (!otherPtr) throw TException("Ошибка! Неверный тип...\n");
 
-	if (cc != otherPtr->cc || acc != otherPtr->acc)
+	if (cc != otherPtr->cc)
 	{
 		throw TException("Ошибка! Неверный операнд...\n");
 	}

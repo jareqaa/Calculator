@@ -35,13 +35,13 @@ public:
     }
 
     // Добавление числа к содержимому памяти
-    void add(const TANumber& num) 
+    void add(const std::unique_ptr<TANumber> num)
     {
         if (state == fstate::Off || !f_number)
         {
             throw TException("Memory is empty or disabled");
         }
-        *f_number = *(*f_number + num);
+        *f_number = *(*f_number + *num);
     }
 
     // Очистка памяти

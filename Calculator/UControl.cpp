@@ -128,10 +128,58 @@ std::string TCtrl::doMemCmd(const int& j)
 		
 		// ms (сохранить в пямять)
 	case 22:
+		if (state == cEditing)
+		{
+			switch (md)
+			{
+			case PNumbers:
+				mem.set(std::make_unique<TPNumber>(ed->get(), std::to_string(cc), std::to_string(10)));
+				break;
+
+			case CNumbers:
+				mem.set(std::make_unique<TComp>(ed->get()));
+				break;
+
+			case FNumbers:
+				mem.set(std::make_unique<TFrac>(ed->get()));
+				break;
+			}
+		}
+		else if (state == cOpDone)
+			mem.set(proc.getLop());
+		else if (state == FunDone)
+			mem.set(proc.getRop());
+		else if (state == cOpChange)
+			mem.set(proc.getLop());
+		mem.setState(TMemory::fstate::On);
 		return "N";
-		 
+
 		// m+ (добавить в память)
 	case 21:
+		if (state == cEditing)
+		{
+			switch (md)
+			{
+			case PNumbers:
+				mem.add(std::make_unique<TPNumber>(ed->get(), std::to_string(cc), std::to_string(10)));
+				break;
+
+			case CNumbers:
+				mem.add(std::make_unique<TComp>(ed->get()));
+				break;
+
+			case FNumbers:
+				mem.add(std::make_unique<TFrac>(ed->get()));
+				break;
+			}
+		}
+		else if (state == cOpDone)
+			mem.add(proc.getLop());
+		else if (state == FunDone)
+			mem.add(proc.getRop());
+		else if (state == cOpChange)
+			mem.add(proc.getLop());
+		mem.setState(TMemory::fstate::On);
 		return "N";
 
 	default:
