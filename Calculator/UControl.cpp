@@ -4,7 +4,7 @@
 #include "UPEditor.h"
 #include "UComp.h"
 #include "UCEditor.h"
-// #include "UFrac.h"
+#include "UFrac.h"
 #include "UFEditor.h"
 
 // конструктор
@@ -16,7 +16,7 @@ TCtrl::TCtrl(mode m) : md(m)
 // выполнить команду калькулятора
 std::string TCtrl::doClcCmd(const int& j, const std::string& str)
 {
-	if (j >= 0 && j <= 20 || j == 100)			// команда редактора
+	if (j >= 0 && j <= 20 || j == 100)		// команда редактора
 	{
 		return doEdCmd(j, str);
 	}
@@ -164,8 +164,8 @@ std::string TCtrl::setCalcToStart(const int& j)
 		break;
 
 	case FNumbers:
-		/*ed = std::make_unique<FEditor>();
-		num = std::make_unique<TFrac>();*/
+		ed = std::make_unique<FEditor>();
+		num = std::make_unique<TFrac>();
 		break;
 	}
 	proc = TProc();
@@ -222,7 +222,7 @@ std::string TCtrl::doOperation(const int& j)
 				break;
 
 			case FNumbers:
-				// proc.setRop(std::make_unique<TFrac>(ed->get()));
+				proc.setRop(std::make_unique<TFrac>(ed->get()));
 				break;
 			}
 		}
@@ -273,7 +273,7 @@ std::string TCtrl::doOperation(const int& j)
 			break;
 
 		case FNumbers:
-			// proc.setLop(std::make_unique<TFrac>(ed->get()));
+			proc.setLop(std::make_unique<TFrac>(ed->get()));
 			break;
 		}
 	}
@@ -334,7 +334,7 @@ std::string TCtrl::doFunc(const int& j)
 			break;
 
 		case FNumbers:
-			// proc.setRop(std::make_unique<TFrac>(ed->get()));
+			proc.setRop(std::make_unique<TFrac>(ed->get()));
 			break;
 		}
 	}

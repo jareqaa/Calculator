@@ -761,7 +761,7 @@ namespace Calculator
 	}
 
 		// обновление отоброжаемого числа
-	private: void UpdateDisplay(int base, int precision) 
+	private: void UpdateDisplay(int base, int old_base, int precision) 
 	{
 		try 
 		{
@@ -777,6 +777,8 @@ namespace Calculator
 			else if (ctrl->getState() == ctrl->cOpDone || ctrl->getState() == ctrl->FunDone) 
 			{
 				std::string number = ctrl->getNum();
+				double n = Convertor::dval(number, old_base);
+				number = Convertor::dbl_to_str(n, base, precision);
 				textBox1->Text = gcnew String((prefix + number).c_str());
 				ctrl->doClcCmd(100, number);
 			}
@@ -795,8 +797,8 @@ namespace Calculator
 		trackBar1->Value = newBase;
 		this->ActiveControl = nullptr;
 		UpdateButtonStates(newBase);
+		UpdateDisplay(newBase, ctrl->getCC(), ctrl->getACC());
 		ctrl->setCC(newBase);
-		UpdateDisplay(newBase, ctrl->getACC());
 	}
 
 		   // изменение системы счисления
@@ -806,8 +808,8 @@ namespace Calculator
 		numericUpDown1->Value = newBase;
 		this->ActiveControl = nullptr;
 		UpdateButtonStates(newBase);
+		UpdateDisplay(newBase, ctrl->getCC(), ctrl->getACC());
 		ctrl->setCC(newBase);
-		UpdateDisplay(newBase, ctrl->getACC());
 	}
 		   // отключение/включение кнопок работы с памятью
 	private: void updateMemBtns(System::Windows::Forms::Control^ parent, int tagValue)
@@ -964,7 +966,7 @@ namespace Calculator
 		this->ActiveControl = nullptr;
 		int newPrecision = static_cast<int>(numericUpDown2->Value);
 		ctrl->setACC(newPrecision);
-		UpdateDisplay(ctrl->getCC(), newPrecision);
+		UpdateDisplay(ctrl->getCC(), ctrl->getCC(), newPrecision);
 	}
 		   // нажатие на кнопку справка
 	private: System::Void справкаToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 

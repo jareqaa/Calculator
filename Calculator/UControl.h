@@ -2,6 +2,7 @@
 #include "UMemory.cpp"
 #include "UProc.cpp"
 #include "Editor.h"
+#include "UPNumber.h"
 
 class TCtrl
 {
@@ -59,7 +60,16 @@ public:
 	void setState(const TCtrlState& st) { state = st; }
 
 	// изменить систему счисления
-	void setCC(const int& cc_) { cc = cc_; }
+	void setCC(const int& cc_) 
+	{ 
+		cc = cc_; 
+		if (md == PNumbers) 
+		{
+			TPNumber* pnum = dynamic_cast<TPNumber*>(num.get());
+
+			num = std::make_unique<TPNumber>(pnum->getN(), cc, acc);
+		} 
+	}
 
 	// получить систему счисления
 	int getCC() const { return cc; }
