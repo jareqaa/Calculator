@@ -27,12 +27,12 @@ public:
     // Получение значения
     virtual std::string get() const = 0;
 
-    // Добавление цифры (абстрактный метод)
-    virtual std::string addDigit(int digit) = 0;
+    // Добавление цифры
+    virtual std::string addDigit(const int& digit) = 0;
 
     // Добавление нуля
     virtual std::string addZero() = 0;
 
-    // Добавление разделителя (абстрактный метод)
+    // Добавление разделителя
     virtual std::string addSeparator() = 0;
 };

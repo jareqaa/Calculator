@@ -67,7 +67,7 @@ std::string TPEditor::get() const
 }
 
 // Добавление цифры (абстрактный метод)
-std::string TPEditor::addDigit(int digit)
+std::string TPEditor::addDigit(const int& digit)
 {
     if (number.size() == 1 && number[0] == '0' || number.size() == 2 && number[1] == '0')
     {

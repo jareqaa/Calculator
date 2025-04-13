@@ -11,8 +11,6 @@ private:
 public:
     std::string addIm(const int& j);
 
-    std::string addDigit(int digit) override;
-
     std::string addSeparator() override;
 
     std::string Bs() override;

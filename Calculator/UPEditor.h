@@ -25,7 +25,7 @@ public:
     std::string get() const override;
 
     // Добавление цифры
-    virtual std::string addDigit(int digit) override;
+    std::string addDigit(const int& digit) override;
      
     // Добавление нуля
     std::string addZero() override;

@@ -9,8 +9,6 @@ private:
     bool isNumerator = true;
 
 public:
-    std::string addDigit(int digit) override;
-
     std::string addSeparator() override;
 
     std::string Bs() override;
