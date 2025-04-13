@@ -56,7 +56,7 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 	case 32:
 		if (md == CNumbers)
 		{
-			CEditor* cEd = dynamic_cast<CEditor*>(ed.get());
+			CEditor* cEd = dynamic_cast<CEditor*>(ed);
 
 			if (!cEd) throw TException("Ошибка! Неверный тип...\n");
 			
@@ -66,7 +66,7 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 	case 33: 
 		if (md == CNumbers)
 		{
-			CEditor* cEd = dynamic_cast<CEditor*>(ed.get());
+			CEditor* cEd = dynamic_cast<CEditor*>(ed);
 
 			if (!cEd) throw TException("Ошибка! Неверный тип...\n");
 
@@ -223,18 +223,18 @@ std::string TCtrl::setCalcToStart(const int& j)
 	switch (md)
 	{
 	case PNumbers:
-		ed = std::make_unique<TPEditor>();
-		num = std::make_unique<TPNumber>();
+		ed = new TPEditor();
+		num = new TPNumber();
 		break;
 
 	case CNumbers:
-		ed = std::make_unique<CEditor>();
-		num = std::make_unique<TComp>();
+		ed = new CEditor();
+		num = new TComp();
 		break;
 
 	case FNumbers:
-		ed = std::make_unique<FEditor>();
-		num = std::make_unique<TFrac>();
+		ed = new FEditor();
+		num = new TFrac();
 		break;
 	}
 	proc = TProc();
@@ -348,7 +348,7 @@ std::string TCtrl::doOperation(const int& j)
 		}
 	}
 	setState(TCtrlState::cValDone);
-	auto tmp = ed.get();
+	auto tmp = ed;
 	ed->clear();
 	proc.setOperation(operation);
 	setState(TCtrlState::cOpChange);
@@ -462,8 +462,8 @@ void TCtrl::setCC(const int& cc_)
 	cc = cc_;
 	if (md == PNumbers)
 	{
-		TPNumber* pnum = dynamic_cast<TPNumber*>(num.get());
+		TPNumber* pnum = dynamic_cast<TPNumber*>(num);
 
-		num = std::make_unique<TPNumber>(pnum->getN(), cc, acc);
+		num = new TPNumber(pnum->getN(), cc, acc);
 	}
 }

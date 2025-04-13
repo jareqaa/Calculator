@@ -15,13 +15,13 @@ private:
 
 	mode md;						// режим работы
 	
-	std::unique_ptr<Editor> ed;		// редактор
+	Editor* ed;						// редактор
 
 	TProc proc;						// процессор
 
 	TMemory mem;					// память
 
-	std::unique_ptr<TANumber> num;	// число (результат выполнения последней команды)
+	TANumber* num;					// число (результат выполнения последней команды)
 
 	int cc = 10;					// система счисления
 
@@ -32,6 +32,13 @@ private:
 public:
 	// конструктор
 	TCtrl(mode m);
+
+	// деструктор
+	~TCtrl() { delete ed; delete num; }
+
+	// запрет копирования
+	TCtrl(const TCtrl&) = delete;
+	TCtrl& operator=(const TCtrl&) = delete;
 
 	// выполнить команду калькулятора
 	std::string doClcCmd(const int& j, const std::string& str = "");
