@@ -85,6 +85,8 @@ namespace Calculator
 	private: System::Windows::Forms::ToolStripMenuItem^ pичныеЧислаToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ простыеДробиToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ клмплексныеЧислаToolStripMenuItem;
+	private: System::Windows::Forms::Button^ button13;
+	private: System::Windows::Forms::Button^ button31;
 
 
 
@@ -145,6 +147,8 @@ namespace Calculator
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->numericUpDown2 = (gcnew System::Windows::Forms::NumericUpDown());
 			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->button13 = (gcnew System::Windows::Forms::Button());
+			this->button31 = (gcnew System::Windows::Forms::Button());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
@@ -598,7 +602,7 @@ namespace Calculator
 			// 
 			// trackBar1
 			// 
-			this->trackBar1->Location = System::Drawing::Point(64, 439);
+			this->trackBar1->Location = System::Drawing::Point(64, 491);
 			this->trackBar1->Maximum = 16;
 			this->trackBar1->Minimum = 2;
 			this->trackBar1->Name = L"trackBar1";
@@ -611,7 +615,7 @@ namespace Calculator
 			// 
 			// numericUpDown1
 			// 
-			this->numericUpDown1->Location = System::Drawing::Point(12, 439);
+			this->numericUpDown1->Location = System::Drawing::Point(12, 491);
 			this->numericUpDown1->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 16, 0, 0, 0 });
 			this->numericUpDown1->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 2, 0, 0, 0 });
 			this->numericUpDown1->Name = L"numericUpDown1";
@@ -658,11 +662,39 @@ namespace Calculator
 			this->label1->TabIndex = 39;
 			this->label1->Text = L"точность";
 			// 
+			// button13
+			// 
+			this->button13->Enabled = false;
+			this->button13->Location = System::Drawing::Point(168, 439);
+			this->button13->Name = L"button13";
+			this->button13->Size = System::Drawing::Size(46, 46);
+			this->button13->TabIndex = 40;
+			this->button13->TabStop = false;
+			this->button13->Tag = L"33";
+			this->button13->Text = L"-i*";
+			this->button13->UseVisualStyleBackColor = true;
+			this->button13->Click += gcnew System::EventHandler(this, &UClcPnl::button_Click);
+			// 
+			// button31
+			// 
+			this->button31->Enabled = false;
+			this->button31->Location = System::Drawing::Point(116, 438);
+			this->button31->Name = L"button31";
+			this->button31->Size = System::Drawing::Size(46, 46);
+			this->button31->TabIndex = 41;
+			this->button31->TabStop = false;
+			this->button31->Tag = L"32";
+			this->button31->Text = L"+i*";
+			this->button31->UseVisualStyleBackColor = true;
+			this->button31->Click += gcnew System::EventHandler(this, &UClcPnl::button_Click);
+			// 
 			// UClcPnl
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(330, 483);
+			this->ClientSize = System::Drawing::Size(330, 547);
+			this->Controls->Add(this->button31);
+			this->Controls->Add(this->button13);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->numericUpDown2);
 			this->Controls->Add(this->textBox1);
@@ -837,7 +869,7 @@ namespace Calculator
 		// изменение системы счисления
 	private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e) 
 	{
-		if (ctrl->getState() == ctrl->cOpDone || ctrl->getState() == ctrl->FunDone || ctrl->getState() == ctrl->cEditing && ctrl->getProcState() == TProc::None)
+		if (ctrl->getState() == ctrl->cStart || ctrl->getState() == ctrl->cOpDone || ctrl->getState() == ctrl->FunDone || ctrl->getState() == ctrl->cEditing && ctrl->getProcState() == TProc::None)
 		{
 			int newBase = static_cast<int>(numericUpDown1->Value);
 			trackBar1->Value = newBase;
@@ -858,7 +890,7 @@ namespace Calculator
 		   // изменение системы счисления
 	private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e) 
 	{
-		if (ctrl->getState() == ctrl->cOpDone || ctrl->getState() == ctrl->FunDone || ctrl->getState() == ctrl->cEditing && ctrl->getProcState() == TProc::None)
+		if (ctrl->getState() == ctrl->cStart || ctrl->getState() == ctrl->cOpDone || ctrl->getState() == ctrl->FunDone || ctrl->getState() == ctrl->cEditing && ctrl->getProcState() == TProc::None)
 		{
 			int newBase = trackBar1->Value;
 			numericUpDown1->Value = newBase;
@@ -1049,6 +1081,8 @@ private: System::Void pичныеЧислаToolStripMenuItem_Click(System::Objec
 	trackBar1->Enabled = true;
 	numericUpDown1->Enabled = true;
 	numericUpDown2->Enabled = true;
+	button13->Enabled = false;
+	button31->Enabled = false;
 	button9->Text = ".";
 	updateMemBtns(this, 24);
 }
@@ -1059,6 +1093,8 @@ private: System::Void простыеДробиToolStripMenuItem_Click(System::Ob
 	trackBar1->Enabled = false;
 	numericUpDown1->Enabled = false;
 	numericUpDown2->Enabled = false;
+	button13->Enabled = false;
+	button31->Enabled = false;
 	button9->Text = "/ (sep)";
 	updateMemBtns(this, 24);
 }
@@ -1069,7 +1105,9 @@ private: System::Void клмплексныеЧислаToolStripMenuItem_Click(Sy
 	trackBar1->Enabled = false;
 	numericUpDown1->Enabled = false;
 	numericUpDown2->Enabled = false;
-	button9->Text = "+ i* (sep)";
+	button9->Text = ".";
+	button13->Enabled = true;
+	button31->Enabled = true;
 	updateMemBtns(this, 24);
 }
 };

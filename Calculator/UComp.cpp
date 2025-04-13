@@ -5,7 +5,7 @@
 const double PI = 3.14159265358979323846;
 
 // конструктор для чисел
-TComp::TComp(const int& re_, const int& im_) : re(re_), im(im_)
+TComp::TComp(const double& re_, const double& im_) : re(re_), im(im_)
 {
 	number = getString();
 }
@@ -40,7 +40,7 @@ TComp::TComp(const std::string& str)
                 }
                 catch (...) 
                 {
-                    throw TException("Ошибка! Ошибка парсинга мнимой части");
+                    throw TException("Ошибка! Неверный ввод...\n");
                 }
             }
             else if (s.find("-i*") == 0) 
@@ -52,7 +52,7 @@ TComp::TComp(const std::string& str)
                 }
                 catch (...) 
                 {
-                    throw TException("Ошибка! Ошибка парсинга мнимой части");
+                    throw TException("Ошибка! Неверный ввод...\n");
                 }
             }
             else {
@@ -69,7 +69,7 @@ TComp::TComp(const std::string& str)
             }
             catch (...) 
             {
-                throw TException("Ошибка! Ошибка парсинга действительной части");
+                throw TException("Ошибка! Неверный ввод...\n");
             }
         }
     }
@@ -82,7 +82,7 @@ TComp::TComp(const std::string& str)
         }
         catch (...) 
         {
-            throw TException("Ошибка! Ошибка парсинга действительной части");
+            throw TException("Ошибка! Неверный ввод...\n");
         }
 
         // Парсим мнимую часть (после 'i*')
@@ -99,7 +99,7 @@ TComp::TComp(const std::string& str)
         }
         catch (...) 
         {
-            throw TException("Ошибка! Ошибка парсинга мнимой части");
+            throw TException("Ошибка! Неверный ввод...\n");
         }
     }
 

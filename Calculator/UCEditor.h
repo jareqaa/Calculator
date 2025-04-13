@@ -9,7 +9,7 @@ private:
     bool isRealPart = true;
 
 public:
-    std::string addDot();
+    std::string addIm(const int& j);
 
     std::string addDigit(int digit) override;
 

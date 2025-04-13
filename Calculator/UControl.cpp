@@ -16,7 +16,7 @@ TCtrl::TCtrl(mode m) : md(m)
 // выполнить команду калькулятора
 std::string TCtrl::doClcCmd(const int& j, const std::string& str)
 {
-	if (j >= 0 && j <= 20 || j == 100)		// команда редактора
+	if (j >= 0 && j <= 20 || j == 100 || j == 32 || j == 33)		// команда редактора
 	{
 		return doEdCmd(j, str);
 	}
@@ -52,7 +52,27 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 	case 17: if (ed->get().empty()) ed->addZero(); ed->addSeparator(); break;					// .
 	case 18: ed->Bs(); break;																	// backSpace
 	case 19: ed->clear(); break;																// Clear
-	case 20: setCalcToStart(0);																	// clear + reset (память остается неизмененной)
+	case 20: setCalcToStart(0); break;															// clear + reset (память остается неизмененной)
+	case 32:
+		if (md == CNumbers)
+		{
+			CEditor* cEd = dynamic_cast<CEditor*>(ed.get());
+
+			if (!cEd) throw TException("Ошибка! Неверный тип...\n");
+			
+			cEd->addIm(0);
+		}
+		break;
+	case 33: 
+		if (md == CNumbers)
+		{
+			CEditor* cEd = dynamic_cast<CEditor*>(ed.get());
+
+			if (!cEd) throw TException("Ошибка! Неверный тип...\n");
+
+			cEd->addIm(1);
+		}
+		break;
 
 	case 100: ed->set(str); return "";	// писать строку
 

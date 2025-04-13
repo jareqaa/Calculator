@@ -12,7 +12,7 @@ public:
 	TComp() : re(0), im(0) { number = getString(); }
 
 	// конструктор для чисел
-	TComp(const int& re_, const int& im_);
+	TComp(const double& re_, const double& im_);
 
 	// конструктор для строк
 	TComp(const std::string& str);

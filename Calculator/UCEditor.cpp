@@ -1,12 +1,25 @@
 #pragma once
 #include "UCEditor.h"
 
-std::string CEditor::addDot()
+std::string CEditor::addIm(const int& j)
 {
-    if (Convertor::dotCounter(number) >= 1)
-        throw TException("Ошибка! Неверный ввод");
+    if (number.find('i') == std::string::npos)
+    {
+        if (number.empty() || number == "-")
+        {
+            number += j == 0 ? "i*" : "- i*";
+        }
+        else
+        {
+            number += j == 0 ? "+ i*" : "- i*";
+        }
+        isRealPart = false;
+    }
     else
-        number += '.';
+    {
+        throw TException("Ошибка! Неверный ввод...\n");
+    }
+
     return number;
 }
 
@@ -24,15 +37,25 @@ std::string CEditor::addSeparator()
 {
     if (number.find('i') == std::string::npos)
     {
-        if (number.empty() || number == "-")
+        if (Convertor::dotCounter(number) >= 1)
         {
-            number += "0 + i*";
+            throw TException("Ошибка! Неверный ввод...\n");
         }
         else
         {
-            number += " + i*";
+            number += '.';
         }
-        isRealPart = false;
+    }
+    else
+    {
+        if (Convertor::dotCounter(number.substr(number.find('i'))) >= 1)
+        {
+            throw TException("Ошибка! Неверный ввод...\n");
+        }
+        else
+        {
+            number += '.';
+        }
     }
     return number;
 }
