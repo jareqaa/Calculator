@@ -247,6 +247,8 @@ std::string TComp::getString() const
         }
 
         result += sign + imag_part;
+        result.insert(0, "(");
+        result += ")";
     }
 
     // Если обе части нулевые
