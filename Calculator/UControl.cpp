@@ -427,7 +427,7 @@ std::string TCtrl::doFunc(const int& j)
 		case proc.Sqr:
 			return "sqr(" + tmp + ") = " + proc.getRop()->getString();
 		case proc.Rev:
-			return "1/" + tmp + " = " + proc.getRop()->getString();
+			return "1 / " + tmp + " = " + proc.getRop()->getString();
 		}
 	}
 	else
@@ -446,7 +446,7 @@ std::string TCtrl::doFunc(const int& j)
 		case proc.Sqr:
 			return proc.getLop()->getString() + " " + operationSymbol + "sqr(" + tmp + ")";
 		case proc.Rev:
-			return proc.getLop()->getString() + " " + operationSymbol + "1/" + tmp;
+			return proc.getLop()->getString() + " " + operationSymbol + "1 / " + tmp;
 		}
 	}
 }
