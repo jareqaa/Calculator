@@ -148,7 +148,7 @@ TANumber& TPNumber::operator=(const TANumber& other)
 	const TPNumber* otherPtr = dynamic_cast<const TPNumber*>(&other);
 	if (!otherPtr) throw TException("Invalid type");
 
-	this->n = otherPtr->n;
+	this->n = round(otherPtr->n * pow(10, 10)) / pow (10, 10);
 	this->cc = otherPtr->cc;
 	this->acc = otherPtr->acc;
 	return *this;
