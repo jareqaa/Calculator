@@ -19,7 +19,7 @@ public:
 	TPNumber(const std::string& a, const std::string& cc_, const std::string& acc_);
 
 	// конструктор копирования
-	TPNumber(const TPNumber& other) : n(other.n), cc(other.cc), acc(other.acc) {}
+	TPNumber(const TPNumber& other) : n(round(other.n * pow(10, 10)) / pow(10, 10)), cc(other.cc), acc(other.acc) {}
 
 	// операция сложить
 	TPNumber operator+(const TPNumber& other) const;
