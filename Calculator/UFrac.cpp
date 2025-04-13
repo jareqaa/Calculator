@@ -15,27 +15,37 @@ TFrac::TFrac(const std::string& str)
 	size_t slashPos = str.find('/');
 	if (slashPos == std::string::npos)
 	{
-		throw TException("Ошибка! Некорректный формат дроби. Ожидается a/b");
+		try
+		{
+			a = std::stoi(str);
+		}
+		catch (...)
+		{
+			throw TException("Ошибка! Неверный числитель");
+		}
+		b = 1;
 	}
+	else
+	{
+		// парсим числитель
+		try
+		{
+			a = std::stoi(str.substr(0, slashPos));
+		}
+		catch (...)
+		{
+			throw TException("Ошибка! Неверный числитель");
+		}
 
-	// парсим числитель
-	try
-	{
-		a = std::stoi(str.substr(0, slashPos));
-	}
-	catch (...)
-	{
-		throw TException("Ошибка! Неверный числитель");
-	}
-
-	// парсим знаменатель
-	try
-	{
-		b = std::stoi(str.substr(slashPos + 1));
-	}
-	catch (...)
-	{
-		throw TException("Ошибка! Неверный знаменатель");
+		// парсим знаменатель
+		try
+		{
+			b = std::stoi(str.substr(slashPos + 1));
+		}
+		catch (...)
+		{
+			throw TException("Ошибка! Неверный знаменатель");
+		}
 	}
 
 	if (b == 0)
