@@ -244,17 +244,17 @@ std::string TCtrl::setCalcToStart(const int& j)
 }
 
 // выполнить операцию
-std::string TCtrl::doOperation(const int& j) 
+std::string TCtrl::doOperation(const int& j)
 {
 	// Проверяем, что операция допустима
-	if (j < 25 || j > 29) 
+	if (j < 25 || j > 29)
 	{
 		throw TException("Ошибка! Неверная операция...\n");
 	}
 
 	// Определяем тип операции
 	TProc::TOptn operation;
-	switch (j) 
+	switch (j)
 	{
 	case 25: operation = TProc::TOptn::None; break;  // =
 	case 26: operation = TProc::TOptn::Add; break;   // +
@@ -265,9 +265,9 @@ std::string TCtrl::doOperation(const int& j)
 	}
 
 	// Обработка операции "="
-	if (operation == TProc::TOptn::None) 
+	if (operation == TProc::TOptn::None)
 	{
-		if (state == TCtrlState::cOpChange) 
+		if (state == TCtrlState::cOpChange)
 		{
 			proc.setRop(proc.getLop());
 		}
@@ -279,7 +279,7 @@ std::string TCtrl::doOperation(const int& j)
 		{
 			return ed->get();
 		}
-		else if (state == TCtrlState::cEditing) 
+		else if (state == TCtrlState::cEditing)
 		{
 			switch (md)
 			{
@@ -329,6 +329,10 @@ std::string TCtrl::doOperation(const int& j)
 	else if (state == TCtrlState::cOpDone)
 	{
 		proc.setLop(num->clone());
+	}
+	else if (state == FunDone)
+	{
+		proc.setLop(proc.getRop()->clone());
 	}
 	else
 	{
