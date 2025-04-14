@@ -15,7 +15,7 @@ private:
 
 public:
     // Конструктор принимает unique_ptr для явного управления памятью
-    explicit TMemory(std::unique_ptr<TANumber> num = nullptr) : f_number(num ? std::move(num) : nullptr), state(fstate::Off) {}
+    TMemory(std::unique_ptr<TANumber> num = nullptr) : f_number(num ? std::move(num) : nullptr), state(fstate::Off) {}
 
     // Запись числа в память
     void set(std::unique_ptr<TANumber> num);
