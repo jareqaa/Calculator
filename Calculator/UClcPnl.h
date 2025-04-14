@@ -1084,6 +1084,9 @@ private: System::Void pичныеЧислаToolStripMenuItem_Click(System::Objec
 	button13->Enabled = false;
 	button31->Enabled = false;
 	button9->Text = ".";
+	numericUpDown2->ValueChanged -= gcnew EventHandler(this, &UClcPnl::numericUpDown2_ValueChanged);
+	numericUpDown2->Value =0;
+	numericUpDown2->ValueChanged += gcnew EventHandler(this, &UClcPnl::numericUpDown2_ValueChanged);
 	updateMemBtns(this, 24);
 }
 private: System::Void простыеДробиToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
