@@ -199,21 +199,39 @@ std::string TComp::getString() const
     std::string imag_str = std::to_string(abs(im));
 
     // убираем незначащие нули
-    for (int i = real_str.size() - 1; i >= 0; i--)
+    int dot_pos = real_str.find('.');
+    if (dot_pos != -1) 
     {
-        if (real_str[i] == '0' || real_str[i] == '.')
-            real_str.erase(i);
-        else
-            break;
+        int last_non_zero = real_str.find_last_not_of('0');
+        if (last_non_zero != -1) 
+        {
+            if (last_non_zero == dot_pos) 
+            {
+                real_str.erase(dot_pos);
+            }
+            else 
+            {
+                real_str.erase(last_non_zero + 1);
+            }
+        }
     }
 
     // убираем незначащие нули
-    for (int i = imag_str.size() - 1; i >= 0; i--)
+    dot_pos = imag_str.find('.');
+    if (dot_pos != -1)
     {
-        if (imag_str[i] == '0' || imag_str[i] == '.')
-            imag_str.erase(i);
-        else
-            break;
+        int last_non_zero = imag_str.find_last_not_of('0');
+        if (last_non_zero != -1)
+        {
+            if (last_non_zero == dot_pos)
+            {
+                imag_str.erase(dot_pos);
+            }
+            else
+            {
+                imag_str.erase(last_non_zero + 1);
+            }
+        }
     }
 
     // Добавляем действительную часть

@@ -115,7 +115,12 @@ std::unique_ptr<TANumber> TPNumber::operator/(const TANumber& other) const
 // взять число в виде строки
 std::string TPNumber::getString() const
 {
-	return Convertor::dbl_to_str(n, cc, acc);
+	std::string str = Convertor::dbl_to_str(n, cc, acc);
+	if (str[0] == '-')
+	{
+		str = "(" + str + ")";
+	}
+	return str;
 }
 
 // операция обратить

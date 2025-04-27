@@ -89,7 +89,12 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 		ed_n = Convertor::dval(ed->get(), cc);
 	if (proc.getOperation() == proc.None)
 	{
-		return ed->get();
+		std::string str = ed->get();
+		if (str[0] == '-')
+		{
+			str = "(" + str + ")";
+		}
+		return str;
 	}
 	else
 	{
@@ -102,7 +107,12 @@ std::string TCtrl::doEdCmd(const int& j, const std::string& str)
 		case TProc::TOptn::Dvd: operationSymbol = "/"; break;
 		default: operationSymbol = ""; break;
 		}
-		return proc.getLop()->getString() + " " + operationSymbol + " " + ed->get();
+		std::string str = ed->get();
+		if (str[0] == '-')
+		{
+			str = "(" + str + ")";
+		}
+		return proc.getLop()->getString() + " " + operationSymbol + " " + str;
 	}
 }
 

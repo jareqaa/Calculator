@@ -147,7 +147,12 @@ bool TFrac::isZero() const
 // взять дробь строка
 std::string TFrac::getString() const
 {
-	return std::to_string(a) + "/" + std::to_string(b);
+	std::string str = std::to_string(a) + "/" + std::to_string(b);
+	if (str[0] == '-')
+	{
+		str = "(" + str + ")";
+	}
+	return str;
 }
 
 // получить копию

@@ -66,7 +66,7 @@ std::string TPEditor::get() const
     return number.empty() ? "0" : number;
 }
 
-// Добавление цифры (абстрактный метод)
+// Добавление цифры
 std::string TPEditor::addDigit(const int& digit)
 {
     if (number.size() == 1 && number[0] == '0' || number.size() == 2 && number[1] == '0')
@@ -90,7 +90,7 @@ std::string TPEditor::addZero()
     return number;
 }
 
-// Добавление разделителя (абстрактный метод)
+// Добавление разделителя
 std::string TPEditor::addSeparator()
 {
     if (number.find('.') == std::string::npos)
