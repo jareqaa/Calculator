@@ -52,7 +52,21 @@ std::string CEditor::addSeparator()
 
 std::string CEditor::Bs()
 {
-    TPEditor::Bs();
+    if (!number.empty())
+    {
+        if (number.back() == '*')
+        {
+            number.erase(number.size() - 4);
+        }
+        else
+        {
+            TPEditor::Bs();
+        }
+    }
+    else
+    {
+        throw TException("Empty string");
+    }
     if (!number.empty() && number.back() == '+')
     {
         isRealPart = true;
