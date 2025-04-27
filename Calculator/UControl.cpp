@@ -137,6 +137,7 @@ std::string TCtrl::doMemCmd(const int& j)
 		state = TCtrlState::cEditing;
 		mem.setState(TMemory::fstate::On);
 		ed->set(mem.get()->getString());
+		ed_n = Convertor::dval(ed->get(), 10);
 
 		if (proc.getOperation() == proc.None)
 		{
