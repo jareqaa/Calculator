@@ -13,7 +13,6 @@ std::string CEditor::addIm(const int& j)
         {
             number += j == 0 ? "+ i*" : "- i*";
         }
-        isRealPart = false;
     }
     else
     {
@@ -67,16 +66,5 @@ std::string CEditor::Bs()
     {
         throw TException("Empty string");
     }
-    if (!number.empty() && number.back() == '+')
-    {
-        isRealPart = true;
-    }
-    return number;
-}
-
-std::string CEditor::clear()
-{
-    TPEditor::clear();
-    isRealPart = true;
     return number;
 }

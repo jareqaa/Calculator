@@ -5,13 +5,6 @@
 
 class FEditor : public TPEditor
 {
-private:
-    bool isNumerator = true;
-
 public:
     std::string addSeparator() override;
-
-    std::string Bs() override;
-
-    std::string clear() override;
 };

@@ -16,7 +16,7 @@ public:
     virtual std::string Bs() override;
 
     // Очистка редактора
-    virtual std::string clear() override;
+    std::string clear() override;
 
     // Установка значения
     void set(const std::string& num) override;
