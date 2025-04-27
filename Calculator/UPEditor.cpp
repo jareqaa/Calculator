@@ -58,6 +58,11 @@ std::string TPEditor::clear()
 void TPEditor::set(const std::string& num)
 {
     number = num.empty() ? "0" : num;
+    if (!number.empty() && number[0] == '(' && number[number.size() - 1] == ')')
+    {
+        number.erase(0, 1);
+        number.erase(number.size() - 1);
+    }
 }
 
 // Получение значения

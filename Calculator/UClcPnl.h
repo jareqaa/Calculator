@@ -970,6 +970,7 @@ namespace Calculator
 			ctrl->setCalcToStart(-1);
 			textBox1->Text = "";
 			MessageBox::Show(gcnew String(err.what()), "Error!", MessageBoxButtons::OK);
+			updateMemBtns(this, 24);
 		}
 	}
 
