@@ -802,7 +802,7 @@ namespace Calculator
 		int pos = -1;
 		for (int i = str.size() - 1; i >= 0; --i) 
 		{
-			if ((str[i] < '0' || str[i] > '9') && (str[i] < 'A' || str[i] > 'F') && str[i] != '.') 
+			if (str[i] == ' ')
 			{
 				pos = i;
 				break;
@@ -846,16 +846,29 @@ namespace Calculator
 			{
 				double n = ctrl->getEdN();
 				std::string number = Convertor::dbl_to_str(n, base, precision);
-				textBox1->Text = gcnew String((prefix + number).c_str());
 				ctrl->doClcCmd(100, number);
+				if (number[0] == '-')
+				{
+					number = "(" + number + ")";
+				}
+				textBox1->Text = gcnew String((prefix + number).c_str());
 			}
 			else if (ctrl->getState() == ctrl->cOpDone || ctrl->getState() == ctrl->FunDone) 
 			{
 				std::string number = ctrl->getNum();
+				if (number[0] == '(' && number[number.size() - 1] == ')')
+				{
+					number.erase(0, 1);
+					number.erase(number.size() - 1);
+				}
 				double n = Convertor::dval(number, old_base);
 				number = Convertor::dbl_to_str(n, base, precision);
-				textBox1->Text = gcnew String((prefix + number).c_str());
 				ctrl->doClcCmd(100, number);
+				if (number[0] == '-')
+				{
+					number = "(" + number + ")";
+				}
+				textBox1->Text = gcnew String((prefix + number).c_str());
 			}
 		}
 		catch (const std::exception& err) 
@@ -1068,12 +1081,14 @@ namespace Calculator
 		ctrl->setACC(newPrecision);
 		UpdateDisplay(ctrl->getCC(), ctrl->getCC(), newPrecision);
 	}
+
 		   // нажатие на кнопку справка
 	private: System::Void справкаToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
 	{
 		AboutBox^ aboutBox = gcnew AboutBox();
 		aboutBox->Show();	// открытие формы справки
 	}
+
 private: System::Void pичныеЧислаToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
 {
 	ctrl = new TCtrl(TCtrl::PNumbers);
@@ -1089,6 +1104,7 @@ private: System::Void pичныеЧислаToolStripMenuItem_Click(System::Objec
 	numericUpDown2->ValueChanged += gcnew EventHandler(this, &UClcPnl::numericUpDown2_ValueChanged);
 	updateMemBtns(this, 24);
 }
+
 private: System::Void простыеДробиToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
 {
 	ctrl = new TCtrl(TCtrl::FNumbers);
@@ -1101,6 +1117,7 @@ private: System::Void простыеДробиToolStripMenuItem_Click(System::Ob
 	button9->Text = "/ (sep)";
 	updateMemBtns(this, 24);
 }
+
 private: System::Void клмплексныеЧислаToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
 {
 	ctrl = new TCtrl(TCtrl::CNumbers);
