@@ -126,7 +126,7 @@ std::string TCtrl::doMemCmd(const int& j)
 		mem.clear();
 		state = TCtrlState::cEditing;
 		mem.setState(TMemory::fstate::Off);
-		break;
+		return "N";
 
 		// mr (вставка из памяти)
 	case 23:
@@ -475,11 +475,20 @@ std::string TCtrl::calcExpression(const int& j)
 
 void TCtrl::setCC(const int& cc_)
 {
-	cc = cc_;
 	if (md == PNumbers)
 	{
 		TPNumber* pnum = dynamic_cast<TPNumber*>(num.get());
 
-		num = std::make_unique<TPNumber>(pnum->getN(), cc, acc);
+		num = std::make_unique<TPNumber>(pnum->getN(), cc_, acc);
+
+		if (mem.getState() == "On")
+		{
+			auto mem_num = mem.get()->getString();
+
+			double n = Convertor::dval(mem_num, cc);
+			auto number = Convertor::dbl_to_str(n, cc_, acc);
+			mem.set(std::make_unique<TPNumber>(number, std::to_string(cc_), std::to_string(acc)));
+		}
 	}
+	cc = cc_;
 }
