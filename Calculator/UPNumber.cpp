@@ -104,6 +104,8 @@ std::unique_ptr<TANumber> TPNumber::operator/(const TANumber& other) const
 
 	if (!otherPtr) throw TException("Ошибка! Неверный тип...\n");
 
+	if (otherPtr->getN() == 0) throw TException("Ошибка! Деление на 0...\n");
+
 	if (cc != otherPtr->cc)
 	{
 		throw TException("Ошибка! Неверный операнд...\n");
