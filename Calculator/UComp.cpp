@@ -258,9 +258,10 @@ std::string TComp::getString() const
         std::string imag_part;
         if (std::abs(im) == 1) 
         {
-            imag_part = "i";
+            imag_part = "i*1";
         }
-        else {
+        else 
+        {
             imag_part = "i*" + imag_str;
         }
 
