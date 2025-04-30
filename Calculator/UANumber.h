@@ -4,9 +4,6 @@
 
 class TANumber
 {
-protected:
-	std::string number;	// строковое представление числа
-
 public:
 	
 	// число есть 0

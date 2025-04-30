@@ -1,5 +1,6 @@
 #pragma once
 #include "UANumber.h"
+#include "UException.h"
 
 // класс простых дробей
 class TFrac : public TANumber
@@ -11,16 +12,16 @@ class TFrac : public TANumber
 
 public:
 	// конструктор по умолчанию
-	TFrac() : a(0), b(1) { number = getString(); }
+	TFrac() : a(0), b(1) {}
 
 	// конструктор для чисел
-	TFrac(const int& a_, const int& b_);
+	TFrac(const int& a_, const int& b_) : a(a_), b(b_ == 0 ? throw TException("Ошибка! Деление на 0...\n") : b_) { reduce(); }
 
 	// конструктор для строк
 	TFrac(const std::string& str);
 
 	// конструктор копирования
-	TFrac(const TFrac& other) : a(other.a), b(other.b) { number = getString(); }
+	TFrac(const TFrac& other) : a(other.a), b(other.b) {}
 
 	// оператор ==
 	bool operator==(const TANumber& other) const override;

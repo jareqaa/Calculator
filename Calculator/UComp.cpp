@@ -4,12 +4,6 @@
 
 const double PI = 3.14159265358979323846;
 
-// конструктор для чисел
-TComp::TComp(const double& re_, const double& im_) : re(re_), im(im_)
-{
-	number = getString();
-}
-
 // конструктор для строк
 TComp::TComp(const std::string& str)
 {
@@ -102,8 +96,6 @@ TComp::TComp(const std::string& str)
             throw TException("Ошибка! Неверный ввод...\n");
         }
     }
-
-    number = getString();
 }
 
 // оператор ==

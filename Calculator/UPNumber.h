@@ -10,7 +10,7 @@ class TPNumber : public TANumber
 
 public:
 	// конструктор по умолчанию
-	TPNumber() : n(0), cc(10), acc(0) { number = getString(); }
+	TPNumber() : n(0), cc(10), acc(0) {}
 
 	// конструктор для вещественного числа
 	TPNumber(const double&, const int& cc_, const int& acc_);
@@ -19,7 +19,7 @@ public:
 	TPNumber(const std::string& a, const std::string& cc_, const std::string& acc_);
 
 	// конструктор копирования
-	TPNumber(const TPNumber& other) : n(other.n), cc(other.cc), acc(other.acc) { number = getString(); }
+	TPNumber(const TPNumber& other) : n(other.n), cc(other.cc), acc(other.acc) {}
 
 	// оператор =
 	TANumber& operator=(const TANumber& other) override;
@@ -55,10 +55,7 @@ public:
 	double getN() const { return n; }
 
 	// взять число в виде строки
-	std::string getString() const;
-
-	// взять число в виде строки
-	std::string getStringN() const { return number; }
+	std::string getString() const override;
 
 	// взять основание сс
 	int getCC() const { return cc; }

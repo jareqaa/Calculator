@@ -2,13 +2,6 @@
 #include "UFrac.h"
 #include "UException.h"
 
-// конструктор для чисел
-TFrac::TFrac(const int& a_, const int& b_) : a(a_), b(b_ == 0 ? throw TException("Ошибка! Деление на 0...\n") : b_)
-{
-	reduce();  // Сокращаем дробь
-	number = getString();
-}
-
 // конструктор для строк
 TFrac::TFrac(const std::string& str)
 {
@@ -53,7 +46,6 @@ TFrac::TFrac(const std::string& str)
 		throw TException("Ошибка! Знаменатель не может быть нулём!");
 	}
 	reduce();
-	number = getString();
 }
 
 // НОД

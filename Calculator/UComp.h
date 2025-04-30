@@ -9,16 +9,16 @@ class TComp : public TANumber
 
 public:
 	// конструктор по умолчанию
-	TComp() : re(0), im(0) { number = getString(); }
+	TComp() : re(0), im(0) {}
 
 	// конструктор для чисел
-	TComp(const double& re_, const double& im_);
+	TComp(const double& re_, const double& im_) : re(re_), im(im_) {}
 
 	// конструктор для строк
 	TComp(const std::string& str);
 
 	// конструктор копирования
-	TComp(const TComp& other) : re(other.re), im(other.im) { number = getString(); }
+	TComp(const TComp& other) : re(other.re), im(other.im) {}
 
 	// оператор ==
 	bool operator==(const TANumber& other) const override;

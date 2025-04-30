@@ -20,7 +20,6 @@ TPNumber::TPNumber(const double& a, const int& cc_, const int& acc_) :
 	}
 
 	n = a;
-	number = getString();
 }
 
 // конструктор для строкового числа
@@ -39,7 +38,6 @@ TPNumber::TPNumber(const std::string& a, const std::string& cc_, const std::stri
 	}
 	
 	n = Convertor::dval(a, cc);		// получение числа
-	number = getString();
 }
 
 // оператор ==
